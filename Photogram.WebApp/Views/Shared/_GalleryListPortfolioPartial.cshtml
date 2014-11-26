@@ -6,8 +6,54 @@
 {
     if (Request.IsAuthenticated)
     {
-        <li>
-        @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Index", "Home")<span class="glyphicon glyphicon-remove"></span> @* TODO: ML link text, dummy link address *@
+        <li class="gallery-item">
+        @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Index", "Home", new { @class = "gallery-link" })
+        @*@Html.ActionLink(" ", "Delete", "Gallery", new { galleryId = elem.Id }, new { @class = "glyphicon glyphicon-remove" })*@
+        @{
+            string visibIcon = elem.Visible ? "glyphicon glyphicon-eye-open" : "glyphicon glyphicon-eye-close" ;
+            
+        }
+
+        @Ajax.ActionLink(" ", "SetVisibility", "Gallery", new { galleryId = elem.Id },
+                new AjaxOptions
+                {
+                    //Url = Url.Action("GetWorksDropDown", "Home"),
+                    //OnSuccess = "processData",
+                    //LoadingElementId = "loadingProducts",
+                    //LoadingElementDuration = 1000
+                }, new { @class = visibIcon }
+                )
+
+        @Ajax.ActionLink(" ", "Up", "Gallery", new { galleryId = elem.Id },
+                new AjaxOptions
+                {
+                    //Url = Url.Action("GetWorksDropDown", "Home"),
+                    //OnSuccess = "processData",
+                    //LoadingElementId = "loadingProducts",
+                    //LoadingElementDuration = 1000
+                }, new { @class = "glyphicon glyphicon-chevron-up" }
+                )
+        
+        @Ajax.ActionLink(" ", "Down", "Gallery", new { galleryId = elem.Id },
+                new AjaxOptions
+                {
+                    //Url = Url.Action("GetWorksDropDown", "Home"),
+                    //OnSuccess = "processData",
+                    //LoadingElementId = "loadingProducts",
+                    //LoadingElementDuration = 1000
+                }, new { @class = "glyphicon glyphicon-chevron-down" }
+                )
+        @Ajax.ActionLink(" ", "Delete", "Gallery", new { galleryId = elem.Id },
+                new AjaxOptions
+                {
+                    Confirm = "Biztos vagy benne, hogy törölni akarod?"
+                    //Url = Url.Action("GetWorksDropDown", "Home"),
+                    //OnSuccess = "processData",
+                    //LoadingElementId = "loadingProducts",
+                    //LoadingElementDuration = 1000
+                }, new { @class = "glyphicon glyphicon-remove" }
+                )
+            @* TODO: ML link text, dummy link address *@
         </li>
     }
     else

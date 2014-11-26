@@ -26,5 +26,11 @@ namespace Photogram.WebApp.Controllers
 
             return View();
         }
+
+        
+        public ActionResult WorksDropDown()
+        {
+            return PartialView("_WorksDropDownPartial");
+        }
     }
 }

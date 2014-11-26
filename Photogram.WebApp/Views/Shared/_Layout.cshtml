@@ -16,35 +16,6 @@
 
     @if (Request.IsAuthenticated)
     {
-        <script type="text/javascript">
-
-            function onBegin(xhr) {
-                $('#newGallerySubmit').button('loading');
-            }
-
-            function onSuccess(data, status, xhr) {
-
-                $("#galleryModel").html(data.View);
-
-                if (data.Success) {
-                    $('#newGalleryModal').modal('hide');
-                }
-                else {
-                    //Do something extra here with validation errors if needed.
-                }
-
-            }
-
-            function onFailure(xhr, status, error) {
-                response = xhr.responseJSON;
-                window.location.href = response.RedirectUrl;
-            }
-
-            function onComplete(xhr, status) {
-                $('#newGallerySubmit').button('reset');
-            }
-
-        </script>
         <div class="modal fade" id="newGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content" id="galleryModel">
@@ -71,18 +42,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             @WebResources.Works<span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu" role="menu">
-                            @{
-                                Html.RenderAction("ListPortfolio", "Gallery");
-                            }
-
-                            @if (Request.IsAuthenticated)
-                            {
-                                <li>
-                                    <a href="#" data-toggle="modal" data-target="#newGalleryModal"><span class="glyphicon glyphicon-plus"></span> @WebResources.NewGallery</a>
-                                </li>
-                            }
-
+                        <ul class="dropdown-menu" role="menu" id="worksDropDown">
+                            @{ Html.RenderAction("WorksDropDown", "Home"); }
                         </ul>
                     </li>
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>

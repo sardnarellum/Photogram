@@ -1,0 +1,8 @@
+﻿.gallery-item {
+    display: inline-flex !important;
+}
+
+.gallery-link {
+    display: block;
+    width: 100%;
+}

@@ -3,16 +3,47 @@
 
 @model AddGalleryViewModel
 
+<script type="text/javascript">
+
+            function NGonBegin(xhr) {
+                $('#newGallerySubmit').button('loading');
+            }
+
+            function NGonSuccess(data, status, xhr) {
+
+                $("#galleryModel").html(data.View1);
+                $("#worksDropDown").html(data.View2);
+
+                if (data.Success) {
+                    $('#newGalleryModal').modal('hide');
+                }
+                else {
+                    //Do something extra here with validation errors if needed.
+                }
+
+            }
+
+            function NGonFailure(xhr, status, error) {
+                response = xhr.responseJSON;
+                window.location.href = response.RedirectUrl;
+            }
+
+            function NGonComplete(xhr, status) {
+                $('#newGallerySubmit').button('reset');
+            }
+
+</script>
+
 @{
     Layout = null;
 
     AjaxOptions ajaxOptions = new AjaxOptions
     {
-        OnBegin = "onBegin(xhr)",
-        OnSuccess = "onSuccess(data, status, xhr)",
-        OnFailure = "onFailure(xhr, status, error)",
+        OnBegin = "NGonBegin(xhr)",
+        OnSuccess = "NGonSuccess(data, status, xhr)",
+        //OnFailure = "NGonFailure(xhr, status, error)",
         //UpdateTargetId = "galleryModel",
-        OnComplete = "onComplete(xhr, status)"
+        OnComplete = "NGonComplete(xhr, status)"
     };
 }
 

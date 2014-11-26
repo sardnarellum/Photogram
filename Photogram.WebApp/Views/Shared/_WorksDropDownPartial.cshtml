@@ -1,0 +1,12 @@
+﻿@using Resources
+
+@{
+    Html.RenderAction("ListPortfolio", "Gallery");
+}
+
+@if (Request.IsAuthenticated)
+{
+    <li>
+        <a href="#" data-toggle="modal" data-target="#newGalleryModal"><span class="glyphicon glyphicon-plus"></span> @WebResources.NewGallery</a>
+    </li>
+}

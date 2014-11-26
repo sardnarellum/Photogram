@@ -68,7 +68,9 @@ namespace Photogram.WebApp.Controllers
                         Type = GalleryType.Portfolio,
                         Year = Int16.Parse(model.Year),
                         Visible = false,
-                        Position = _db.Gallery.OrderByDescending(x => x.Position).FirstOrDefault().Position + 1,
+                        Position = _db.Gallery.Count() != 0
+                            ? _db.Gallery.OrderByDescending(x => x.Position).FirstOrDefault().Position + 1
+                            : 1,
                     };
 
                     if (!String.IsNullOrEmpty(model.Description))
@@ -95,7 +97,83 @@ namespace Photogram.WebApp.Controllers
                 return JsonView(ModelState.IsValid, "_AddGalleryPartial", model);
             }
 
-            return JsonView(ModelState.IsValid, "_AddGalleryPartial", model);
+            return JsonView(ModelState.IsValid, "_AddGalleryPartial", model,
+                "_WorksDropDownPartial", model); // A másodiknál nem kellene a model
+        }
+
+        public ActionResult SetVisibility(Int32? galleryId)
+        {
+            if (null == galleryId)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var gallery = _db.Gallery.Where(x => x.Id == galleryId).FirstOrDefault();
+
+            if (null == gallery)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            gallery.Visible = gallery.Visible ? false : true;
+
+            _db.SaveChanges();
+
+            return View();
+        }
+
+        public ActionResult Up(Int32? galleryId)
+        {
+            if (null == galleryId)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var gallery = _db.Gallery.Where(x => x.Id == galleryId).FirstOrDefault();
+
+            if (null == gallery)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            var gallery2 = _db.Gallery.Where(x => x.Position - 1 == gallery.Position).FirstOrDefault();
+
+            if (null != gallery2)
+            {
+                --gallery2.Position;
+                ++gallery.Position;
+
+                _db.SaveChanges();
+            }
+
+            return View();
+        }
+
+        public ActionResult Down(Int32? galleryId)
+        {
+            if (null == galleryId)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var gallery = _db.Gallery.Where(x => x.Id == galleryId).FirstOrDefault();
+
+            if (null == gallery)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            var gallery2 = _db.Gallery.Where(x => x.Position + 1 == gallery.Position).FirstOrDefault();
+
+            if (null != gallery2)
+            {
+                ++gallery2.Position;
+                --gallery.Position;
+
+                _db.SaveChanges();
+            }
+
+            return View();
         }
 
         /// <summary>
@@ -106,26 +184,34 @@ namespace Photogram.WebApp.Controllers
         [HttpGet] 
         public ActionResult Delete(Int32? galleryId)
         {
-            //_db.Gallery.Remove(_db.Gallery.Where(x => x.Id == galleryId).First());
-
             if (null == galleryId)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var gallery = _db.Gallery.Include("TextValue").Where(x => x.Id == galleryId).FirstOrDefault();
+            var gallery = _db.Gallery.Include("Title").Include("Description").Where(x => x.Id == galleryId).FirstOrDefault();
 
             if (null == gallery)
             {
                 return new HttpNotFoundResult();
             }
 
-            return View(gallery);
+            _db.Gallery.Remove(gallery);
+            _db.SaveChanges();
+
+            return View();
         }
 
         private JsonResult JsonView(bool success, string viewName, object model)
         {
             return Json(new { Success = success, View = RenderPartialView(viewName, model) });
+        }
+
+        private JsonResult JsonView(bool success, string viewName1, object model1, string viewName2, object model2)
+        {
+            return Json(new { Success = success,
+                View1 = RenderPartialView(viewName1, model1), View2 = RenderPartialView(viewName2, model2)
+            });
         }
 
         private string RenderPartialView(string partialViewName, object model)
@@ -155,7 +241,7 @@ namespace Photogram.WebApp.Controllers
         public ActionResult ListPortfolio()
         {           
             return PartialView("_GalleryListPortfolioPartial",
-                _db.Gallery.Where(x => x.Type == GalleryType.Portfolio).ToArray());
+                _db.Gallery.OrderByDescending(x => x.Position).Where(x => x.Type == GalleryType.Portfolio).ToArray());
         }
 	}
 }

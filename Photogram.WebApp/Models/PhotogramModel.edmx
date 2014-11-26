@@ -286,8 +286,11 @@
           <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
         </Association>
         <Association Name="GalleryTextValueDescription">
-          <End Type="PhotogramModel.Gallery" Role="Gallery" Multiplicity="0..1" />
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
+          <End Type="PhotogramModel.Gallery" Role="Gallery" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" >
+          </End>
         </Association>
         <Association Name="GalleryMedia">
           <End Type="PhotogramModel.Gallery" Role="Gallery" Multiplicity="*" />
