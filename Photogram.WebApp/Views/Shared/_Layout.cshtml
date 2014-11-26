@@ -1,0 +1,111 @@
+﻿@using Resources
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.MainTitle - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/dropzonecss")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+</head>
+<body>
+
+    @if (Request.IsAuthenticated)
+    {
+        <script type="text/javascript">
+
+            function onBegin(xhr) {
+                $('#newGallerySubmit').button('loading');
+            }
+
+            function onSuccess(data, status, xhr) {
+
+                $("#galleryModel").html(data.View);
+
+                if (data.Success) {
+                    $('#newGalleryModal').modal('hide');
+                }
+                else {
+                    //Do something extra here with validation errors if needed.
+                }
+
+            }
+
+            function onFailure(xhr, status, error) {
+                response = xhr.responseJSON;
+                window.location.href = response.RedirectUrl;
+            }
+
+            function onComplete(xhr, status) {
+                $('#newGallerySubmit').button('reset');
+            }
+
+        </script>
+        <div class="modal fade" id="newGalleryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" id="galleryModel">
+                    @{ Html.RenderAction("Add", "Gallery"); }
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("AM", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            @WebResources.Works<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            @{
+                                Html.RenderAction("ListPortfolio", "Gallery");
+                            }
+
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li>
+                                    <a href="#" data-toggle="modal" data-target="#newGalleryModal"><span class="glyphicon glyphicon-plus"></span> @WebResources.NewGallery</a>
+                                </li>
+                            }
+
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/unobtrusive-ajax")
+    @Scripts.Render("~/bundles/dropzonescripts")
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

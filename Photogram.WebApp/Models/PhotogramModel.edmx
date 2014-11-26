@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PhotogramModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="PhotogramModelStoreContainer">
+    <EntitySet Name="Setup" EntityType="PhotogramModel.Store.Setup" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Gallery" EntityType="PhotogramModel.Store.Gallery" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TextValue" EntityType="PhotogramModel.Store.TextValue" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Media" EntityType="PhotogramModel.Store.Media" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Language" EntityType="PhotogramModel.Store.Language" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GalleryMedia" EntityType="PhotogramModel.Store.GalleryMedia" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TextValueSetupMainTitle" Association="PhotogramModel.Store.TextValueSetupMainTitle">
+      <End Role="TextValue" EntitySet="TextValue" />
+      <End Role="Setup" EntitySet="Setup" />
+    </AssociationSet>
+    <AssociationSet Name="TextValueSetupFooter" Association="PhotogramModel.Store.TextValueSetupFooter">
+      <End Role="TextValue" EntitySet="TextValue" />
+      <End Role="Setup" EntitySet="Setup" />
+    </AssociationSet>
+    <AssociationSet Name="GalleryTextValueTitle" Association="PhotogramModel.Store.GalleryTextValueTitle">
+      <End Role="Gallery" EntitySet="Gallery" />
+      <End Role="TextValue" EntitySet="TextValue" />
+    </AssociationSet>
+    <AssociationSet Name="GalleryTextValueDescription" Association="PhotogramModel.Store.GalleryTextValueDescription">
+      <End Role="Gallery" EntitySet="Gallery" />
+      <End Role="TextValue" EntitySet="TextValue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GalleryMedia_Gallery" Association="PhotogramModel.Store.FK_GalleryMedia_Gallery">
+      <End Role="Gallery" EntitySet="Gallery" />
+      <End Role="GalleryMedia" EntitySet="GalleryMedia" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GalleryMedia_Media" Association="PhotogramModel.Store.FK_GalleryMedia_Media">
+      <End Role="Media" EntitySet="Media" />
+      <End Role="GalleryMedia" EntitySet="GalleryMedia" />
+    </AssociationSet>
+    <AssociationSet Name="TextValueLanguage" Association="PhotogramModel.Store.TextValueLanguage">
+      <End Role="TextValue" EntitySet="TextValue" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Setup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="254" />
+  </EntityType>
+  <EntityType Name="Gallery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Visible" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Year" Type="smallint" Nullable="false" />
+    <Property Name="Position" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TextValue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SetupMainTitle_Id" Type="int" Nullable="true" />
+    <Property Name="SetupFooter_Id" Type="int" Nullable="true" />
+    <Property Name="GalleryTitle_Id" Type="int" Nullable="true" />
+    <Property Name="GalleryDescription_Id" Type="int" Nullable="true" />
+    <Property Name="Language_Code" Type="nvarchar" MaxLength="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Media">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Source" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Visible" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="3" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="GalleryMedia">
+    <Key>
+      <PropertyRef Name="Gallery_Id" />
+      <PropertyRef Name="Media_Id" />
+    </Key>
+    <Property Name="Gallery_Id" Type="int" Nullable="false" />
+    <Property Name="Media_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="TextValueSetupMainTitle">
+    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TextValue">
+        <PropertyRef Name="SetupMainTitle_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TextValueSetupFooter">
+    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TextValue">
+        <PropertyRef Name="SetupFooter_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GalleryTextValueTitle">
+    <End Role="Gallery" Type="PhotogramModel.Store.Gallery" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gallery">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TextValue">
+        <PropertyRef Name="GalleryTitle_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GalleryTextValueDescription">
+    <End Role="Gallery" Type="PhotogramModel.Store.Gallery" Multiplicity="0..1" />
+    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gallery">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TextValue">
+        <PropertyRef Name="GalleryDescription_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TextValueLanguage">
+    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
+    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="TextValue">
+        <PropertyRef Name="Language_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GalleryMedia_Gallery">
+    <End Role="Gallery" Type="PhotogramModel.Store.Gallery" Multiplicity="1" />
+    <End Role="GalleryMedia" Type="PhotogramModel.Store.GalleryMedia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gallery">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GalleryMedia">
+        <PropertyRef Name="Gallery_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GalleryMedia_Media">
+    <End Role="GalleryMedia" Type="PhotogramModel.Store.GalleryMedia" Multiplicity="*" />
+    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GalleryMedia">
+        <PropertyRef Name="Media_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="PhotogramModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="PhotogramEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Setup" EntityType="PhotogramModel.Setup" />
+          <EntitySet Name="Gallery" EntityType="PhotogramModel.Gallery" />
+          <EntitySet Name="TextValue" EntityType="PhotogramModel.TextValue" />
+          <EntitySet Name="Media" EntityType="PhotogramModel.Media" />
+          <EntitySet Name="Language" EntityType="PhotogramModel.Language" />
+          <AssociationSet Name="TextValueSetupMainTitle" Association="PhotogramModel.TextValueSetupMainTitle">
+            <End Role="TextValue" EntitySet="TextValue" />
+            <End Role="Setup" EntitySet="Setup" />
+          </AssociationSet>
+          <AssociationSet Name="TextValueSetupFooter" Association="PhotogramModel.TextValueSetupFooter">
+            <End Role="TextValue" EntitySet="TextValue" />
+            <End Role="Setup" EntitySet="Setup" />
+          </AssociationSet>
+          <AssociationSet Name="GalleryTextValueTitle" Association="PhotogramModel.GalleryTextValueTitle">
+            <End Role="Gallery" EntitySet="Gallery" />
+            <End Role="TextValue" EntitySet="TextValue" />
+          </AssociationSet>
+          <AssociationSet Name="GalleryTextValueDescription" Association="PhotogramModel.GalleryTextValueDescription">
+            <End Role="Gallery" EntitySet="Gallery" />
+            <End Role="TextValue" EntitySet="TextValue" />
+          </AssociationSet>
+          <AssociationSet Name="GalleryMedia" Association="PhotogramModel.GalleryMedia">
+            <End Role="Gallery" EntitySet="Gallery" />
+            <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="TextValueLanguage" Association="PhotogramModel.TextValueLanguage">
+            <End Role="TextValue" EntitySet="TextValue" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Setup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="254" Unicode="true" />
+          <NavigationProperty Name="MainTitle" Relationship="PhotogramModel.TextValueSetupMainTitle" FromRole="Setup" ToRole="TextValue" />
+          <NavigationProperty Name="Footer" Relationship="PhotogramModel.TextValueSetupFooter" FromRole="Setup" ToRole="TextValue" />
+        </EntityType>
+        <EntityType Name="Gallery">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Title" Relationship="PhotogramModel.GalleryTextValueTitle" FromRole="Gallery" ToRole="TextValue" />
+          <NavigationProperty Name="Description" Relationship="PhotogramModel.GalleryTextValueDescription" FromRole="Gallery" ToRole="TextValue" />
+          <NavigationProperty Name="Media" Relationship="PhotogramModel.GalleryMedia" FromRole="Gallery" ToRole="Media" />
+          <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Type" Type="PhotogramModel.GalleryType" Nullable="false" />
+          <Property Name="Year" Type="Int16" Nullable="false" />
+          <Property Name="Position" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TextValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" Unicode="true" />
+          <NavigationProperty Name="SetupMainTitle" Relationship="PhotogramModel.TextValueSetupMainTitle" FromRole="TextValue" ToRole="Setup" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <NavigationProperty Name="SetupFooter" Relationship="PhotogramModel.TextValueSetupFooter" FromRole="TextValue" ToRole="Setup" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <NavigationProperty Name="GalleryTitle" Relationship="PhotogramModel.GalleryTextValueTitle" FromRole="TextValue" ToRole="Gallery" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <NavigationProperty Name="GalleryDescription" Relationship="PhotogramModel.GalleryTextValueDescription" FromRole="TextValue" ToRole="Gallery" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.TextValueLanguage" FromRole="TextValue" ToRole="Language" />
+        </EntityType>
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Source" Type="String" Nullable="false" Unicode="true" />
+          <NavigationProperty Name="Gallery" Relationship="PhotogramModel.GalleryMedia" FromRole="Media" ToRole="Gallery" />
+          <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Type" Type="PhotogramModel.MediaType" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="3" annotation:StoreGeneratedPattern="None" />
+          <NavigationProperty Name="TextValue" Relationship="PhotogramModel.TextValueLanguage" FromRole="Language" ToRole="TextValue" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Name" Type="String" Nullable="false" Unicode="true" MaxLength="30" />
+        </EntityType>
+        <Association Name="TextValueSetupMainTitle">
+          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <Association Name="TextValueSetupFooter">
+          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="0..1" />
+        </Association>
+        <Association Name="GalleryTextValueTitle">
+          <End Type="PhotogramModel.Gallery" Role="Gallery" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
+        </Association>
+        <Association Name="GalleryTextValueDescription">
+          <End Type="PhotogramModel.Gallery" Role="Gallery" Multiplicity="0..1" />
+          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
+        </Association>
+        <Association Name="GalleryMedia">
+          <End Type="PhotogramModel.Gallery" Role="Gallery" Multiplicity="*" />
+          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="*" />
+        </Association>
+        <Association Name="TextValueLanguage">
+          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
+          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" />
+        </Association>
+        <EnumType Name="GalleryType">
+          <Member Name="Portfolio" />
+          <Member Name="Customer" />
+          <Member Name="Private" />
+          <Member Name="Post" />
+        </EnumType>
+        <EnumType Name="MediaType">
+          <Member Name="Image" />
+          <Member Name="Video" />
+          <Member Name="Audio" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PhotogramModelStoreContainer" CdmEntityContainer="PhotogramEntities">
+    <EntitySetMapping Name="Setup">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Setup)">
+        <MappingFragment StoreEntitySet="Setup">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Gallery">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Gallery)">
+        <MappingFragment StoreEntitySet="Gallery">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Visible" ColumnName="Visible" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TextValue">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.TextValue)">
+        <MappingFragment StoreEntitySet="TextValue">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Media">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Media)">
+        <MappingFragment StoreEntitySet="Media">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Visible" ColumnName="Visible" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Language">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Language)">
+        <MappingFragment StoreEntitySet="Language">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TextValueSetupMainTitle" TypeName="PhotogramModel.TextValueSetupMainTitle" StoreEntitySet="TextValue">
+      <EndProperty Name="Setup">
+        <ScalarProperty Name="Id" ColumnName="SetupMainTitle_Id" />
+      </EndProperty>
+      <EndProperty Name="TextValue">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="SetupMainTitle_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TextValueSetupFooter" TypeName="PhotogramModel.TextValueSetupFooter" StoreEntitySet="TextValue">
+      <EndProperty Name="Setup">
+        <ScalarProperty Name="Id" ColumnName="SetupFooter_Id" />
+      </EndProperty>
+      <EndProperty Name="TextValue">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="SetupFooter_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GalleryTextValueTitle" TypeName="PhotogramModel.GalleryTextValueTitle" StoreEntitySet="TextValue">
+      <EndProperty Name="Gallery">
+        <ScalarProperty Name="Id" ColumnName="GalleryTitle_Id" />
+      </EndProperty>
+      <EndProperty Name="TextValue">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="GalleryTitle_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GalleryTextValueDescription" TypeName="PhotogramModel.GalleryTextValueDescription" StoreEntitySet="TextValue">
+      <EndProperty Name="Gallery">
+        <ScalarProperty Name="Id" ColumnName="GalleryDescription_Id" />
+      </EndProperty>
+      <EndProperty Name="TextValue">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="GalleryDescription_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GalleryMedia" TypeName="PhotogramModel.GalleryMedia" StoreEntitySet="GalleryMedia">
+      <EndProperty Name="Gallery">
+        <ScalarProperty Name="Id" ColumnName="Gallery_Id" />
+      </EndProperty>
+      <EndProperty Name="Media">
+        <ScalarProperty Name="Id" ColumnName="Media_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TextValueLanguage" TypeName="PhotogramModel.TextValueLanguage" StoreEntitySet="TextValue">
+      <EndProperty Name="Language">
+        <ScalarProperty Name="Code" ColumnName="Language_Code" />
+      </EndProperty>
+      <EndProperty Name="TextValue">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

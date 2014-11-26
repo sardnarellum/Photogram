@@ -154,3 +154,12 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/bootstrap
+/bootstrap.7z
+/bootstrap.zip
+/HelveticaNeueLTCom-ThCn.zip
+/init_db.sql
+/init_db_new.sql
+/logos-and-badges_f-logo_online.zip
+/SQLQuery1.sql
+/SQLQuery2.sql
