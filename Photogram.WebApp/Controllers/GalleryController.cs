@@ -119,7 +119,7 @@ namespace Photogram.WebApp.Controllers
 
             _db.SaveChanges();
 
-            return View();
+            return PartialView("_WorksDropDownPartial");
         }
 
         public ActionResult Up(Int32? galleryId)
@@ -146,7 +146,7 @@ namespace Photogram.WebApp.Controllers
                 _db.SaveChanges();
             }
 
-            return View();
+            return PartialView("_WorksDropDownPartial");
         }
 
         public ActionResult Down(Int32? galleryId)
@@ -173,7 +173,7 @@ namespace Photogram.WebApp.Controllers
                 _db.SaveChanges();
             }
 
-            return View();
+            return PartialView("_WorksDropDownPartial");
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Photogram.WebApp.Controllers
             _db.Gallery.Remove(gallery);
             _db.SaveChanges();
 
-            return View();
+            return PartialView("_WorksDropDownPartial");
         }
 
         private JsonResult JsonView(bool success, string viewName, object model)

@@ -2,6 +2,7 @@
 
 @model IEnumerable<Gallery>
 
+
 @foreach (var elem in Model)
 {
     if (Request.IsAuthenticated)
@@ -10,48 +11,41 @@
         @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Index", "Home", new { @class = "gallery-link" })
         @*@Html.ActionLink(" ", "Delete", "Gallery", new { galleryId = elem.Id }, new { @class = "glyphicon glyphicon-remove" })*@
         @{
-            string visibIcon = elem.Visible ? "glyphicon glyphicon-eye-open" : "glyphicon glyphicon-eye-close" ;
-            
+            string visibIcon = elem.Visible ? "glyphicon glyphicon-eye-open" : "glyphicon glyphicon-eye-close" ;            
         }
 
-        @Ajax.ActionLink(" ", "SetVisibility", "Gallery", new { galleryId = elem.Id },
-                new AjaxOptions
-                {
-                    //Url = Url.Action("GetWorksDropDown", "Home"),
-                    //OnSuccess = "processData",
-                    //LoadingElementId = "loadingProducts",
-                    //LoadingElementDuration = 1000
-                }, new { @class = visibIcon }
-                )
 
-        @Ajax.ActionLink(" ", "Up", "Gallery", new { galleryId = elem.Id },
-                new AjaxOptions
-                {
-                    //Url = Url.Action("GetWorksDropDown", "Home"),
-                    //OnSuccess = "processData",
-                    //LoadingElementId = "loadingProducts",
-                    //LoadingElementDuration = 1000
-                }, new { @class = "glyphicon glyphicon-chevron-up" }
-                )
+        @Ajax.ActionLink(" ", "SetVisibility", "Gallery",
+            new { galleryId = elem.Id },
+            new AjaxOptions
+            {
+                UpdateTargetId = "worksDropDown"
+            }, new { @class = visibIcon + " keepOpen" }
+         )
+
+        @Ajax.ActionLink(" ", "Up", "Gallery",
+            new { galleryId = elem.Id },
+            new AjaxOptions
+            {
+                UpdateTargetId = "worksDropDown"
+            }, new { @class = "glyphicon glyphicon-chevron-up keepOpen" }
+         )
         
-        @Ajax.ActionLink(" ", "Down", "Gallery", new { galleryId = elem.Id },
-                new AjaxOptions
-                {
-                    //Url = Url.Action("GetWorksDropDown", "Home"),
-                    //OnSuccess = "processData",
-                    //LoadingElementId = "loadingProducts",
-                    //LoadingElementDuration = 1000
-                }, new { @class = "glyphicon glyphicon-chevron-down" }
-                )
+        @Ajax.ActionLink(" ", "Down", "Gallery",
+            new { galleryId = elem.Id },
+            new AjaxOptions
+            {
+                UpdateTargetId = "worksDropDown"
+            }, new { @class = "glyphicon glyphicon-chevron-down keepOpen" }
+         )
+
         @Ajax.ActionLink(" ", "Delete", "Gallery", new { galleryId = elem.Id },
                 new AjaxOptions
                 {
-                    Confirm = "Biztos vagy benne, hogy törölni akarod?"
-                    //Url = Url.Action("GetWorksDropDown", "Home"),
-                    //OnSuccess = "processData",
-                    //LoadingElementId = "loadingProducts",
-                    //LoadingElementDuration = 1000
-                }, new { @class = "glyphicon glyphicon-remove" }
+                    Confirm = "Biztos vagy benne, hogy törölni akarod",
+                    UpdateTargetId = "worksDropDown"
+                },
+                     new { @class = "glyphicon glyphicon-remove keepOpen" }
                 )
             @* TODO: ML link text, dummy link address *@
         </li>
