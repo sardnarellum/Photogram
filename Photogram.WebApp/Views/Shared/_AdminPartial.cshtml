@@ -1,0 +1,38 @@
+﻿@using Resources
+
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog"></span> @Localization.Administration <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#setupModal" title="@Localization.MainSettingsDesc">
+                        <span class="glyphicon glyphicon-wrench"></span>
+                        @Localization.MainSettings
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Media")" title="@Localization.ContentMgmtDesc">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        @Localization.ContentMgmt
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a href="@Url.Action("Index", "Statistics")" title="@Localization.StatisticsDesc">
+                        <span class="glyphicon glyphicon-stats"></span>
+                        @Localization.Statistics
+                    </a>
+                </li>
+                @*<li>
+                    <a href="@Url.Action("Upload", "Media")" title="@Localization.UploadDesc">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        @Localization.Upload
+                    </a>
+                </li>*@
+            </ul>
+        </li>
+    </ul>
+}

@@ -11,6 +11,7 @@ namespace Photogram.WebApp.Models
     {
         public ApplicationDbContext()
             : base("DefaultConnection")
+            //: base("PhotogramEntities")
         {
         }
     }

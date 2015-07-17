@@ -11,6 +11,9 @@ namespace Photogram.WebApp
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
+                        "~/Scripts/jquery-ui-{version}.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -25,17 +28,25 @@ namespace Photogram.WebApp
 
             bundles.Add(new ScriptBundle("~/bundles/unobtrusive-ajax").Include(
                         "~/Scripts/jquery.unobtrusive-ajax.min.js"));
-
+            
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/misc.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
-                     "~/Scripts/dropzone/dropzone.js"));
+            bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
+                    "~/Scripts/fileupload.js"));
 
-            bundles.Add(new StyleBundle("~/Content/dropzonecss").Include(
-                     "~/Scripts/dropzone/css/basic.css",
-                     "~/Scripts/dropzone/css/dropzone.css"));
+            bundles.Add(new ScriptBundle("~/bundles/filestyle").Include(
+                    "~/Scripts/bootstrap-filestyle.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/chart").Include(
+                    "~/Scripts/Chart.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/imagesloaded").Include(
+                    "~/Scripts/imagesloaded.pkgd.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/packery").Include(
+                    "~/Scripts/packery.pkgd.js"));
         }
     }
 }

@@ -17,11 +17,13 @@ namespace Photogram.WebApp.Models
         public Language()
         {
             this.TextValue = new HashSet<TextValue>();
+            this.Log = new HashSet<Log>();
         }
     
         public string Code { get; set; }
         public string Name { get; set; }
     
         private ICollection<TextValue> TextValue { get; set; }
+        public virtual ICollection<Log> Log { get; set; }
     }
 }

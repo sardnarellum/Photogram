@@ -1,0 +1,70 @@
+﻿@using Photogram.WebApp.Models;
+@using Resources;
+
+@model IEnumerable<Project>
+
+
+@foreach (var elem in Model)
+{
+    if (Request.IsAuthenticated)
+    {
+        <li class="gallery-item">
+        @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Details", "Project",
+            new { projectId = elem.Id },
+            new { @class = "gallery-link" })
+        @{
+            string visibIcon = elem.Visible ? "glyphicon glyphicon-eye-open" : "glyphicon glyphicon-eye-close" ;            
+        }
+
+
+        @Ajax.ActionLink(" ", "SetVisibility", "Project",
+            new { galleryId = elem.Id },
+            new AjaxOptions
+            {
+                UpdateTargetId = "worksDropDown"
+            }, new { @class = visibIcon + " keepOpen" }
+         )
+
+        @Ajax.ActionLink(" ", "Up", "Project",
+            new { galleryId = elem.Id },
+            new AjaxOptions
+            {
+                UpdateTargetId = "worksDropDown"
+            }, new { @class = "glyphicon glyphicon-chevron-up keepOpen" }
+         )
+        
+        @Ajax.ActionLink(" ", "Down", "Project",
+            new { galleryId = elem.Id },
+            new AjaxOptions
+            {
+                UpdateTargetId = "worksDropDown"
+            }, new { @class = "glyphicon glyphicon-chevron-down keepOpen" }
+         )
+
+        @Ajax.ActionLink(" ", "Delete", "Project", new { galleryId = elem.Id },
+                new AjaxOptions
+                {
+                    Confirm = Localization.ConfirmDeleteItem,
+                    UpdateTargetId = "worksDropDown"
+                },
+                     new { @class = "glyphicon glyphicon-remove keepOpen" }
+                )
+            @* TODO: ML link text*@
+        </li>
+    }
+    else if (elem.Visible == true)
+    {
+        <li>
+            @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Details", "Project",
+                new { projectId = elem.Id },
+                new { @class = "gallery-link" }) @* TODO: ML link text, dummy link address *@
+        </li>
+    }
+    
+}
+
+@if (Model.Count() != 0 && Request.IsAuthenticated)
+{    
+    <li class="divider"></li>
+}
+

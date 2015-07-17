@@ -1,12 +1,12 @@
 ﻿@using Resources
 
 @{
-    Html.RenderAction("ListPortfolio", "Gallery");
+    Html.RenderAction("ListPortfolio", "Project");
 }
 
 @if (Request.IsAuthenticated)
 {
     <li>
-        <a href="#" data-toggle="modal" data-target="#newGalleryModal"><span class="glyphicon glyphicon-plus"></span> @WebResources.NewGallery</a>
+        <a href="#" data-toggle="modal" data-target="#newProjectModal"><span class="glyphicon glyphicon-plus"></span> @Localization.NewProject</a>
     </li>
 }

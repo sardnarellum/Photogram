@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.IO;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -18,6 +19,46 @@ namespace Photogram.WebApp.Controllers
         {
             _db = new PhotogramEntities();
 
+            if (_db.Setup.Count() == 0)
+            {
+                var hun = new Language
+                {
+                    Code = "hun",
+                    Name = "magyar"
+                };
+
+                var eng = new Language
+                {
+                    Code = "eng",
+                    Name = "angol"
+                };
+
+                var s = new Setup
+                {
+                    Email = "info@andrasmuller.com",
+                    MainTitle = new TextValue[]
+                {
+                    new TextValue
+                    {
+                        Text = "MÜLLER ANDRÁS FOTOGRÁFUS",
+                        Language = hun
+                    },
+
+                    new TextValue
+                    {
+                        Text = "ANDRÁS MÜLLER PHOTOGRAPHER",
+                        Language = eng
+                    },
+
+                }
+                };
+
+                _db.Setup.Add(s);
+
+
+                _db.SaveChanges();
+            }
+
             ViewBag.MainTitle = _db.Setup.First().MainTitle.Where(x => x.Language.Code == "hun")
                 .FirstOrDefault().Text; // TODO: ML support
 
@@ -31,6 +72,52 @@ namespace Photogram.WebApp.Controllers
                     }
                 ), "Value", "Text");
         }
+
+        #endregion
+
+        #region AJAX
+
+        protected JsonResult JsonView(bool success, string viewName, object model)
+        {
+            return Json(new { Success = success, View = RenderPartialView(viewName, model) });
+        }
+
+        protected JsonResult JsonView(bool success, string viewName1, object model1, string viewName2, object model2)
+        {
+            return Json(new
+            {
+                Success = success,
+                View1 = RenderPartialView(viewName1, model1),
+                View2 = RenderPartialView(viewName2, model2)
+            });
+        }
+
+        private string RenderPartialView(string partialViewName, object model)
+        {
+            if (ControllerContext == null)
+                return string.Empty;
+
+            if (model == null)
+                throw new ArgumentNullException("model");
+
+            if (string.IsNullOrEmpty(partialViewName))
+                throw new ArgumentNullException("partialViewName");
+
+            ViewData.Model = model;
+
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, partialViewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        #endregion
+
+        #region Common helpers
+
 
         #endregion
     }

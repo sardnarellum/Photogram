@@ -14,13 +14,21 @@ namespace Photogram.WebApp.Models
     
     public partial class TextValue
     {
+        public TextValue()
+        {
+            this.Log = new HashSet<Log>();
+        }
+    
         public int Id { get; set; }
         public string Text { get; set; }
     
         private Setup SetupMainTitle { get; set; }
         private Setup SetupFooter { get; set; }
-        private Gallery GalleryTitle { get; set; }
-        private Gallery GalleryDescription { get; set; }
+        private Project ProjectTitle { get; set; }
+        private Project ProjectDescription { get; set; }
         public virtual Language Language { get; set; }
+        private Media MediaTitle { get; set; }
+        private Media MediaDescription { get; set; }
+        public virtual ICollection<Log> Log { get; set; }
     }
 }

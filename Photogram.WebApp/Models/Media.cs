@@ -16,15 +16,19 @@ namespace Photogram.WebApp.Models
     {
         public Media()
         {
-            this.Visible = false;
-            this.Gallery = new HashSet<Gallery>();
+            this.Title = new HashSet<TextValue>();
+            this.Description = new HashSet<TextValue>();
+            this.Log = new HashSet<Log>();
         }
     
         public int Id { get; set; }
-        public string Source { get; set; }
-        public bool Visible { get; set; }
+        public string FileName { get; set; }
         public MediaType Type { get; set; }
+        public Nullable<int> PositionInProject { get; set; }
     
-        public virtual ICollection<Gallery> Gallery { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual ICollection<TextValue> Title { get; set; }
+        public virtual ICollection<TextValue> Description { get; set; }
+        public virtual ICollection<Log> Log { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Photogram.WebApp.Models
     public class LoginViewModel
     {
         [Required]
-        //[Display(Name = "UserName", ResourceType = typeof(WebResources))]
+        [Display(Name = "UserName", ResourceType = typeof(Localization))]
         public string UserName { get; set; }
 
         [Required]

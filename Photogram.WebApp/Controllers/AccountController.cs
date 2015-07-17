@@ -54,7 +54,7 @@ namespace Photogram.WebApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", WebResources.ErrLoginData);
+                    ModelState.AddModelError("", Localization.ErrLoginData);
                 }
             }
 

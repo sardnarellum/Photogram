@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Resources;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -10,7 +11,9 @@ namespace Photogram.WebApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            ViewBag.Title = Localization.Portfolio;
+
+            return /*Redirect("http://www.facebook.com/MullerAndrasPhotography");*/ View();
         }
 
         public ActionResult About()
@@ -24,6 +27,11 @@ namespace Photogram.WebApp.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Redirects()
+        {
             return View();
         }
 

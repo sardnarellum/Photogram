@@ -1,0 +1,84 @@
+﻿@using Photogram.WebApp.Models
+@using Resources
+
+@model SetupViewModel
+
+@{
+    Layout = null;
+
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        OnBegin = "SPonBegin(xhr)",
+        OnSuccess = "SPonSuccess(data, status, xhr)",
+        //OnFailure = "SPonFailure(xhr, status, error)",
+        //UpdateTargetId = "galleryModel",
+        OnComplete = "SPonComplete(xhr, status)"
+    };
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        function SPonBegin(xhr) {
+            $('#setupSubmit').button('loading');
+        }
+
+        function SPonSuccess(data, status, xhr) {
+
+            $("#setupModel").html(data.View1);
+
+            if (data.Success) {
+                $('#setupModal').modal('hide');
+            }
+            else {
+                //Do something extra here with validation errors if needed.
+            }
+
+        }
+
+        function SPonFailure(xhr, status, error) {
+            response = xhr.responseJSON;
+            window.location.href = response.RedirectUrl;
+        }
+
+        function SPonComplete(xhr, status) {
+            $('#setupSubmit').button('reset');
+        }
+
+    </script>
+}
+
+@using (Ajax.BeginForm("Save", "Setup", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">@Localization.MainSettings</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+        @if (!Html.ViewData.ModelState.IsValid)
+        {
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                <div class="alert alert-danger" role="alert">
+                    @error.ErrorMessage
+                </div>
+                }
+            }
+        }
+            <div class="form-group">
+                @Html.LabelFor(x => x.Email)
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = Localization.Email })
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Cancel</button>
+        <button id="setupSubmit" type="submit" data-loading-text="@Localization.SaveChanges..." class="btn btn-primary">@Localization.SaveChanges</button>
+    </div>
+}
+

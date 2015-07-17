@@ -15,6 +15,8 @@ namespace Photogram.WebApp.Models
     {
         Image = 0,
         Video = 1,
-        Audio = 2
+        Audio = 2,
+        Other = 3,
+        Embedded = 4
     }
 }
