@@ -172,6 +172,23 @@ namespace Photogram.WebApp.Controllers
         }
 
         /// <summary>
+        /// Returns count of Media entity.
+        /// </summary>
+        /// <returns>JSON formatted result</returns>
+        [HttpPost]
+        public JsonResult MediaCount()
+        {
+            var n = _db.Media.Count();
+
+            return Json(new
+                {
+                    Success = true,
+                    Count = n
+                },
+                JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// Delete media item from database.
         /// </summary>
         /// <param name="mediaId">Id of the item.</param>
