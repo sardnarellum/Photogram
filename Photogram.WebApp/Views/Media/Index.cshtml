@@ -70,14 +70,14 @@
                             @Localization.Filter <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            @foreach (var project in Model.Projects)
-                            {
-                                <li>
-                                    <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                        @project.Title.FirstOrDefault().Text
-                                    </a>
-                                </li>
-                            }
+                        @foreach (var project in Model.Projects)
+                        {
+                            <li>
+                                <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
+                                    @project.Title.FirstOrDefault().Text
+                                </a>
+                            </li>
+                        }
                             <li class="divider"></li>
                             <li>
                                 <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
@@ -110,10 +110,7 @@
     <div id="pckry-container">
         @foreach (var elem in Model.Medias)
         {
-            if (null != elem.Id)
-            {
-                Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
-            }
+            Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
         }
     </div>
     <hr />
