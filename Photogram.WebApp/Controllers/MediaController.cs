@@ -45,53 +45,51 @@ namespace Photogram.WebApp.Controllers
             return PartialView(item);
         }
 
-        [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult DeleteJson(int? mediaId)
         {
             if (null == mediaId)
-                return Json(new { Success = false });
+                throw new ArgumentNullException("mediaId",
+                    "Argument cannot be null");
 
             if (!Delete((int)mediaId))
-                return Json(new { Success = false });
+                throw new ArgumentException(
+                    mediaId.ToString() + " does not exists in Media.",
+                    "mediaId");
 
-            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult AjaxUpload()
         {
             string fileName = "";
-            try
+
+            foreach (string e in Request.Files)
             {
-                foreach (string e in Request.Files)
+                var file = Request.Files[e];
+                if (file != null && file.ContentLength > 0)
                 {
-                    var file = Request.Files[e];
-                    if (file != null && file.ContentLength > 0)
+                    if (file.ContentType.Contains("image"))
                     {
-                        if (file.ContentType.Contains("image"))
-                        {
-                            fileName = GetUniqueFileName() + Path.GetExtension(file.FileName);
-                            SaveFile(file, fileName, ServerDirectory(Macros.UploadPathImg));
+                        fileName = GetUniqueFileName() + Path.GetExtension(file.FileName);
+                        SaveFile(file, fileName, ServerDirectory(Macros.UploadPathImg));
 
-                            var media = new Media
-                            {
-                                FileName = fileName,
-                                Type = MediaType.Image //TODO: another file types
-                            };
-
-                            _db.Media.Add(media);
-                            _db.SaveChanges();
-                        }
-                        else
+                        var media = new Media
                         {
-                            throw new ArgumentException("Only image files accepted.", "file");
-                        }
+                            FileName = fileName,
+                            Type = MediaType.Image //TODO: another file types
+                        };
+
+                        _db.Media.Add(media);
+                        _db.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Only image files accepted.", "file");
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { error = ex.Message });
             }
 
             return Json(new { file = fileName });
@@ -104,6 +102,7 @@ namespace Photogram.WebApp.Controllers
         /// <param name="projectId"></param>
         /// <returns></returns>
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult SetProject(int? mediaId, int? projectId)
         {
             if (null == mediaId)
