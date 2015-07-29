@@ -23,7 +23,8 @@ namespace Photogram.WebApp.Controllers
             var model = new MediaViewModel
             {
                 Medias = _db.Media.ToList(),
-                Projects = _db.Project.OrderByDescending(x => x.Position).Where(x => x.Type == ProjectType.Portfolio).ToList()
+                Projects = _db.Project.OrderByDescending(x => x.Position)
+                    .Where(x => x.Type == ProjectType.Portfolio).ToList()
             };
 
             return View("Index", model);
@@ -50,7 +51,7 @@ namespace Photogram.WebApp.Controllers
         {
             if (null == mediaId)
                 throw new ArgumentNullException("mediaId",
-                    "Argument cannot be null");
+                    Localization.ErrArgNull);
 
             if (!Delete((int)mediaId))
                 throw new ArgumentException(
@@ -106,16 +107,20 @@ namespace Photogram.WebApp.Controllers
         public JsonResult SetProject(int? mediaId, int? projectId)
         {
             if (null == mediaId)
-                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+                throw new ArgumentNullException("mediaId",
+                    Localization.ErrArgNull);
 
             var media = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
-                return Json(new { Success = false, Message = "" });
+                throw new ArgumentException(
+                    mediaId.ToString() + " does not exists in Media.",
+                    "mediaId");
 
 
             if (null == projectId)
-                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+                throw new ArgumentNullException("projectId",
+                    Localization.ErrArgNull);
 
             if (-1 == projectId)
             {
@@ -148,6 +153,7 @@ namespace Photogram.WebApp.Controllers
         /// <param name="mediaId"></param>
         /// <returns></returns>
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult SetNoProject(int? mediaId)
         {
             if (null == mediaId)
@@ -175,6 +181,7 @@ namespace Photogram.WebApp.Controllers
         /// </summary>
         /// <returns>JSON formatted result</returns>
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult MediaCount()
         {
             var n = _db.Media.Count();
