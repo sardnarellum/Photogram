@@ -136,12 +136,12 @@
                         itemSelector: '.pckry-item'
                     });
 
+                    setWarningVisibility();
+
                     $container.packery('on', 'removeComplete', function (event, removedItems) {
                         setWarningVisibility();
                     });
                 });
-
-                setWarningVisibility();
 
                 $('#pckry-container').selectable({
                     filter: '.pckry-item',

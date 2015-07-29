@@ -1,6 +1,5 @@
 ﻿@using Resources
 @using Photogram.WebApp.Models
-@using System.Drawing;
 
 @model Media
 
@@ -28,7 +27,6 @@
        title="@Localization.ZoomIn">
         <span class="glyphicon glyphicon-fullscreen"></span>
     </a>
-    <img src="@Url.Content(String.Concat("~/Image/2000/200/", Model.FileName, "/"))"
-         class="pckry-img" />
+    <img class="pckry-img" />
     <div class="label label-@titleStyle thumb-project-title">@projectTitle</div>
 </div>
