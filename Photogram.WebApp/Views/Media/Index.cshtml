@@ -130,13 +130,15 @@
             $(document).ready(function () {
 
                 imagesLoaded('#pckry-container', function () {
-                    var $container = $('#pckry-container');
-                    $container.show();
-                    $container.packery({
+                    var container = document.querySelector('#pckry-container');
+
+                    $(container).fadeIn();
+
+                    var pckry = new Packery(container, {
                         itemSelector: '.pckry-item'
                     });
 
-                    $container.packery('on', 'removeComplete', function (event, removedItems) {
+                    pckry.on('removeComplete', function (event, removedItems) {
                         setWarningVisibility();
                     });
                 });
@@ -160,6 +162,12 @@
 
             });
 
+            function addThumbToPckry(imgUrl){
+                $('<img class="thumb" id="xxx" />').attr('src', imgUrl).load(function() {
+
+                });
+            }
+
             function setWarningVisibility() {
                 var warning = $('#nodata-info');
                 $.ajax({
@@ -168,10 +176,10 @@
                     success :
                         function (data, status, xhr) {
                             if (data.Count == 0) {
-                                warning.show(animOptions);
+                                warning.fadeIn(animOption);
                             }
                             else {
-                                warning.hide(animOptions);
+                                warning.fadeOut(animOptions);
                             }
                         }
                 });
@@ -210,18 +218,20 @@
                             projectId: id
                         },
                         success:
-                            function (data, status, xhr) {
+                            function (response, status, xhr) {
                                 var label = $(element).children('.label');
-                                label.hide(animOptions);
-                                label.html($('.project-link#' + id).html());
-                                label.show(animOptions);
+                                label.hide();
+                                label.html(response.ProjectTitle);
+                                console.log('setproject data: ' + response);
 
-                                if (-1 == id) {
-                                    label.switchClass('label-info', 'label-warning', animOptions);
+                                if (!response.InProject) {
+                                    label.switchClass('label-info', 'label-warning');
                                 }
                                 else {
-                                    label.switchClass('label-warning', 'label-info', animOptions);
+                                    label.switchClass('label-warning', 'label-info');
                                 }
+
+                                label.fadeIn(animOptions);
 
                                 console.log('setProject success: ' + element.id);
                             },

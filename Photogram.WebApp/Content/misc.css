@@ -23,6 +23,8 @@
 
 .pckry-img {
     border-radius: 3px;
+    max-height: 200px;
+    max-width: 100%;
 }
 
 .thumb-magnifier {

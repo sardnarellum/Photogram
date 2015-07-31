@@ -109,7 +109,7 @@ namespace Photogram.WebApp.Controllers
             if (null == mediaId)
                 return Json(new { Success = false, Message = "" }); // TODO: error msgs
 
-            var media = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
+            var media = _db.Media.Include("Project").Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
                 return Json(new { Success = false, Message = "" });
@@ -138,7 +138,11 @@ namespace Photogram.WebApp.Controllers
                 new 
                 {
                     Success = true,
-                    MediaId = media.Id
+                    MediaId = media.Id,
+                    InProject = media.Project != null,
+                    ProjectTitle = media.Project != null
+                        ? media.Project.Title.FirstOrDefault().Text
+                        : Localization.NoProject
                 },
                 JsonRequestBehavior.AllowGet); // ML support
         }
