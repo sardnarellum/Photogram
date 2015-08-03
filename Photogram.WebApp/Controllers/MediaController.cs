@@ -61,6 +61,7 @@ namespace Photogram.WebApp.Controllers
         public JsonResult AjaxUpload()
         {
             string fileName = "";
+
             try
             {
                 foreach (string e in Request.Files)
@@ -94,7 +95,11 @@ namespace Photogram.WebApp.Controllers
                 return Json(new { error = ex.Message });
             }
 
-            return Json(new { file = fileName });
+            return Json(new {
+                FileName = fileName,
+                Id = _db.Media.Where(x => x.FileName == fileName)
+                    .FirstOrDefault().Id
+            });
         }
 
         /// <summary>

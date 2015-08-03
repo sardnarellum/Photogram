@@ -28,7 +28,28 @@ namespace Photogram.WebApp.Controllers
         public ActionResult ListPortfolio()
         {
             return PartialView("_ProjectListPortfolioPartial",
-                _db.Project.OrderByDescending(x => x.Position).Where(x => x.Type == ProjectType.Portfolio).ToArray());
+                _db.Project.OrderByDescending(x => x.Position)
+                .Where(x => x.Type == ProjectType.Portfolio).ToArray());
+        }
+
+        /// <summary>
+        /// TODO: error exception handling
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        public JsonResult ProjectName(int? projectId)
+        {
+            if (null == projectId)
+                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+
+            var project = _db.Project.Where(x => x.Id == projectId)
+                .FirstOrDefault();
+
+            if (null == project)
+                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+
+            return Json(new { ProjectTitle = project.Title.FirstOrDefault().Text }, // TODO: ML support
+                JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

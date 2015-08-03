@@ -127,7 +127,7 @@
                 easing: 'swing'
             };
 
-            $(document).ready(function () {
+            docReady(function () {
 
                 imagesLoaded('#pckry-container', function () {
                     var container = document.querySelector('#pckry-container');
@@ -160,7 +160,50 @@
                     }
                 });
 
+                var uploadfiles = document.querySelector('#fileupload');
+
+                uploadfiles.addEventListener('change', function () {
+                    var files = this.files;
+                    for (var i = 0; i < files.length; ++i) {
+                        uploadFile(this.files[i], 'Media/AjaxUpload');
+                    }
+                }, false);
+
             });
+            
+            function uploadFile(file, url) {
+                var xhr = new XMLHttpRequest();
+                var fd = new FormData();
+
+                xhr.open("POST", url, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        rdata = JSON.parse(xhr.responseText);
+                        console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.Id);
+                        
+                        var elem = createThumbnail(rdata.FileName, rdata.Id);
+                        var container = document.querySelector('#pckry-container');
+                        var pckry = Packery.data(container);
+                    }
+                }
+
+                fd.append("upload_file", file);
+                xhr.send(fd);
+            }
+
+            function createThumbnail(fileName, fileId, projectId){
+                var thumb = document.createElement('div');
+                thumb.className = 'pckry-item';
+                thumb.id = fileId;
+                
+                var img = document.createElement('img');
+                img.className = 'pckry-img';
+
+                var magnifier = document.createElement('a');
+                magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
+
+                return 'ok';
+            }
 
             function addThumbToPckry(imgUrl){
                 $('<img class="thumb" id="xxx" />').attr('src', imgUrl).load(function() {
@@ -208,6 +251,24 @@
                 $('.btn-operation').prop('disabled', true);
             });
 
+            function renderProjectName(projId, renderElem){
+                $.ajax({
+                    url: '@Url.Content("~/Project/ProjectName")',
+                    type: 'POST',
+                    data: {
+                        projectId: projId
+                    },
+                    success:
+                        function (rdata, status, xhr) {
+                            renderElem.innerHtml(rdata.ProjectTitle);
+                        },
+                    error:
+                        function () {
+                            
+                        }
+                });
+            }
+
             function setProject(id) {
                 $('.ui-selected').each(function (index, element) {
                     $.ajax({
@@ -218,13 +279,13 @@
                             projectId: id
                         },
                         success:
-                            function (response, status, xhr) {
+                            function (rdata, status, xhr) {
                                 var label = $(element).children('.label');
                                 label.hide();
-                                label.html(response.ProjectTitle);
-                                console.log('setproject data: ' + response);
+                                label.html(rdata.ProjectTitle);
+                                console.log('setproject data: ' + rdata);
 
-                                if (!response.InProject) {
+                                if (!rdata.InProject) {
                                     label.switchClass('label-info', 'label-warning');
                                 }
                                 else {
