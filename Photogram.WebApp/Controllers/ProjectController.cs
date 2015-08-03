@@ -1,4 +1,5 @@
 ﻿using Photogram.WebApp.Models;
+using Resources;
 using System;
 using System.Linq;
 using System.Net;
@@ -33,20 +34,23 @@ namespace Photogram.WebApp.Controllers
         }
 
         /// <summary>
-        /// TODO: error exception handling
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
+        [AjaxErrorHandler]
         public JsonResult ProjectName(int? projectId)
         {
             if (null == projectId)
-                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+                throw new ArgumentNullException("projectId",
+                    Localization.ErrArgNull);
 
             var project = _db.Project.Where(x => x.Id == projectId)
                 .FirstOrDefault();
 
             if (null == project)
-                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+                throw new ArgumentException(
+                    projectId.ToString() + " does not exists in Project.",
+                    "mediaId");
 
             return Json(new { ProjectTitle = project.Title.FirstOrDefault().Text }, // TODO: ML support
                 JsonRequestBehavior.AllowGet);
