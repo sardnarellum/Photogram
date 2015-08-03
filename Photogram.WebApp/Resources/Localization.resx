@@ -294,4 +294,7 @@
   <data name="Setup" xml:space="preserve">
     <value>Setup</value>
   </data>
+  <data name="ErrArgNull" xml:space="preserve">
+    <value>Argument cannot be null.</value>
+  </data>
 </root>

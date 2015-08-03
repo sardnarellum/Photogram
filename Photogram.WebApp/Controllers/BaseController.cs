@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.IO;
+using System.Net;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -120,5 +121,29 @@ namespace Photogram.WebApp.Controllers
 
 
         #endregion
+    }
+
+    /// <summary>
+    /// Error handler for JSONresult actions.
+    /// </summary>
+    public class AjaxErrorHandlerAttribute : FilterAttribute, IExceptionFilter
+    {
+        /// <summary>
+        /// Exception handler for JSONresult actions.
+        /// </summary>
+        /// <param name="filterContext"></param>
+        public void OnException(ExceptionContext filterContext)
+        {
+            if (filterContext.HttpContext.Request.IsAjaxRequest())
+            {
+                filterContext.ExceptionHandled = true;
+                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                filterContext.Result = new JsonResult
+                {
+                    Data = new { success = false, error = filterContext.Exception.Message.ToString() },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+        }
     }
 }

@@ -377,6 +377,7 @@
     <Content Include="Views\Media\Thumbnail.cshtml" />
     <Content Include="Views\Shared\_LayoutSample.cshtml" />
     <Content Include="Views\Shared\_LayoutContMgmt.cshtml" />
+    <Content Include="Views\Shared\_ErrorMsgPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

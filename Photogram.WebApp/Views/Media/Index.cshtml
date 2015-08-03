@@ -243,8 +243,8 @@
                                 pckry.packery();
                             },
                         error:
-                            function () {
-                                console.log('delete error: ' + element.id);
+                            function (e) {
+                                console.log('delete error: ' + e.responseJSON.error);
                             }
                     });
                 });
