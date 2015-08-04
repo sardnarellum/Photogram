@@ -179,9 +179,9 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         rdata = JSON.parse(xhr.responseText);
-                        console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.Id);
+                        console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.FileId);
 
-                        var elem = createThumbnail(rdata.FileName, rdata.Id, -1);
+                        var elem = createThumbnail(rdata.FileName, rdata.FileId, -1);
                         var fragment = document.createDocumentFragment();
                         fragment.appendChild(elem);
 

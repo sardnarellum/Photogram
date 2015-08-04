@@ -66,6 +66,7 @@ namespace Photogram.WebApp.Controllers
         public JsonResult AjaxUpload()
         {
             string fileName = "";
+            var fileId = -1;
 
             foreach (string e in Request.Files)
             {
@@ -74,8 +75,10 @@ namespace Photogram.WebApp.Controllers
                 {
                     if (file.ContentType.Contains("image"))
                     {
-                        fileName = GetUniqueFileName() + Path.GetExtension(file.FileName);
-                        SaveFile(file, fileName, ServerDirectory(Macros.UploadPathImg));
+                        fileName = GetUniqueFileName()
+                            + Path.GetExtension(file.FileName);
+                        SaveFile(file, fileName,
+                            ServerDirectory(Macros.UploadPathImg));
 
                         var media = new Media
                         {
@@ -85,15 +88,20 @@ namespace Photogram.WebApp.Controllers
 
                         _db.Media.Add(media);
                         _db.SaveChanges();
+
+                        fileId = _db.Media.Where(x => x.FileName == fileName)
+                            .FirstOrDefault().Id;
                     }
                     else
                     {
-                        throw new ArgumentException("Only image files accepted.", "file");
+                        throw 
+                            new ArgumentException("Only image files accepted.",
+                            "file");
                     }
                 }
             }
 
-            return Json(new { file = fileName });
+            return Json(new { FileName = fileName, FileId = fileId });
         }
 
         /// <summary>
