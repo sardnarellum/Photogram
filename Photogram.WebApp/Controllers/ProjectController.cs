@@ -44,16 +44,28 @@ namespace Photogram.WebApp.Controllers
                 throw new ArgumentNullException("projectId",
                     Localization.ErrArgNull);
 
-            var project = _db.Project.Where(x => x.Id == projectId)
-                .FirstOrDefault();
+            string projectTitle;
 
-            if (null == project)
-                throw new ArgumentException(
-                    projectId.ToString() + " does not exists in Project.",
-                    "mediaId");
+            if (-1 != projectId)
+            {
+                var project = _db.Project.Where(x => x.Id == projectId)
+                    .FirstOrDefault();
 
-            return Json(new { ProjectTitle = project.Title.FirstOrDefault().Text }, // TODO: ML support
+                if (null == project)
+                    throw new ArgumentException(
+                        projectId.ToString() + " does not exists in Project.",
+                        "mediaId");
+
+                projectTitle = project.Title.FirstOrDefault().Text;
+            }
+            else
+            {
+                projectTitle = Localization.NoProject;
+            }
+
+            return Json(new { ProjectTitle = projectTitle }, // TODO: ML support
                 JsonRequestBehavior.AllowGet);
+
         }
 
         /// <summary>

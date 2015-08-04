@@ -170,7 +170,7 @@
                 }, false);
 
             });
-            
+
             function uploadFile(file, url) {
                 var xhr = new XMLHttpRequest();
                 var fd = new FormData();
@@ -180,10 +180,16 @@
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         rdata = JSON.parse(xhr.responseText);
                         console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.Id);
-                        
-                        var elem = createThumbnail(rdata.FileName, rdata.Id);
+
+                        var elem = createThumbnail(rdata.FileName, rdata.Id, -1);
+                        var fragment = document.createDocumentFragment();
+                        fragment.appendChild(elem);
+
                         var container = document.querySelector('#pckry-container');
+                        container.appendChild(fragment);
+
                         var pckry = Packery.data(container);
+                        pckry.appended(elem);
                     }
                 }
 
@@ -195,14 +201,23 @@
                 var thumb = document.createElement('div');
                 thumb.className = 'pckry-item';
                 thumb.id = fileId;
-                
+
                 var img = document.createElement('img');
                 img.className = 'pckry-img';
+                $(img).attr('src', 'Image/2000/200/' + fileName +'/').load(function () {
+                    $(thumb).empty();
+                    $(thumb).append($(img));
+                });
 
                 var magnifier = document.createElement('a');
                 magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
 
-                return 'ok';
+                var label = document.createElement('div');
+                var labelType = projectId != -1 ? 'info' : 'warning';
+                label.className = 'label label-' + labelType + ' thumb-project-title';
+                renderProjectName(projectId, label);
+
+                return thumb;
             }
 
             function addThumbToPckry(imgUrl){
@@ -264,7 +279,7 @@
                         },
                     error:
                         function () {
-                            
+                            console.log(projId + ' project name rendering failed.');
                         }
                 });
             }
