@@ -181,15 +181,7 @@
                         rdata = JSON.parse(xhr.responseText);
                         console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.FileId);
 
-                        var elem = createThumbnail(rdata.FileName, rdata.FileId, -1);
-                        var fragment = document.createDocumentFragment();
-                        fragment.appendChild(elem);
-
-                        var container = document.querySelector('#pckry-container');
-                        container.appendChild(fragment);
-
-                        var pckry = Packery.data(container);
-                        pckry.appended(elem);
+                        createThumbnail(rdata.FileName, rdata.FileId, -1);
                     }
                 }
 
@@ -207,6 +199,15 @@
                 $(img).attr('src', 'Image/2000/200/' + fileName +'/').load(function () {
                     $(thumb).empty();
                     $(thumb).append($(img));
+
+                    var fragment = document.createDocumentFragment();
+                    fragment.appendChild(thumb);
+
+                    var container = document.querySelector('#pckry-container');
+                    container.appendChild(fragment);
+
+                    var pckry = Packery.data(container);
+                    pckry.appended(thumb);
                 });
 
                 var magnifier = document.createElement('a');
@@ -216,8 +217,6 @@
                 var labelType = projectId != -1 ? 'info' : 'warning';
                 label.className = 'label label-' + labelType + ' thumb-project-title';
                 renderProjectName(projectId, label);
-
-                return thumb;
             }
 
             function addThumbToPckry(imgUrl){
@@ -234,7 +233,7 @@
                     success :
                         function (data, status, xhr) {
                             if (data.Count == 0) {
-                                warning.fadeIn(animOption);
+                                warning.fadeIn(animOptions);
                             }
                             else {
                                 warning.fadeOut(animOptions);
