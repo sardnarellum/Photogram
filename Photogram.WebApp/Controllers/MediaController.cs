@@ -23,7 +23,8 @@ namespace Photogram.WebApp.Controllers
             var model = new MediaViewModel
             {
                 Medias = _db.Media.ToList(),
-                Projects = _db.Project.OrderByDescending(x => x.Position).Where(x => x.Type == ProjectType.Portfolio).ToList()
+                Projects = _db.Project.OrderByDescending(x => x.Position)
+                    .Where(x => x.Type == ProjectType.Portfolio).ToList()
             };
 
             return View("Index", model);
@@ -45,56 +46,62 @@ namespace Photogram.WebApp.Controllers
             return PartialView(item);
         }
 
-        [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult DeleteJson(int? mediaId)
         {
             if (null == mediaId)
-                return Json(new { Success = false });
+                throw new ArgumentNullException("mediaId",
+                    Localization.ErrArgNull);
 
             if (!Delete((int)mediaId))
-                return Json(new { Success = false });
+                throw new ArgumentException(
+                    mediaId.ToString() + " does not exists in Media.",
+                    "mediaId");
 
-            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult AjaxUpload()
         {
             string fileName = "";
-            try
+            var fileId = -1;
+
+            foreach (string e in Request.Files)
             {
-                foreach (string e in Request.Files)
+                var file = Request.Files[e];
+                if (file != null && file.ContentLength > 0)
                 {
-                    var file = Request.Files[e];
-                    if (file != null && file.ContentLength > 0)
+                    if (file.ContentType.Contains("image"))
                     {
-                        if (file.ContentType.Contains("image"))
-                        {
-                            fileName = GetUniqueFileName() + Path.GetExtension(file.FileName);
-                            SaveFile(file, fileName, ServerDirectory(Macros.UploadPathImg));
+                        fileName = GetUniqueFileName()
+                            + Path.GetExtension(file.FileName);
+                        SaveFile(file, fileName,
+                            ServerDirectory(Macros.UploadPathImg));
 
-                            var media = new Media
-                            {
-                                FileName = fileName,
-                                Type = MediaType.Image //TODO: another file types
-                            };
-
-                            _db.Media.Add(media);
-                            _db.SaveChanges();
-                        }
-                        else
+                        var media = new Media
                         {
-                            throw new ArgumentException("Only image files accepted.", "file");
-                        }
+                            FileName = fileName,
+                            Type = MediaType.Image //TODO: another file types
+                        };
+
+                        _db.Media.Add(media);
+                        _db.SaveChanges();
+
+                        fileId = _db.Media.Where(x => x.FileName == fileName)
+                            .FirstOrDefault().Id;
+                    }
+                    else
+                    {
+                        throw 
+                            new ArgumentException("Only image files accepted.",
+                            "file");
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                return Json(new { error = ex.Message });
-            }
 
-            return Json(new { file = fileName });
+            return Json(new { FileName = fileName, FileId = fileId });
         }
 
         /// <summary>
@@ -104,19 +111,24 @@ namespace Photogram.WebApp.Controllers
         /// <param name="projectId"></param>
         /// <returns></returns>
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult SetProject(int? mediaId, int? projectId)
         {
             if (null == mediaId)
-                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+                throw new ArgumentNullException("mediaId",
+                    Localization.ErrArgNull);
 
-            var media = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
+            var media = _db.Media.Include("Project").Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
-                return Json(new { Success = false, Message = "" });
+                throw new ArgumentException(
+                    mediaId.ToString() + " does not exists in Media.",
+                    "mediaId");
 
 
             if (null == projectId)
-                return Json(new { Success = false, Message = "" }); // TODO: error msgs
+                throw new ArgumentNullException("projectId",
+                    Localization.ErrArgNull);
 
             if (-1 == projectId)
             {
@@ -134,11 +146,17 @@ namespace Photogram.WebApp.Controllers
 
             _db.SaveChanges();
 
+            var inProject = media.Project != null;
+
             return Json(
-                new 
+                new
                 {
                     Success = true,
-                    MediaId = media.Id
+                    ProjectTitle = inProject
+                        ? media.Project.Title.FirstOrDefault().Text
+                        : Localization.NoProject,
+                    InProject = inProject,
+                    MediaId = media.Id // unused now
                 },
                 JsonRequestBehavior.AllowGet); // ML support
         }
@@ -149,6 +167,7 @@ namespace Photogram.WebApp.Controllers
         /// <param name="mediaId"></param>
         /// <returns></returns>
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult SetNoProject(int? mediaId)
         {
             if (null == mediaId)
@@ -176,6 +195,7 @@ namespace Photogram.WebApp.Controllers
         /// </summary>
         /// <returns>JSON formatted result</returns>
         [HttpPost]
+        [AjaxErrorHandler]
         public JsonResult MediaCount()
         {
             var n = _db.Media.Count();

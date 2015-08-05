@@ -291,4 +291,7 @@
   <data name="Setup" xml:space="preserve">
     <value>Beállítás</value>
   </data>
+  <data name="ErrArgNull" xml:space="preserve">
+    <value>Az argumentum nem lehet null értékű.</value>
+  </data>
 </root>

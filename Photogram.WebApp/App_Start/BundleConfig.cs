@@ -32,10 +32,7 @@ namespace Photogram.WebApp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/misc.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
-                    "~/Scripts/fileupload.js"));
-
+            
             bundles.Add(new ScriptBundle("~/bundles/filestyle").Include(
                     "~/Scripts/bootstrap-filestyle.js"));
 

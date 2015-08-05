@@ -1,4 +1,5 @@
 ﻿using Photogram.WebApp.Models;
+using Resources;
 using System;
 using System.Linq;
 using System.Net;
@@ -28,7 +29,43 @@ namespace Photogram.WebApp.Controllers
         public ActionResult ListPortfolio()
         {
             return PartialView("_ProjectListPortfolioPartial",
-                _db.Project.OrderByDescending(x => x.Position).Where(x => x.Type == ProjectType.Portfolio).ToArray());
+                _db.Project.OrderByDescending(x => x.Position)
+                .Where(x => x.Type == ProjectType.Portfolio).ToArray());
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        [AjaxErrorHandler]
+        public JsonResult ProjectName(int? projectId)
+        {
+            if (null == projectId)
+                throw new ArgumentNullException("projectId",
+                    Localization.ErrArgNull);
+
+            string projectTitle;
+
+            if (-1 != projectId)
+            {
+                var project = _db.Project.Where(x => x.Id == projectId)
+                    .FirstOrDefault();
+
+                if (null == project)
+                    throw new ArgumentException(
+                        projectId.ToString() + " does not exists in Project.",
+                        "mediaId");
+
+                projectTitle = project.Title.FirstOrDefault().Text;
+            }
+            else
+            {
+                projectTitle = Localization.NoProject;
+            }
+
+            return Json(new { ProjectTitle = projectTitle }, // TODO: ML support
+                JsonRequestBehavior.AllowGet);
+
         }
 
         /// <summary>

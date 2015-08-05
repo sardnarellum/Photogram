@@ -127,21 +127,23 @@
                 easing: 'swing'
             };
 
-            $(document).ready(function () {
+            docReady(function () {
 
                 imagesLoaded('#pckry-container', function () {
-                    var $container = $('#pckry-container');
-                    $container.show();
-                    $container.packery({
+                    var container = document.querySelector('#pckry-container');
+
+                    $(container).fadeIn();
+
+                    var pckry = new Packery(container, {
                         itemSelector: '.pckry-item'
                     });
 
-                    setWarningVisibility();
-
-                    $container.packery('on', 'removeComplete', function (event, removedItems) {
+                    pckry.on('removeComplete', function (event, removedItems) {
                         setWarningVisibility();
                     });
                 });
+
+                setWarningVisibility();
 
                 $('#pckry-container').selectable({
                     filter: '.pckry-item',
@@ -158,7 +160,72 @@
                     }
                 });
 
+                var uploadfiles = document.querySelector('#fileupload');
+
+                uploadfiles.addEventListener('change', function () {
+                    var files = this.files;
+                    for (var i = 0; i < files.length; ++i) {
+                        uploadFile(this.files[i], 'Media/AjaxUpload');
+                    }
+                }, false);
+
             });
+
+            function uploadFile(file, url) {
+                var xhr = new XMLHttpRequest();
+                var fd = new FormData();
+
+                xhr.open("POST", url, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        rdata = JSON.parse(xhr.responseText);
+                        //console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.FileId);
+
+                        createThumbnail(rdata.FileName, rdata.FileId, -1);
+                    }
+                }
+
+                fd.append("upload_file", file);
+                xhr.send(fd);
+            }
+
+            function createThumbnail(fileName, fileId, projectId){
+                var thumb = document.createElement('div');
+                thumb.className = 'pckry-item';
+                thumb.id = fileId;
+
+                var img = document.createElement('img');
+                img.className = 'pckry-img';
+
+                var magnifier = document.createElement('a');
+                magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
+                magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
+                $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
+
+                var label = document.createElement('div');
+                var labelType = projectId != -1 ? 'info' : 'warning';
+                label.className = 'label label-' + labelType + ' thumb-project-title';
+
+                $(img).attr('src', 'Image/2000/200/' + fileName +'/').load(function () {
+                    var $thumb = $(thumb);
+                    $thumb.empty();
+                    $thumb.append(magnifier);
+                    $thumb.append($(img));
+                    $thumb.append(label);
+                    renderProjectName(projectId, label);
+
+                    var fragment = document.createDocumentFragment();
+                    fragment.appendChild(thumb);
+
+                    var container = document.querySelector('#pckry-container');
+                    container.appendChild(fragment);
+
+                    var pckry = Packery.data(container);
+                    pckry.appended(thumb);
+
+                    setWarningVisibility();
+                });
+            }
 
             function setWarningVisibility() {
                 var warning = $('#nodata-info');
@@ -168,10 +235,10 @@
                     success :
                         function (data, status, xhr) {
                             if (data.Count == 0) {
-                                warning.show(animOptions);
+                                warning.fadeIn(animOptions);
                             }
                             else {
-                                warning.hide(animOptions);
+                                warning.fadeOut(animOptions);
                             }
                         }
                 });
@@ -190,15 +257,36 @@
                                 var pckry = $('#pckry-container').packery();
                                 pckry.packery('remove', element);
                                 pckry.packery();
+
+                                setWarningVisibility();
                             },
                         error:
-                            function () {
-                                console.log('delete error: ' + element.id);
+                            function (e) {
+                                console.log('delete error: ' + e.responseJSON.error);
                             }
                     });
                 });
                 $('.btn-operation').prop('disabled', true);
             });
+
+            function renderProjectName(projId, renderElem){
+                $.ajax({
+                    url: '@Url.Content("~/Project/ProjectName")',
+                    type: 'POST',
+                    data: {
+                        projectId: projId
+                    },
+                    success:
+                        function (rdata, status, xhr) {
+                            $(renderElem).html(rdata.ProjectTitle);
+                            //console.log('project title rendered received: ' + rdata.ProjectTitle);
+                        },
+                    error:
+                        function () {
+                            console.log(projId + ' project name rendering failed.');
+                        }
+                });
+            }
 
             function setProject(id) {
                 $('.ui-selected').each(function (index, element) {
@@ -210,20 +298,19 @@
                             projectId: id
                         },
                         success:
-                            function (data, status, xhr) {
+                            function (rdata, status, xhr) {
                                 var label = $(element).children('.label');
-                                label.hide(animOptions);
-                                label.html($('.project-link#' + id).html());
-                                label.show(animOptions);
+                                label.hide();
+                                label.html(rdata.ProjectTitle);
 
-                                if (-1 == id) {
-                                    label.switchClass('label-info', 'label-warning', animOptions);
+                                if (!rdata.InProject) {
+                                    label.switchClass('label-info', 'label-warning');
                                 }
                                 else {
-                                    label.switchClass('label-warning', 'label-info', animOptions);
+                                    label.switchClass('label-warning', 'label-info');
                                 }
 
-                                console.log('setProject success: ' + element.id);
+                                label.fadeIn(animOptions);
                             },
                         error:
                             function () {
