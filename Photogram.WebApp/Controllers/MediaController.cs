@@ -118,7 +118,7 @@ namespace Photogram.WebApp.Controllers
                 throw new ArgumentNullException("mediaId",
                     Localization.ErrArgNull);
 
-            var media = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
+            var media = _db.Media.Include("Project").Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
                 throw new ArgumentException(
@@ -146,10 +146,16 @@ namespace Photogram.WebApp.Controllers
 
             _db.SaveChanges();
 
+            var inProject = media.Project != null;
+
             return Json(
-                new 
+                new
                 {
                     Success = true,
+                    ProjectTitle = inProject
+                        ? media.Project.Title.FirstOrDefault().Text
+                        : Localization.NoProject,
+                    InProject = inProject,
                     MediaId = media.Id
                 },
                 JsonRequestBehavior.AllowGet); // ML support
