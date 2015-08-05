@@ -156,7 +156,7 @@ namespace Photogram.WebApp.Controllers
                         ? media.Project.Title.FirstOrDefault().Text
                         : Localization.NoProject,
                     InProject = inProject,
-                    MediaId = media.Id
+                    MediaId = media.Id // unused now
                 },
                 JsonRequestBehavior.AllowGet); // ML support
         }

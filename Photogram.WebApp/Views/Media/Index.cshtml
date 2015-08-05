@@ -226,12 +226,6 @@
                 });
             }
 
-            function addThumbToPckry(imgUrl){
-                $('<img class="thumb" id="xxx" />').attr('src', imgUrl).load(function() {
-
-                });
-            }
-
             function setWarningVisibility() {
                 var warning = $('#nodata-info');
                 $.ajax({
@@ -283,8 +277,7 @@
                     },
                     success:
                         function (rdata, status, xhr) {
-                            $(renderElem).empty();
-                            $(renderElem).append(rdata.ProjectTitle);
+                            $(renderElem).html(rdata.ProjectTitle);
                             //console.log('project title rendered received: ' + rdata.ProjectTitle);
                         },
                     error:
@@ -308,7 +301,6 @@
                                 var label = $(element).children('.label');
                                 label.hide();
                                 label.html(rdata.ProjectTitle);
-                                console.log('setproject data: ' + rdata);
 
                                 if (!rdata.InProject) {
                                     label.switchClass('label-info', 'label-warning');
@@ -318,8 +310,6 @@
                                 }
 
                                 label.fadeIn(animOptions);
-
-                                console.log('setProject success: ' + element.id);
                             },
                         error:
                             function () {
