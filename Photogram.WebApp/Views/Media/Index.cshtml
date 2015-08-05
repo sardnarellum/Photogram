@@ -199,6 +199,7 @@
 
                 var magnifier = document.createElement('a');
                 magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
+                magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
                 $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
 
                 var label = document.createElement('div');
