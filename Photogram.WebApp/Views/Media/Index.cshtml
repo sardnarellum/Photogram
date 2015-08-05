@@ -179,7 +179,7 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         rdata = JSON.parse(xhr.responseText);
-                        console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.FileId);
+                        //console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.FileId);
 
                         createThumbnail(rdata.FileName, rdata.FileId, -1);
                     }
@@ -196,9 +196,22 @@
 
                 var img = document.createElement('img');
                 img.className = 'pckry-img';
+
+                var magnifier = document.createElement('a');
+                magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
+                $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
+
+                var label = document.createElement('div');
+                var labelType = projectId != -1 ? 'info' : 'warning';
+                label.className = 'label label-' + labelType + ' thumb-project-title';
+
                 $(img).attr('src', 'Image/2000/200/' + fileName +'/').load(function () {
-                    $(thumb).empty();
-                    $(thumb).append($(img));
+                    var $thumb = $(thumb);
+                    $thumb.empty();
+                    $thumb.append(magnifier);
+                    $thumb.append($(img));
+                    $thumb.append(label);
+                    renderProjectName(projectId, label);
 
                     var fragment = document.createDocumentFragment();
                     fragment.appendChild(thumb);
@@ -208,15 +221,9 @@
 
                     var pckry = Packery.data(container);
                     pckry.appended(thumb);
+
+                    setWarningVisibility();
                 });
-
-                var magnifier = document.createElement('a');
-                magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
-
-                var label = document.createElement('div');
-                var labelType = projectId != -1 ? 'info' : 'warning';
-                label.className = 'label label-' + labelType + ' thumb-project-title';
-                renderProjectName(projectId, label);
             }
 
             function addThumbToPckry(imgUrl){
@@ -255,6 +262,8 @@
                                 var pckry = $('#pckry-container').packery();
                                 pckry.packery('remove', element);
                                 pckry.packery();
+
+                                setWarningVisibility();
                             },
                         error:
                             function (e) {
@@ -274,7 +283,9 @@
                     },
                     success:
                         function (rdata, status, xhr) {
-                            renderElem.innerHtml(rdata.ProjectTitle);
+                            $(renderElem).empty();
+                            $(renderElem).append(rdata.ProjectTitle);
+                            //console.log('project title rendered received: ' + rdata.ProjectTitle);
                         },
                     error:
                         function () {
