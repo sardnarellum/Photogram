@@ -108,10 +108,10 @@
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
     <div id="pckry-container">
-        @foreach (var elem in Model.Medias)
+        @*@foreach (var elem in Model.Medias)
         {
             Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
-        }
+        }*@
     </div>
     <hr />
     <footer>
@@ -129,19 +129,46 @@
 
             docReady(function () {
 
-                imagesLoaded('#pckry-container', function () {
-                    var container = document.querySelector('#pckry-container');
+                $.ajax({
+                    url: '@Url.Content("~/Media/GetFileData")',
+                    type: 'GET',
+                    data: -1,
+                    success:
+                        function (data, status, xhr) {
+                            var pckry = new Packery('#pckry-container', { });
 
-                    $(container).fadeIn();
+                            pckry.on('removeComplete', function (event, removedItems) {
+                                setWarningVisibility();
+                            });
 
-                    var pckry = new Packery(container, {
-                        itemSelector: '.pckry-item'
-                    });
+                            var dataList = data.DataList;
 
-                    pckry.on('removeComplete', function (event, removedItems) {
-                        setWarningVisibility();
-                    });
+                            for (var i = 0; i < dataList.length; i++) {
+                                var thumbData = dataList[i];
+
+                                createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId);
+                            }
+                        },
+                    error:
+                        function (xhr, status, error) {
+                            var errorText = error;
+                            console.log('getFileData error: ' + errorText);
+                        }
                 });
+
+                //imagesLoaded('#pckry-container', function () {
+                //    var container = document.querySelector('#pckry-container');
+
+                //    $(container).fadeIn();
+
+                //    var pckry = new Packery(container, {
+                //        itemSelector: '.pckry-item'
+                //    });
+
+                //    pckry.on('removeComplete', function (event, removedItems) {
+                //        setWarningVisibility();
+                //    });
+                //});
 
                 setWarningVisibility();
 

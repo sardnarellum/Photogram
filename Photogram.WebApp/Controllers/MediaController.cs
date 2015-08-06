@@ -103,6 +103,42 @@ namespace Photogram.WebApp.Controllers
 
             return Json(new { FileName = fileName, FileId = fileId });
         }
+        
+        /// <summary>
+        /// Lists basic file data.
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns>JSON formatted array of BasicFileData elements.</returns>
+        [HttpGet]
+        [AjaxErrorHandler]
+        public JsonResult GetFileData(int? projectId)
+        {
+            IEnumerable<Media> media;
+
+            if (projectId == null || projectId == -1)
+                media = _db.Media.Include("Project").ToArray();
+            else
+                media = _db.Media.Include("Project")
+                    .Where(x => x.Project.Id == projectId).ToArray();
+
+            var fileDataList = new List<BasicFileData>();
+
+            foreach(var elem in media)
+            {
+                var fileData =
+                    new BasicFileData
+                    {
+                        Id = elem.Id,
+                        FileName = elem.FileName,
+                        ProjectId = elem.Project.Id,
+                        ProjectTitle = elem.Project.Title.FirstOrDefault().Text // TODO: ML support
+                    };
+
+                fileDataList.Add(fileData);
+            }
+
+            return Json(new { DataList = fileDataList }, JsonRequestBehavior.AllowGet);
+        }
 
         /// <summary>
         /// 

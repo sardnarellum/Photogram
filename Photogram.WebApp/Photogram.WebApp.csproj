@@ -178,6 +178,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AjaxHelperExtensions.cs" />
     <Compile Include="Models\DynamicImageResult.cs" />
+    <Compile Include="Models\FileData.cs" />
     <Compile Include="Models\FilesystemExtensionMethods.cs" />
     <Compile Include="Models\HttpResponseExtensionMethods.cs" />
     <Compile Include="Models\ImageFileResult.cs" />
