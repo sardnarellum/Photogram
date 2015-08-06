@@ -135,7 +135,9 @@
                     data: -1,
                     success:
                         function (data, status, xhr) {
-                            var pckry = new Packery('#pckry-container', { });
+                            console.log('getting file data succeeded\n' + data.DataList);
+
+                            var pckry = new Packery('#pckry-container');
 
                             pckry.on('removeComplete', function (event, removedItems) {
                                 setWarningVisibility();
@@ -145,6 +147,7 @@
 
                             for (var i = 0; i < dataList.length; i++) {
                                 var thumbData = dataList[i];
+                                console.log(i + ': ' + dataList[i].FileName);
 
                                 createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId);
                             }
@@ -233,7 +236,9 @@
                 var labelType = projectId != -1 ? 'info' : 'warning';
                 label.className = 'label label-' + labelType + ' thumb-project-title';
 
-                $(img).attr('src', 'Image/2000/200/' + fileName +'/').load(function () {
+                $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
+                    console.log(fileName + ' loaded');
+
                     var $thumb = $(thumb);
                     $thumb.empty();
                     $thumb.append(magnifier);
