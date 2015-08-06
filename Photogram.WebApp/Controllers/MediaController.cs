@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Photogram.WebApp.Models;
+﻿using Photogram.WebApp.Models;
 using Resources;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -109,35 +104,33 @@ namespace Photogram.WebApp.Controllers
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns>JSON formatted array of BasicFileData elements.</returns>
-        [HttpGet]
+        [HttpPost]
         [AjaxErrorHandler]
-        public JsonResult GetFileData(int? projectId)
+        public JsonResult GetFileData()
         {
-            IEnumerable<Media> media;
-
-            if (projectId == null || projectId == -1)
-                media = _db.Media.Include("Project").ToArray();
-            else
-                media = _db.Media.Include("Project")
-                    .Where(x => x.Project.Id == projectId).ToArray();
-
+            var media = _db.Media.Include("Project").ToList();
             var fileDataList = new List<BasicFileData>();
 
             foreach(var elem in media)
             {
+                var inProject = elem.Project != null;
                 var fileData =
                     new BasicFileData
                     {
                         Id = elem.Id,
                         FileName = elem.FileName,
-                        ProjectId = elem.Project.Id,
-                        ProjectTitle = elem.Project.Title.FirstOrDefault().Text // TODO: ML support
+                        ProjectId = inProject ? elem.Project.Id : -1,
+                        ProjectTitle = inProject ? elem.Project.Title.FirstOrDefault().Text : "" // TODO: ML support
                     };
 
                 fileDataList.Add(fileData);
             }
 
-            return Json(new { DataList = fileDataList }, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                Success = true,
+                DataList = fileDataList
+            }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

@@ -9,7 +9,7 @@
 
         public string FileName { get; set; }
 
-        public int ProjectId { get; set; }
+        public int? ProjectId { get; set; }
 
         public string ProjectTitle { get; set; }
     }

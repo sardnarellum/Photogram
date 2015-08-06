@@ -130,9 +130,8 @@
             docReady(function () {
 
                 $.ajax({
-                    url: '@Url.Content("~/Media/GetFileData")',
-                    type: 'GET',
-                    data: -1,
+                    url: '@Url.Action("GetFileData", "Media")',
+                    type: 'POST',
                     success:
                         function (data, status, xhr) {
                             console.log('getting file data succeeded\n' + data.DataList);
@@ -237,7 +236,6 @@
                 label.className = 'label label-' + labelType + ' thumb-project-title';
 
                 $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
-                    console.log(fileName + ' loaded');
 
                     var $thumb = $(thumb);
                     $thumb.empty();
@@ -254,6 +252,7 @@
 
                     var pckry = Packery.data(container);
                     pckry.appended(thumb);
+                    console.log(fileName + ' loaded and appended to packery');
 
                     setWarningVisibility();
                 });
@@ -311,7 +310,7 @@
                     success:
                         function (rdata, status, xhr) {
                             $(renderElem).html(rdata.ProjectTitle);
-                            //console.log('project title rendered received: ' + rdata.ProjectTitle);
+                            console.log('project title rendered received: ' + rdata.ProjectTitle);
                         },
                     error:
                         function () {
