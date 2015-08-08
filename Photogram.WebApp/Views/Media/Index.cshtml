@@ -9,67 +9,36 @@
 @model MediaViewModel
 
 
-<div class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("AM", "Index", "Home", null, new { @class = "navbar-brand" })
-        </div>
-        <div class="navbar-collapse collapse">
-            @*@Html.Partial("_LoginPartial")
-                @Html.Partial("_AdminPartial")*@
-            <form class="navbar-form navbar-left">
+<div id="fileTools" class="panel panel-default" style="position: fixed; top: 10px; z-index:999;">
+    <div class="panel-body">
+        <div class="btn-toolbar">
+            <div class="btn-group">
                 <input id="fileupload"
-                       class="filestyle"
-                       type="file"
-                       multiple="multiple"
-                       data-buttontext="@Localization.Upload"
-                       data-badge="false"
-                       data-input="false"
-                       data-icon="false"
-                       accept="image/*"
-                       title="@Localization.UploadDesc">
+                        class="filestyle"
+                        type="file"
+                        multiple="multiple"
+                        data-buttontext="@Localization.Upload"
+                        data-badge="false"
+                        data-input="false"
+                        data-icon="false"
+                        accept="image/*"
+                        title="@Localization.UploadDesc">
                 <button id="btn-delete"
                         type="button"
                         class="btn btn-operation btn-danger"
-                        disabled>@Localization.Delete</button>
+                        disabled>
+                    @Localization.Delete
+                </button>
+            </div>
+            <div class="btn-group">
                 <div class="btn-group">
-                    <div class="btn-group">
-                        <button id="project-select" type="button"
-                                class="btn btn-operation btn-default dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" disabled>
-                            @Localization.Setup <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach (var project in Model.Projects)
-                            {
-                                <li>
-                                    <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                        @project.Title.FirstOrDefault().Text
-                                    </a>
-                                </li>
-                            }
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
-                                    @Localization.NoProject
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="btn-group">
-                        <button id="project-filter" type="button"
-                                class="btn btn-default dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                            @Localization.Filter <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
+                    <button id="project-select" type="button"
+                            class="btn btn-operation btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" disabled>
+                        @Localization.Setup <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
                         @foreach (var project in Model.Projects)
                         {
                             <li>
@@ -78,32 +47,44 @@
                                 </a>
                             </li>
                         }
-                            <li class="divider"></li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
+                                @Localization.NoProject
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button id="project-filter" type="button"
+                            class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        @Localization.Filter <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var project in Model.Projects)
+                        {
                             <li>
-                                <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
-                                    @Localization.NoProject
+                                <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
+                                    @project.Title.FirstOrDefault().Text
                                 </a>
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        @Localization.Works<span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu" id="worksDropDown">
-                        @{ Html.RenderAction("WorksDropDown", "Home"); }
+                        }
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
+                                @Localization.NoProject
+                            </a>
+                        </li>
                     </ul>
-                </li>
-                <li>@Html.ActionLink(Localization.About, "About", "Home")</li>
-                <li>@Html.ActionLink(Localization.Contact, "Contact", "Home")</li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div id="contmgmt-container" class="container-fluid body-content">
+
+<div id="contmgmt-container">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
@@ -113,14 +94,10 @@
     </div>
     <div id="pckry-container">
         @*@foreach (var elem in Model.Medias)
-        {
-            Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
-        }*@
+            {
+                Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
+            }*@
     </div>
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - andrasmuller.com</p>
-    </footer>
 </div>
 
     @section scripts{

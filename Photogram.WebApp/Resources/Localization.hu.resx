@@ -294,4 +294,7 @@
   <data name="ErrArgNull" xml:space="preserve">
     <value>Az argumentum nem lehet null értékű.</value>
   </data>
+  <data name="File" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
 </root>

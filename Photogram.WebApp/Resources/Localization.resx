@@ -297,4 +297,7 @@
   <data name="ErrArgNull" xml:space="preserve">
     <value>Argument cannot be null.</value>
   </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
 </root>
