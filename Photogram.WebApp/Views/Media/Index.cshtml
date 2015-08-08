@@ -9,9 +9,17 @@
 @model MediaViewModel
 
 
-<div id="fileTools" class="panel panel-default" style="position: fixed; top: 10px; z-index:999;">
+<div id="contTools" class="panel panel-default" style="position: fixed; max-width: 1200px; top: 10px; z-index:999;">
     <div class="panel-body">
         <div class="btn-toolbar">
+            <div class="btn-group">
+                <a id="btn-home"
+                   href="@Url.Action("Index", "Home")"
+                   type="button"
+                   class="btn btn-default">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+            </div>
             <div class="btn-group">
                 <input id="fileupload"
                         class="filestyle"
@@ -23,6 +31,8 @@
                         data-icon="false"
                         accept="image/*"
                         title="@Localization.UploadDesc">
+            </div>
+            <div class="btn-group">
                 <button id="btn-delete"
                         type="button"
                         class="btn btn-operation btn-danger"
@@ -82,15 +92,16 @@
             </div>
         </div>
     </div>
+    <div id="contToolsFooter" class="panel-footer" style="display: none; ">
+        <div id="loadProgressContainer" class="progress" style="min-width: 2em; margin-bottom: 0px;">
+            <div id="loadProgress" class="progress-bar" role="progressbar"></div>
+        </div>
+    </div>
 </div>
 
 <div id="contmgmt-container">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
-    </div>
-    <div id="loadProgressContainer" class="progress" style="display: none; min-width: 2em;">
-        <div id="loadProgress" class="progress-bar" role="progressbar">
-        </div>
     </div>
     <div id="pckry-container">
         @*@foreach (var elem in Model.Medias)
@@ -161,8 +172,8 @@
 
                             var dataList = data.DataList;
 
-                            var barContainer = $('#loadProgressContainer');
-                            barContainer.show();
+                            var barContainer = $('#contToolsFooter');
+                            barContainer.show(1000);
 
                             var bar = document.getElementById('loadProgress');
                             var progress = new Progress(bar, {
@@ -171,7 +182,7 @@
                             });
 
                             var hideProgress = function () {                                
-                                barContainer.delay(1000).fadeOut();
+                                barContainer.delay(2000).hide(1000);
                                 document.body.removeEventListener("progressCompleted", hideProgress);
                             }
 
