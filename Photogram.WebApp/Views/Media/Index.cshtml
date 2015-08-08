@@ -107,6 +107,10 @@
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
+    <div id="loadProgressContainer" class="progress" style="display: none; min-width: 2em;">
+        <div id="loadProgress" class="progress-bar" role="progressbar">
+        </div>
+    </div>
     <div id="pckry-container">
         @*@foreach (var elem in Model.Medias)
         {
@@ -127,6 +131,44 @@
                 easing: 'swing'
             };
 
+            var Progress = function (bar, opts) {
+
+                this.options = {
+                    all: 100,
+                    showLabel: true,
+                    percent: true,
+                }
+
+                this.processed = 0;
+
+                if (typeof opts == 'object'){
+                    this.options = $.extend(this.options, opts);
+                }
+
+                this.bar = bar;
+                this.bar.style.width = 0 + '%';
+
+                this.completed = new Event('progressCompleted');
+            }
+
+            Progress.prototype.update = function (processed) {
+                this.processed = processed;
+                this.bar.style.width = ((100/this.options.all) * this.processed) + '%';
+
+                if (this.options.showLabel) {
+                    this.bar.innerHTML = this.options.percent
+                        ? ((100/this.options.all) * this.processed) + '%'
+                        : this.options.all + ' / ' + this.processed;
+                }
+
+                if (this.processed == this.options.all)
+                    document.body.dispatchEvent(this.completed);
+            }
+
+            Progress.prototype.inc = function () {
+                this.update(this.processed + 1);
+            }
+
             docReady(function () {
 
                 $.ajax({
@@ -134,8 +176,6 @@
                     type: 'POST',
                     success:
                         function (data, status, xhr) {
-                            console.log('getting file data succeeded\n' + data.DataList);
-
                             var pckry = new Packery('#pckry-container');
 
                             pckry.on('removeComplete', function (event, removedItems) {
@@ -144,11 +184,25 @@
 
                             var dataList = data.DataList;
 
+                            var barContainer = $('#loadProgressContainer');
+                            barContainer.show();
+
+                            var bar = document.getElementById('loadProgress');
+                            var progress = new Progress(bar, {
+                                all: dataList.length,
+                                percent: false
+                            });
+
+                            var hideProgress = function () {                                
+                                barContainer.delay(1000).fadeOut();
+                                document.body.removeEventListener("progressCompleted", hideProgress);
+                            }
+
+                            document.body.addEventListener("progressCompleted", hideProgress);
+
                             for (var i = 0; i < dataList.length; i++) {
                                 var thumbData = dataList[i];
-                                console.log(i + ': ' + dataList[i].FileName);
-
-                                createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId);
+                                createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId, progress);
                             }
                         },
                     error:
@@ -157,20 +211,6 @@
                             console.log('getFileData error: ' + errorText);
                         }
                 });
-
-                //imagesLoaded('#pckry-container', function () {
-                //    var container = document.querySelector('#pckry-container');
-
-                //    $(container).fadeIn();
-
-                //    var pckry = new Packery(container, {
-                //        itemSelector: '.pckry-item'
-                //    });
-
-                //    pckry.on('removeComplete', function (event, removedItems) {
-                //        setWarningVisibility();
-                //    });
-                //});
 
                 setWarningVisibility();
 
@@ -208,8 +248,6 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         rdata = JSON.parse(xhr.responseText);
-                        //console.log(rdata.FileName + ' has successfully uploaded. id: ' + rdata.FileId);
-
                         createThumbnail(rdata.FileName, rdata.FileId, -1);
                     }
                 }
@@ -218,7 +256,7 @@
                 xhr.send(fd);
             }
 
-            function createThumbnail(fileName, fileId, projectId){
+            function createThumbnail(fileName, fileId, projectId, progress){
                 var thumb = document.createElement('div');
                 thumb.className = 'pckry-item';
                 thumb.id = fileId;
@@ -252,7 +290,10 @@
 
                     var pckry = Packery.data(container);
                     pckry.appended(thumb);
-                    console.log(fileName + ' loaded and appended to packery');
+
+                    if (progress != null)
+                        progress.inc();
+                    //console.log(fileName + ' loaded and appended to packery');
 
                     setWarningVisibility();
                 });
@@ -310,7 +351,7 @@
                     success:
                         function (rdata, status, xhr) {
                             $(renderElem).html(rdata.ProjectTitle);
-                            console.log('project title rendered received: ' + rdata.ProjectTitle);
+                            //console.log('project title rendered received: ' + rdata.ProjectTitle);
                         },
                     error:
                         function () {

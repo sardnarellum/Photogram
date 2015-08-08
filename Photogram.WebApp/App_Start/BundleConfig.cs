@@ -39,9 +39,6 @@ namespace Photogram.WebApp
             bundles.Add(new ScriptBundle("~/bundles/chart").Include(
                     "~/Scripts/Chart.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/imagesloaded").Include(
-                    "~/Scripts/imagesloaded.pkgd.min.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/packery").Include(
                     "~/Scripts/packery.pkgd.js"));
         }
