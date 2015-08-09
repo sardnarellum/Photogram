@@ -28,17 +28,12 @@
           height: 30px;
         }
         body {
-            padding-top: 80px;
+            /*padding-top: 80px;*/
         }
     </style>
 </head>
 <body>
-    <div class="container container-fluid">
-        @RenderBody()
-        <footer>
-            <p>&copy; @DateTime.Now.Year - andrasmuller.com</p>
-        </footer>
-    </div>
+    @RenderBody()
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery-ui")

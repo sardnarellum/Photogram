@@ -297,4 +297,7 @@
   <data name="File" xml:space="preserve">
     <value>Fájl</value>
   </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Kezelés</value>
+  </data>
 </root>
