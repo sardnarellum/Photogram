@@ -303,4 +303,13 @@
   <data name="Manage" xml:space="preserve">
     <value>Manage</value>
   </data>
+  <data name="EditElement" xml:space="preserve">
+    <value>Edit element</value>
+  </data>
+  <data name="WarnNoScript" xml:space="preserve">
+    <value>It seems that your browers not runs scripts. To use all of Photogram functionalities, turn them on.</value>
+  </data>
+  <data name="ErrTitleLength" xml:space="preserve">
+    <value>The title can't be longer than 80 characters.</value>
+  </data>
 </root>

@@ -187,6 +187,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit element.
+        /// </summary>
+        public static string EditElement {
+            get {
+                return ResourceManager.GetString("EditElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string Email {
@@ -237,6 +246,15 @@ namespace Resources {
         public static string ErrLoginData {
             get {
                 return ResourceManager.GetString("ErrLoginData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The title can&apos;t be longer than 80 characters..
+        /// </summary>
+        public static string ErrTitleLength {
+            get {
+                return ResourceManager.GetString("ErrTitleLength", resourceCulture);
             }
         }
         
@@ -588,6 +606,15 @@ namespace Resources {
         public static string UserRememberMe {
             get {
                 return ResourceManager.GetString("UserRememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It seems that your browers not runs scripts. To use all of Photogram functionalities, turn them on..
+        /// </summary>
+        public static string WarnNoScript {
+            get {
+                return ResourceManager.GetString("WarnNoScript", resourceCulture);
             }
         }
         

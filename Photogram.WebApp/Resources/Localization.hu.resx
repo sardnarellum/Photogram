@@ -300,4 +300,13 @@
   <data name="Manage" xml:space="preserve">
     <value>Kezelés</value>
   </data>
+  <data name="EditElement" xml:space="preserve">
+    <value>Elem szerkesztése</value>
+  </data>
+  <data name="WarnNoScript" xml:space="preserve">
+    <value>Úgy tűnik, hogy a böngésződben nem engedélyezett a szkriptek futtatása. Hogy használhasd a Photogram összes funkcióját, engedélyezd őket.</value>
+  </data>
+  <data name="ErrTitleLength" xml:space="preserve">
+    <value>A cím hossza nem lehet több, mint 80 karakter.</value>
+  </data>
 </root>

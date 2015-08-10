@@ -6,8 +6,9 @@
     Layout = "~/Views/Shared/_LayoutContMgmt.cshtml";
 }
 
-@model MediaViewModel
+@model ContentMgmtViewModel
 
+@Html.Partial("_EditMediaPartial")
 
 <div id="contTools">
     <div class="btn-toolbar">
@@ -95,11 +96,13 @@
     </div>
 </div>
 
-
 <div id="contmgmt-container" class="container container-fluid">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
+    <noscript>
+        <div class="alert alert-warning">@Localization.WarnNoScript</div>
+    </noscript>
     <div id="pckry-container">
         @*@foreach (var elem in Model.Medias)
             {
@@ -119,7 +122,7 @@
 
 @section scripts{
 <script type="text/javascript">
-
+    <!--
     var animOptions = {
         duration: 400,
         easing: 'swing'
@@ -296,9 +299,17 @@
         var labelType = projectId != -1 ? 'info' : 'warning';
         label.className = 'label label-' + labelType + ' thumb-project-title';
 
-        var edit = document.createElement('a');
+        var edit = document.createElement('button');
         edit.className = ' btn btn-default btn-xs thumb-edit noselect';
-        edit.href = '#';
+        //edit.setAttribute("data-toggle", "modal");
+        //edit.setAttribute("data-target", "#editMediaModal");
+        edit.onclick = function () {
+            var editModal = $('#editMediaModal');
+            editModal.find('.modal-title').text(fileName);
+            editModal.find('.editView').attr('src', 'Image/2000/400/' + fileName + '/').load();
+            editModal.modal('show');
+            console.log('elem edited: ' + fileId);
+        };
         $(edit).append('<span class="glyphicon glyphicon-edit"></span>');
 
         $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
@@ -486,7 +497,7 @@
 
         $('#lightview-viewer').empty();
     }
-
+    //-->
 </script>
 }
 

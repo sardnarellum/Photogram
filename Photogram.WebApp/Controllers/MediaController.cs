@@ -15,7 +15,7 @@ namespace Photogram.WebApp.Controllers
     {
         public ActionResult Index()
         {
-            var model = new MediaViewModel
+            var model = new ContentMgmtViewModel
             {
                 Medias = _db.Media.ToList(),
                 Projects = _db.Project.OrderByDescending(x => x.Position)
