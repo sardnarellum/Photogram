@@ -196,6 +196,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit properties.
+        /// </summary>
+        public static string EditProperties {
+            get {
+                return ResourceManager.GetString("EditProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string Email {
@@ -273,6 +282,15 @@ namespace Resources {
         public static string File {
             get {
                 return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filename.
+        /// </summary>
+        public static string Filename {
+            get {
+                return ResourceManager.GetString("Filename", resourceCulture);
             }
         }
         

@@ -312,4 +312,10 @@
   <data name="ErrTitleLength" xml:space="preserve">
     <value>The title can't be longer than 80 characters.</value>
   </data>
+  <data name="EditProperties" xml:space="preserve">
+    <value>Edit properties</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
+  </data>
 </root>

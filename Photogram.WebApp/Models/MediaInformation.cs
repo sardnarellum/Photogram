@@ -12,12 +12,13 @@ namespace Photogram.WebApp.Models
     /// </summary>
     public class MediaInformation
     {
-
         [StringLength(80,
             ErrorMessageResourceName = "ErrTitleLength",
             ErrorMessageResourceType = typeof(Localization))]
+        [DataType(DataType.Text)]
         public string Title { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
     }
 }

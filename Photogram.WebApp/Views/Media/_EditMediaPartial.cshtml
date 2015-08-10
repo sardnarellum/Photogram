@@ -1,4 +1,7 @@
 ﻿@using Resources
+@using Photogram.WebApp.Models
+
+@model MediaInformation
 
 <div id="editMediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editMediaModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -10,7 +13,7 @@
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="editMediaModalLabel"></h4>
+                <h4 class="modal-title" id="editMediaModalLabel">@Localization.EditProperties</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -18,9 +21,24 @@
                         <img class="editView" />
                     </div>
                     <div class="col-lg-4">
-                        <div class="input-group">
-
-                        </div>
+                        <form>
+                            <div class="form-group input-group-sm">
+                                <label>@Localization.Filename</label>
+                                <div>
+                                    <p class="form-control-static" id="elemFileName"></p>
+                                </div>
+                            </div>
+                            <div class="form-group input-group-sm">
+                                @Html.LabelFor(x => x.Title)
+                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = Localization.Title })
+                                @Html.ValidationMessageFor(x => x.Title)
+                            </div>
+                            <div class="form-group input-group-sm">
+                                @Html.LabelFor(x => x.Description)
+                                @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = Localization.Description })
+                                @Html.ValidationMessageFor(x => x.Description)
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

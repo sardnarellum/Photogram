@@ -18,7 +18,7 @@ namespace Photogram.WebApp.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Title", ResourceType=typeof(Localization))]
-        [MaxLength(10)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [Required]

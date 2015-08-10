@@ -8,7 +8,7 @@
 
 @model ContentMgmtViewModel
 
-@Html.Partial("_EditMediaPartial")
+@Html.Partial("_EditMediaPartial", new MediaInformation())
 
 <div id="contTools">
     <div class="btn-toolbar">
@@ -96,7 +96,7 @@
     </div>
 </div>
 
-<div id="contmgmt-container" class="container container-fluid">
+<div id="contmgmt-container" >
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
@@ -179,7 +179,9 @@
             type: 'POST',
             success:
                 function (data, status, xhr) {
-                    var pckry = new Packery('#pckry-container');
+                    var pckry = new Packery('#pckry-container', {
+                        gutter: 5
+                    });
 
                     pckry.on('removeComplete', function (event, removedItems) {
                         setWarningVisibility();
@@ -305,7 +307,7 @@
         //edit.setAttribute("data-target", "#editMediaModal");
         edit.onclick = function () {
             var editModal = $('#editMediaModal');
-            editModal.find('.modal-title').text(fileName);
+            editModal.find('#elemFileName').text(fileName);
             editModal.find('.editView').attr('src', 'Image/2000/400/' + fileName + '/').load();
             editModal.modal('show');
             console.log('elem edited: ' + fileId);
@@ -330,6 +332,7 @@
 
             var pckry = Packery.data(container);
             pckry.appended(thumb);
+            pckry.layout();
 
             if (progress != null)
                 progress.inc();
@@ -386,9 +389,10 @@
                 },
                 success:
                     function (data, status, xhr) {
-                        var pckry = $('#pckry-container').packery();
-                        pckry.packery('remove', element);
-                        pckry.packery();
+                        var container = document.querySelector('#pckry-container');
+                        var pckry = Packery.data(container);
+                        pckry.remove(element);
+                        pckry.layout();
                         progress.inc();
 
                         setWarningVisibility();
