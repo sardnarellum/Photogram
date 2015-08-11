@@ -98,6 +98,13 @@ namespace Photogram.WebApp.Controllers
 
             return Json(new { FileName = fileName, FileId = fileId });
         }
+
+        [HttpPost]
+        [AjaxErrorHandler]
+        public JsonResult Edit(MediaInformation model)
+        {
+            return Json(new { Success = true });
+        }
         
         /// <summary>
         /// Lists basic file data.

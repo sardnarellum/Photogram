@@ -3,6 +3,18 @@
 
 @model MediaInformation
 
+@{ 
+    var ajaxOptions = new AjaxOptions
+    {
+        OnBegin = "editedBegin(xhr)",
+        OnComplete = "editedCompleted(xhr, status)",
+        OnSuccess = "editedSuccess(data, status, xhr)"
+    };
+}
+
+@using (Ajax.BeginForm("Edit", "Media", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
+{
+@Html.AntiForgeryToken()
 <div id="editMediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editMediaModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -16,36 +28,65 @@
                 <h4 class="modal-title" id="editMediaModalLabel">@Localization.EditProperties</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <img class="editView" />
-                    </div>
-                    <div class="col-lg-4">
-                        <form>
-                            <div class="form-group input-group-sm">
-                                <label>@Localization.Filename</label>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <img class="editView" />
+                        </div>
+                        <div class="col-lg-6">
+                            @if (!Html.ViewData.ModelState.IsValid)
+                            {
+                                foreach (ModelState modelState in ViewData.ModelState.Values)
+                                {
+                                    foreach (ModelError error in modelState.Errors)
+                                    {
+                                        <div class="alert alert-danger" role="alert">
+                                            @error.ErrorMessage
+                                        </div>
+                                    }
+                                }
+                            }
+                            <div class="form-group">
+                                @*<label>@Localization.Filename</label>*@
                                 <div>
                                     <p class="form-control-static" id="elemFileName"></p>
                                 </div>
                             </div>
-                            <div class="form-group input-group-sm">
-                                @Html.LabelFor(x => x.Title)
+                            <div class="form-group">
+                                @*@Html.LabelFor(x => x.Title)*@
                                 @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = Localization.Title })
                                 @Html.ValidationMessageFor(x => x.Title)
                             </div>
-                            <div class="form-group input-group-sm">
-                                @Html.LabelFor(x => x.Description)
-                                @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = Localization.Description })
+                            <div class="form-group">
+                                @*@Html.LabelFor(x => x.Description)*@
+                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", placeholder = Localization.Description, rows = 5 })
                                 @Html.ValidationMessageFor(x => x.Description)
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Cancel</button>
-                <button type="button" class="btn btn-primary" data-loading-text="@Localization.SaveChanges...">@Localization.SaveChanges</button>
+                <button type="submit" id="editMediaSubmit" class="btn btn-primary" data-loading-text="@Localization.SaveChanges...">@Localization.SaveChanges</button>
             </div>
         </div>
     </div>
 </div>
+}
+
+<script type="text/javascript">
+
+    function editedBegin(xhr) {
+        $('#editMediaSubmit').button('loading');
+    }
+    
+    function editedCompleted(xhr, status) {
+        $('#editMediaSubmit').button('reset');
+    }
+
+    function editedSuccess(data, status, xhr) {
+        $('#editMediaModal').modal('hide');
+    }
+
+</script>

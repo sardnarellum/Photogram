@@ -16,9 +16,11 @@ namespace Photogram.WebApp.Models
             ErrorMessageResourceName = "ErrTitleLength",
             ErrorMessageResourceType = typeof(Localization))]
         [DataType(DataType.Text)]
+        [Display(Name = "Title", ResourceType = typeof(Localization))]
         public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Description", ResourceType = typeof(Localization))]
         public string Description { get; set; }
     }
 }
