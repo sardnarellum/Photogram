@@ -241,6 +241,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The original file not found in the database..
+        /// </summary>
+        public static string ErrItemNotFoundInDb {
+            get {
+                return ResourceManager.GetString("ErrItemNotFoundInDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login failed!.
         /// </summary>
         public static string ErrLogin {
@@ -403,11 +412,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No description.
+        /// </summary>
+        public static string NoDesc {
+            get {
+                return ResourceManager.GetString("NoDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Project.
         /// </summary>
         public static string NoProject {
             get {
                 return ResourceManager.GetString("NoProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No title.
+        /// </summary>
+        public static string NoTitle {
+            get {
+                return ResourceManager.GetString("NoTitle", resourceCulture);
             }
         }
         

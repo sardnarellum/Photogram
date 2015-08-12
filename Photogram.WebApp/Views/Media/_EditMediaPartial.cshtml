@@ -12,67 +12,70 @@
     };
 }
 
+
 @using (Ajax.BeginForm("Edit", "Media", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
 {
-@Html.AntiForgeryToken()
-<div id="editMediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editMediaModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="editMediaModalLabel">@Localization.EditProperties</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <img class="editView" />
-                        </div>
-                        <div class="col-lg-6">
-                            @if (!Html.ViewData.ModelState.IsValid)
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="editMediaModalLabel">@Localization.EditProperties</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img class="editView" />
+                </div>
+                <div class="col-lg-6">
+                    @if (!Html.ViewData.ModelState.IsValid)
+                    {
+                        foreach (ModelState modelState in ViewData.ModelState.Values)
+                        {
+                            foreach (ModelError error in modelState.Errors)
                             {
-                                foreach (ModelState modelState in ViewData.ModelState.Values)
-                                {
-                                    foreach (ModelError error in modelState.Errors)
-                                    {
-                                        <div class="alert alert-danger" role="alert">
-                                            @error.ErrorMessage
-                                        </div>
-                                    }
-                                }
-                            }
-                            <div class="form-group">
-                                @*<label>@Localization.Filename</label>*@
-                                <div>
-                                    <p class="form-control-static" id="elemFileName"></p>
+                                <div class="alert alert-danger" role="alert">
+                                    @error.ErrorMessage
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                @*@Html.LabelFor(x => x.Title)*@
-                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = Localization.Title })
-                                @Html.ValidationMessageFor(x => x.Title)
-                            </div>
-                            <div class="form-group">
-                                @*@Html.LabelFor(x => x.Description)*@
-                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", placeholder = Localization.Description, rows = 5 })
-                                @Html.ValidationMessageFor(x => x.Description)
-                            </div>
+                            }
+                        }
+                    }
+                    @Html.HiddenFor(x => x.MediaId)
+                    <div class="form-group">
+                        @*<label>@Localization.Filename</label>*@
+                        <div>
+                            <p class="form-control-static" id="elemFileName"></p>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.Language, Model.Languages,
+                            new { @class = "form-control", placeholder = Localization.Language })
+                        @Html.ValidationMessageFor(x => x.Language)
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(x => x.Title)*@
+                        @Html.TextBoxFor(x => x.Title,
+                            new { @class = "form-control", placeholder = Localization.NoTitle })
+                        @Html.ValidationMessageFor(x => x.Title)
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(x => x.Description)*@
+                        @Html.TextAreaFor(x => x.Description,
+                            new { @class = "form-control", placeholder = Localization.NoDesc, rows = 5 })
+                        @Html.ValidationMessageFor(x => x.Description)
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Cancel</button>
-                <button type="submit" id="editMediaSubmit" class="btn btn-primary" data-loading-text="@Localization.SaveChanges...">@Localization.SaveChanges</button>
-            </div>
         </div>
     </div>
-</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Cancel</button>
+        <button type="submit" id="editMediaSubmit" class="btn btn-primary" data-loading-text="@Localization.SaveChanges...">@Localization.SaveChanges</button>
+    </div>
 }
 
 <script type="text/javascript">
@@ -86,7 +89,10 @@
     }
 
     function editedSuccess(data, status, xhr) {
-        $('#editMediaModal').modal('hide');
+        $("#editMediaModal").find('.modal-content').html(data.View);
+        if (data.Success) {
+            $('#editMediaModal').modal('hide');
+        }
     }
 
 </script>

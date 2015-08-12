@@ -315,4 +315,13 @@
   <data name="Filename" xml:space="preserve">
     <value>Fájlnév</value>
   </data>
+  <data name="ErrItemNotFoundInDb" xml:space="preserve">
+    <value>Az eredeti fájl nem található az adatbázisban.</value>
+  </data>
+  <data name="NoDesc" xml:space="preserve">
+    <value>Leírás nélkül</value>
+  </data>
+  <data name="NoTitle" xml:space="preserve">
+    <value>Cím nélkül</value>
+  </data>
 </root>

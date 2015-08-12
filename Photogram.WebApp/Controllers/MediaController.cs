@@ -2,6 +2,8 @@
 using Resources;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,6 +23,8 @@ namespace Photogram.WebApp.Controllers
                 Projects = _db.Project.OrderByDescending(x => x.Position)
                     .Where(x => x.Type == ProjectType.Portfolio).ToList()
             };
+
+            ViewBag.Title = Localization.ContentMgmt;
 
             return View("Index", model);
         }
@@ -99,11 +103,90 @@ namespace Photogram.WebApp.Controllers
             return Json(new { FileName = fileName, FileId = fileId });
         }
 
-        [HttpPost]
-        [AjaxErrorHandler]
-        public JsonResult Edit(MediaInformation model)
+        [HttpGet]
+        public JsonResult Edit(int? mediaId)
         {
-            return Json(new { Success = true });
+            if (null == mediaId)
+                throw new ArgumentNullException("mediaId",
+                    Localization.ErrArgNull);
+
+            var media = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
+
+            if (null == media)
+                throw new ArgumentException(
+                    mediaId.ToString() + " does not exists in Media.",
+                    "mediaId");
+
+            var currentCulture = CultureInfo.CurrentCulture;
+
+            Debug.WriteLine(currentCulture.LCID);
+
+            var model = new MediaInformation {
+                FileName = media.FileName,
+                MediaId = media.Id,
+                Language = _db.Language.Where(x => x.Code == currentCulture.Name).FirstOrDefault().Code
+            };
+
+            return JsonView(true, "_EditMediaPartial", model);
+        }
+
+        /// <summary>
+        /// Validates and updates a media item.
+        /// </summary>
+        /// <param name="model">New data from view.</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Edit(MediaInformation model)
+        {
+            var media = _db.Media.Where(x => x.Id == model.MediaId).FirstOrDefault();
+
+            if (null == media)
+            {
+                ModelState.AddModelError("originalNotFound", Localization.ErrItemNotFoundInDb);
+            }
+            else
+            {
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var language = _db.Language
+                            .Where(x => x.Code == model.Language).FirstOrDefault();
+
+                        var title = media.Title
+                            .Where(x => x.Language == language).FirstOrDefault();
+
+                        if (null == title)
+                        {
+                            title = new TextValue
+                            {
+                                Language = language
+                            };
+                        }
+
+                        title.Text = model.Title;
+
+                        var description = media.Title
+                            .Where(x => x.Language == language).FirstOrDefault();
+
+                        if (null == title)
+                        {
+                            description = new TextValue
+                            {
+                                Language = language
+                            };
+                        }
+
+                        description.Text = model.Description;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("unexpected", ex);
+                }
+            }
+
+            return JsonView(ModelState.IsValid, "_EditMediaPartial", model);
         }
         
         /// <summary>

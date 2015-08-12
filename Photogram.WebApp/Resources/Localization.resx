@@ -318,4 +318,13 @@
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
   </data>
+  <data name="ErrItemNotFoundInDb" xml:space="preserve">
+    <value>The original file not found in the database.</value>
+  </data>
+  <data name="NoDesc" xml:space="preserve">
+    <value>No description</value>
+  </data>
+  <data name="NoTitle" xml:space="preserve">
+    <value>No title</value>
+  </data>
 </root>

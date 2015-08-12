@@ -2,13 +2,18 @@
 @using Photogram.WebApp.Models
 
 @{
-    ViewBag.Title = Localization.ContentMgmt;
     Layout = "~/Views/Shared/_LayoutContMgmt.cshtml";
 }
 
 @model ContentMgmtViewModel
 
-@Html.Partial("_EditMediaPartial", new MediaInformation())
+<div id="editMediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editMediaModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @Html.Partial("_EditMediaPartial", new MediaInformation())
+        </div>
+    </div>
+</div>
 
 <div id="contTools">
     <div class="btn-toolbar">
@@ -308,6 +313,7 @@
         edit.onclick = function () {
             var editModal = $('#editMediaModal');
             editModal.find('#elemFileName').text(fileName);
+            editModal.find('#MediaId').val(fileId);
             editModal.find('.editView').attr('src', 'Image/2000/400/' + fileName + '/').load();
             editModal.modal('show');
             console.log('elem edited: ' + fileId);

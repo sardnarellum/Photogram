@@ -184,6 +184,7 @@
     <Compile Include="Models\FilesystemExtensionMethods.cs" />
     <Compile Include="Models\HttpResponseExtensionMethods.cs" />
     <Compile Include="Models\ImageFileResult.cs" />
+    <Compile Include="Models\LanguageList.cs" />
     <Compile Include="Models\MediaInformation.cs" />
     <Compile Include="Models\ProjectViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
