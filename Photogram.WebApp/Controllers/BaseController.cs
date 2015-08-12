@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO;
 using System.Net;
+using System.Globalization;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -24,14 +25,12 @@ namespace Photogram.WebApp.Controllers
             {
                 var hun = new Language
                 {
-                    Code = "hun",
-                    Name = "magyar"
+                    LCID = 1038
                 };
 
                 var eng = new Language
                 {
-                    Code = "eng",
-                    Name = "angol"
+                    LCID = 1033
                 };
 
                 var s = new Setup
@@ -60,8 +59,9 @@ namespace Photogram.WebApp.Controllers
                 _db.SaveChanges();
             }
 
-            ViewBag.MainTitle = _db.Setup.First().MainTitle.Where(x => x.Language.Code == "hun")
-                .FirstOrDefault().Text; // TODO: ML support
+            ViewBag.MainTitle = _db.Setup.First().MainTitle
+                .Where(x => x.Language.LCID == CultureInfo.CurrentCulture.LCID)
+                .FirstOrDefault().Text;
 
             ViewBag.Years = new SelectList(
                     Enumerable.Range(DateTime.Now.Year - 50, DateTime.Now.Year)

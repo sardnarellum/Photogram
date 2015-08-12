@@ -94,7 +94,7 @@
     <Property Name="SetupFooter_Id" Type="int" Nullable="true" />
     <Property Name="ProjectTitle_Id" Type="int" Nullable="true" />
     <Property Name="ProjectDescription_Id" Type="int" Nullable="true" />
-    <Property Name="Language_Code" Type="nvarchar" MaxLength="3" Nullable="false" />
+    <Property Name="Language_LCID" Type="int" Nullable="false" />
     <Property Name="MediaTitle_Id" Type="int" Nullable="true" />
     <Property Name="MediaDescription_Id" Type="int" Nullable="true" />
   </EntityType>
@@ -110,10 +110,9 @@
   </EntityType>
   <EntityType Name="Language">
     <Key>
-      <PropertyRef Name="Code" />
+      <PropertyRef Name="LCID" />
     </Key>
-    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="3" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="LCID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Log">
     <Key>
@@ -126,7 +125,7 @@
     <Property Name="Project_Id" Type="int" Nullable="true" />
     <Property Name="TextValue_Id" Type="int" Nullable="true" />
     <Property Name="Setup_Id" Type="int" Nullable="true" />
-    <Property Name="Language_Code" Type="nvarchar" MaxLength="3" Nullable="true" />
+    <Property Name="Language_LCID" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Stat">
     <Key>
@@ -206,10 +205,10 @@
     <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Language">
-        <PropertyRef Name="Code" />
+        <PropertyRef Name="LCID" />
       </Principal>
       <Dependent Role="TextValue">
-        <PropertyRef Name="Language_Code" />
+        <PropertyRef Name="Language_LCID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -292,10 +291,10 @@
     <End Role="Log" Type="PhotogramModel.Store.Log" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Language">
-        <PropertyRef Name="Code" />
+        <PropertyRef Name="LCID" />
       </Principal>
       <Dependent Role="Log">
-        <PropertyRef Name="Language_Code" />
+        <PropertyRef Name="Language_LCID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -419,11 +418,10 @@
         </EntityType>
         <EntityType Name="Language">
           <Key>
-            <PropertyRef Name="Code" />
+            <PropertyRef Name="LCID" />
           </Key>
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="3" annotation:StoreGeneratedPattern="None" />
+          <Property Name="LCID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="TextValue" Relationship="PhotogramModel.TextValueLanguage" FromRole="Language" ToRole="TextValue" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <Property Name="Name" Type="String" Nullable="false" Unicode="true" MaxLength="30" />
           <NavigationProperty Name="Log" Relationship="PhotogramModel.LanguageLog" FromRole="Language" ToRole="Log" />
         </EntityType>
         <Association Name="TextValueSetupMainTitle">
@@ -574,8 +572,7 @@
     <EntitySetMapping Name="Language">
       <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Language)">
         <MappingFragment StoreEntitySet="Language">
-          <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LCID" ColumnName="LCID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -645,7 +642,7 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="TextValueLanguage" TypeName="PhotogramModel.TextValueLanguage" StoreEntitySet="TextValue">
       <EndProperty Name="Language">
-        <ScalarProperty Name="Code" ColumnName="Language_Code" />
+        <ScalarProperty Name="LCID" ColumnName="Language_LCID" />
       </EndProperty>
       <EndProperty Name="TextValue">
         <ScalarProperty Name="Id" ColumnName="Id" />
@@ -707,12 +704,12 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="LanguageLog" TypeName="PhotogramModel.LanguageLog" StoreEntitySet="Log">
       <EndProperty Name="Language">
-        <ScalarProperty Name="Code" ColumnName="Language_Code" />
+        <ScalarProperty Name="LCID" ColumnName="Language_LCID" />
       </EndProperty>
       <EndProperty Name="Log">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <Condition ColumnName="Language_Code" IsNull="false" />
+      <Condition ColumnName="Language_LCID" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

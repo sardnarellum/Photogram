@@ -55,10 +55,10 @@
                 @Html.ValidationMessageFor(x => x.Description)
             </div>
             <div>
-                @Html.LabelFor(x => x.Language)
-                @Html.DropDownListFor(x => x.Language, Model.Languages,
+                @Html.LabelFor(x => x.LCID)
+                @Html.DropDownListFor(x => x.LCID, Model.Languages,
                             new { @class = "form-control", placeholder = Localization.Language })
-                @Html.ValidationMessageFor(x => x.Language)
+                @Html.ValidationMessageFor(x => x.LCID)
             </div>
         </div>
     </div>

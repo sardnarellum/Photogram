@@ -20,8 +20,7 @@ namespace Photogram.WebApp.Models
             this.Log = new HashSet<Log>();
         }
     
-        public string Code { get; set; }
-        public string Name { get; set; }
+        public int LCID { get; set; }
     
         private ICollection<TextValue> TextValue { get; set; }
         public virtual ICollection<Log> Log { get; set; }

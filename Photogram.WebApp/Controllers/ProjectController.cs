@@ -124,7 +124,7 @@ namespace Photogram.WebApp.Controllers
                             new TextValue
                             {
                                 Text = model.Title,
-                                Language = _db.Language.Where(x => x.Code == model.Language).FirstOrDefault()
+                                Language = _db.Language.Where(x => x.LCID == model.LCID).FirstOrDefault()
                             }
                         },
                         Type = ProjectType.Portfolio,
@@ -142,7 +142,7 @@ namespace Photogram.WebApp.Controllers
                             new TextValue
                             {
                                 Text = model.Description,
-                                Language = _db.Language.Where(x => x.Code == model.Language).FirstOrDefault()
+                                Language = _db.Language.Where(x => x.LCID == model.LCID).FirstOrDefault()
                             }
                         };
                     }

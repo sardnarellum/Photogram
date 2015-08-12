@@ -52,9 +52,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.DropDownListFor(x => x.Language, Model.Languages,
+                        @Html.DropDownListFor(x => x.LCID, Model.Languages,
                             new { @class = "form-control", placeholder = Localization.Language })
-                        @Html.ValidationMessageFor(x => x.Language)
+                        @Html.ValidationMessageFor(x => x.LCID)
                     </div>
                     <div class="form-group">
                         @*@Html.LabelFor(x => x.Title)*@

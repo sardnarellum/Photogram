@@ -124,7 +124,7 @@ namespace Photogram.WebApp.Controllers
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
-                Language = _db.Language.Where(x => x.Code == currentCulture.Name).FirstOrDefault().Code
+                LCID = _db.Language.Where(x => x.LCID == currentCulture.LCID).FirstOrDefault().LCID
             };
 
             return JsonView(true, "_EditMediaPartial", model);
@@ -151,7 +151,7 @@ namespace Photogram.WebApp.Controllers
                     if (ModelState.IsValid)
                     {
                         var language = _db.Language
-                            .Where(x => x.Code == model.Language).FirstOrDefault();
+                            .Where(x => x.LCID == model.LCID).FirstOrDefault();
 
                         var title = media.Title
                             .Where(x => x.Language == language).FirstOrDefault();
@@ -383,10 +383,10 @@ namespace Photogram.WebApp.Controllers
         /// <returns></returns>
         private string GetUniqueFileName()
         {
-            string fileName = System.IO.Path.GetRandomFileName().Replace(".", "");
+            string fileName = Path.GetRandomFileName().Replace(".", "");
 
             while (_db.Media.Where(x => x.FileName == fileName).Any())
-                fileName = System.IO.Path.GetRandomFileName().Replace(".", "");
+                fileName = Path.GetRandomFileName().Replace(".", "");
 
             return fileName;
         }

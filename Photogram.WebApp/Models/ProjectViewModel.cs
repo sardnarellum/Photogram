@@ -32,7 +32,7 @@ namespace Photogram.WebApp.Models
 
         [Required]
         [Display(Name = "Language", ResourceType = typeof(Localization))]
-        public string Language { get; set; }
+        public int LCID { get; set; }
 
         public IEnumerable<SelectListItem> Years
         {

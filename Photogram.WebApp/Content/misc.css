@@ -128,7 +128,7 @@
     height: 100%;
     background-color: black;
     z-index:1001;
-    -moz-opacity: 0.8;
+    /*-moz-opacity: 0.8;*/
     opacity:.80;
     filter: alpha(opacity=80);
 }

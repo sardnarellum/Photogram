@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/15/2015 12:49:41
+-- Date Created: 08/12/2015 15:06:59
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -113,7 +113,7 @@ CREATE TABLE [dbo].[TextValue] (
     [SetupFooter_Id] int  NULL,
     [ProjectTitle_Id] int  NULL,
     [ProjectDescription_Id] int  NULL,
-    [Language_Code] nvarchar(3)  NOT NULL,
+    [Language_LCID] int  NOT NULL,
     [MediaTitle_Id] int  NULL,
     [MediaDescription_Id] int  NULL
 );
@@ -131,8 +131,7 @@ GO
 
 -- Creating table 'Language'
 CREATE TABLE [dbo].[Language] (
-    [Code] nvarchar(3)  NOT NULL,
-    [Name] nvarchar(30)  NOT NULL
+    [LCID] int  NOT NULL
 );
 GO
 
@@ -145,7 +144,7 @@ CREATE TABLE [dbo].[Log] (
     [Project_Id] int  NULL,
     [TextValue_Id] int  NULL,
     [Setup_Id] int  NULL,
-    [Language_Code] nvarchar(3)  NULL
+    [Language_LCID] int  NULL
 );
 GO
 
@@ -186,10 +185,10 @@ ADD CONSTRAINT [PK_Media]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Code] in table 'Language'
+-- Creating primary key on [LCID] in table 'Language'
 ALTER TABLE [dbo].[Language]
 ADD CONSTRAINT [PK_Language]
-    PRIMARY KEY CLUSTERED ([Code] ASC);
+    PRIMARY KEY CLUSTERED ([LCID] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'Log'
@@ -283,19 +282,19 @@ ON [dbo].[Media]
     ([Project_Id]);
 GO
 
--- Creating foreign key on [Language_Code] in table 'TextValue'
+-- Creating foreign key on [Language_LCID] in table 'TextValue'
 ALTER TABLE [dbo].[TextValue]
 ADD CONSTRAINT [FK_TextValueLanguage]
-    FOREIGN KEY ([Language_Code])
+    FOREIGN KEY ([Language_LCID])
     REFERENCES [dbo].[Language]
-        ([Code])
+        ([LCID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TextValueLanguage'
 CREATE INDEX [IX_FK_TextValueLanguage]
 ON [dbo].[TextValue]
-    ([Language_Code]);
+    ([Language_LCID]);
 GO
 
 -- Creating foreign key on [MediaTitle_Id] in table 'TextValue'
@@ -388,19 +387,19 @@ ON [dbo].[Log]
     ([Setup_Id]);
 GO
 
--- Creating foreign key on [Language_Code] in table 'Log'
+-- Creating foreign key on [Language_LCID] in table 'Log'
 ALTER TABLE [dbo].[Log]
 ADD CONSTRAINT [FK_LanguageLog]
-    FOREIGN KEY ([Language_Code])
+    FOREIGN KEY ([Language_LCID])
     REFERENCES [dbo].[Language]
-        ([Code])
+        ([LCID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_LanguageLog'
 CREATE INDEX [IX_FK_LanguageLog]
 ON [dbo].[Log]
-    ([Language_Code]);
+    ([Language_LCID]);
 GO
 
 -- --------------------------------------------------
