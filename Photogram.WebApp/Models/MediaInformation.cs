@@ -12,8 +12,7 @@ namespace Photogram.WebApp.Models
     /// </summary>
     public class MediaInformation : LanguageList
     {
-        [Required]
-        [Display(Name = "FileName", ResourceType = typeof(Localization))]
+        [Display(Name = "Filename", ResourceType = typeof(Localization))]
         public string FileName { get; set; }
 
         /// <summary>

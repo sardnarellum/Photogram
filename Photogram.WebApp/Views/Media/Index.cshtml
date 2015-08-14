@@ -308,14 +308,24 @@
 
         var edit = document.createElement('button');
         edit.className = ' btn btn-default btn-xs thumb-edit noselect';
-        //edit.setAttribute("data-toggle", "modal");
-        //edit.setAttribute("data-target", "#editMediaModal");
         edit.onclick = function () {
-            var editModal = $('#editMediaModal');
-            editModal.find('#elemFileName').text(fileName);
-            editModal.find('#MediaId').val(fileId);
-            editModal.find('.editView').attr('src', 'Image/2000/400/' + fileName + '/').load();
-            editModal.modal('show');
+            $.ajax({
+                url: '@Url.Content("~/Media/InitEdit")',
+                type: 'GET',
+                data: {
+                    mediaId: fileId
+                },
+                success:
+                    function (data, status, xhr) {
+                        var editModal = $('#editMediaModal');
+                        editModal.find('.modal-content').html(data.View);
+                        editModal.modal('show');
+                    },
+                error:
+                    function (e) {
+                        console.log('edit modal show error: ' + e.responseJSON.error);
+                    }
+            });
             console.log('elem edited: ' + fileId);
         };
         $(edit).append('<span class="glyphicon glyphicon-edit"></span>');

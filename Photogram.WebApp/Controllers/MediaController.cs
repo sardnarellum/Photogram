@@ -15,6 +15,11 @@ namespace Photogram.WebApp.Controllers
     [Authorize]
     public class MediaController : BaseController
     {
+        public MediaController()
+        {
+            ViewBag.Title = Localization.ContentMgmt;
+        }
+
         public ActionResult Index()
         {
             var model = new ContentMgmtViewModel
@@ -23,8 +28,6 @@ namespace Photogram.WebApp.Controllers
                 Projects = _db.Project.OrderByDescending(x => x.Position)
                     .Where(x => x.Type == ProjectType.Portfolio).ToList()
             };
-
-            ViewBag.Title = Localization.ContentMgmt;
 
             return View("Index", model);
         }
@@ -103,31 +106,48 @@ namespace Photogram.WebApp.Controllers
             return Json(new { FileName = fileName, FileId = fileId });
         }
 
+        /// <summary>
+        /// Action for displaying editing form with current data.
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <returns></returns>
         [HttpGet]
-        public JsonResult Edit(int? mediaId)
+        [AjaxErrorHandler]
+        public JsonResult InitEdit(int? mediaId)
         {
             if (null == mediaId)
                 throw new ArgumentNullException("mediaId",
                     Localization.ErrArgNull);
 
-            var media = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
+            var media = _db.Media.Include("Title").Include("Description")
+                .Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
                 throw new ArgumentException(
                     mediaId.ToString() + " does not exists in Media.",
                     "mediaId");
 
-            var currentCulture = CultureInfo.CurrentCulture;
+            var currLCID = CultureInfo.CurrentCulture.LCID;
 
-            Debug.WriteLine(currentCulture.LCID);
+            var currTitle = media.Title
+                    .Where(x => x.Language.LCID == currLCID)
+                    .FirstOrDefault();
+
+            var currDesc = media.Description
+                    .Where(x => x.Language.LCID == currLCID)
+                    .FirstOrDefault();
 
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
-                LCID = _db.Language.Where(x => x.LCID == currentCulture.LCID).FirstOrDefault().LCID
+                LCID = _db.Language.Where(x => x.LCID == currLCID)
+                    .FirstOrDefault().LCID,
+                Title = currTitle != null ? currTitle.Text : "",
+                Description = currDesc != null ? currDesc.Text : ""
             };
 
-            return JsonView(true, "_EditMediaPartial", model);
+            return JsonView(true, "_EditMediaPartial", model,
+                JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -136,9 +156,10 @@ namespace Photogram.WebApp.Controllers
         /// <param name="model">New data from view.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(MediaInformation model)
+        public JsonResult Edit(MediaInformation model)
         {
-            var media = _db.Media.Where(x => x.Id == model.MediaId).FirstOrDefault();
+            var media = _db.Media.Where(x => x.Id == model.MediaId)
+                .FirstOrDefault();
 
             if (null == media)
             {
@@ -162,27 +183,33 @@ namespace Photogram.WebApp.Controllers
                             {
                                 Language = language
                             };
+
+                            media.Title.Add(title);
                         }
 
                         title.Text = model.Title;
 
-                        var description = media.Title
+                        var description = media.Description
                             .Where(x => x.Language == language).FirstOrDefault();
 
-                        if (null == title)
+                        if (null == description)
                         {
                             description = new TextValue
                             {
                                 Language = language
                             };
+
+                            media.Description.Add(description);
                         }
 
                         description.Text = model.Description;
+
+                        _db.SaveChanges();
                     }
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("unexpected", ex);
+                    ModelState.AddModelError("unexpected", ex.Message);
                 }
             }
 
@@ -339,13 +366,37 @@ namespace Photogram.WebApp.Controllers
             if (null == item)
                 return false;
 
-            var fullPath = Request.MapPath(String.Concat(Macros.UploadPathImgRel, item.FileName));
+            var fullPath = Request.MapPath(string.Concat(Macros.UploadPathImgRel, item.FileName));
 
             if (System.IO.File.Exists(fullPath))
                 System.IO.File.Delete(fullPath);
 
-            _db.Media.Remove(item);
-            _db.SaveChanges();
+
+            try
+            {
+                var titles = item.Title;
+                foreach (var elem in titles) // Nem végleges
+                {
+                    _db.TextValue.Remove(elem);
+                    _db.SaveChanges();
+                }
+
+                var descriptions = item.Description;
+                foreach (var elem in descriptions)
+                {
+                    _db.TextValue.Remove(elem);
+                    _db.SaveChanges();
+                }
+
+
+                _db.Media.Remove(item);
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Delete: " + ex.Message);
+                Debug.WriteLine("Delete: " + ex.InnerException.Message);
+            }
 
             return true;
         }

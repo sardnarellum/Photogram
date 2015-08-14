@@ -8,8 +8,15 @@
     {
         OnBegin = "editedBegin(xhr)",
         OnComplete = "editedCompleted(xhr, status)",
-        OnSuccess = "editedSuccess(data, status, xhr)"
+        OnSuccess = "editedSuccess(data, status, xhr)",
+        OnFailure = "editedFailure(xhr, status, error)"
     };
+
+    var viewSrc = "";
+    if (!string.IsNullOrEmpty(Model.FileName))
+    {
+        viewSrc = Url.Content(string.Concat("~/Image/2000/400/", Model.FileName, "/"));
+    }
 }
 
 
@@ -29,7 +36,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6">
-                    <img class="editView" />
+                    <img class="editView"
+                         src="@viewSrc" />
                 </div>
                 <div class="col-lg-6">
                     @if (!Html.ViewData.ModelState.IsValid)
@@ -48,7 +56,7 @@
                     <div class="form-group">
                         @*<label>@Localization.Filename</label>*@
                         <div>
-                            <p class="form-control-static" id="elemFileName"></p>
+                            <p class="form-control-static" id="elemFileName">@Model.FileName</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -93,6 +101,10 @@
         if (data.Success) {
             $('#editMediaModal').modal('hide');
         }
+    }
+
+    function editedFailure(xhr, status, error) {
+        console.log("edit failure: " + xhr.responseJSON + ", status: " + error);
     }
 
 </script>

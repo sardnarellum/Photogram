@@ -78,19 +78,26 @@ namespace Photogram.WebApp.Controllers
 
         #region AJAX
 
-        protected JsonResult JsonView(bool success, string viewName, object model)
+        protected JsonResult JsonView(bool success, string viewName
+            , object model, JsonRequestBehavior behavior = JsonRequestBehavior.DenyGet)
         {
-            return Json(new { Success = success, View = RenderPartialView(viewName, model) });
+            return Json(
+                new { Success = success,
+                      View = RenderPartialView(viewName, model)
+                    }
+                , behavior);
         }
 
-        protected JsonResult JsonView(bool success, string viewName1, object model1, string viewName2, object model2)
+        protected JsonResult JsonView(bool success, string viewName1
+            , object model1, string viewName2, object model2
+            , JsonRequestBehavior behavior = JsonRequestBehavior.DenyGet)
         {
             return Json(new
             {
                 Success = success,
                 View1 = RenderPartialView(viewName1, model1),
                 View2 = RenderPartialView(viewName2, model2)
-            });
+            }, behavior);
         }
 
         private string RenderPartialView(string partialViewName, object model)
