@@ -18,11 +18,15 @@ namespace Photogram.WebApp.Models
         {
             this.TextValue = new HashSet<TextValue>();
             this.Log = new HashSet<Log>();
+            this.ProjectTitle = new HashSet<ProjectTitle>();
+            this.ProjectDescription = new HashSet<ProjectDescription>();
         }
     
         public int LCID { get; set; }
     
         private ICollection<TextValue> TextValue { get; set; }
         public virtual ICollection<Log> Log { get; set; }
+        public virtual ICollection<ProjectTitle> ProjectTitle { get; set; }
+        public virtual ICollection<ProjectDescription> ProjectDescription { get; set; }
     }
 }

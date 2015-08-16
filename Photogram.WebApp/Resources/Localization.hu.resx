@@ -324,4 +324,7 @@
   <data name="NoTitle" xml:space="preserve">
     <value>Cím nélkül</value>
   </data>
+  <data name="ErrInvalidLanguage" xml:space="preserve">
+    <value>Ez a nyelv nem támogatott.</value>
+  </data>
 </root>

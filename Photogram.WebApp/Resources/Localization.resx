@@ -327,4 +327,7 @@
   <data name="NoTitle" xml:space="preserve">
     <value>No title</value>
   </data>
+  <data name="ErrInvalidLanguage" xml:space="preserve">
+    <value>This language is not supported.</value>
+  </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using Photogram.WebApp.Models;
 using Resources;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -56,14 +57,44 @@ namespace Photogram.WebApp.Controllers
                         projectId.ToString() + " does not exists in Project.",
                         "mediaId");
 
-                projectTitle = project.Title.FirstOrDefault().Text;
+                var language = _db.Language
+                    .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
+                    .FirstOrDefault();
+
+                // If CurrentCulture is set to unknown default language is English
+                if (null == language) 
+                {
+                    language = _db.Language.Where(x => x.LCID == 1033)
+                        .FirstOrDefault();
+                }
+
+                var title = project.Title
+                        .Where(x => x.Language == language)
+                        .FirstOrDefault();
+
+                if (null != title)
+                {
+                    projectTitle = title.Text;
+                }
+                else // If title does not exists with current lang or english or 1033 is deleted from db.
+                {
+                    title = project.Title.FirstOrDefault();
+                    if (null != title)
+                    {
+                        projectTitle = title.Text;
+                    }
+                    else
+                    {
+                        projectTitle = "";
+                    }
+                }
             }
             else
             {
                 projectTitle = Localization.NoProject;
             }
 
-            return Json(new { ProjectTitle = projectTitle }, // TODO: ML support
+            return Json(new { ProjectTitle = projectTitle },
                 JsonRequestBehavior.AllowGet);
 
         }
@@ -117,32 +148,42 @@ namespace Photogram.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var language = _db.Language
+                        .Where(x => x.LCID == model.LCID).FirstOrDefault();
+
+                    if (null == language)
+                    {
+                        ModelState.AddModelError("invalid_lang",
+                            Localization.ErrInvalidLanguage);
+                    }
+
                     var gallery = new Project
                     {
-                        Title = new TextValue[]
-                        {
-                            new TextValue
-                            {
-                                Text = model.Title,
-                                Language = _db.Language.Where(x => x.LCID == model.LCID).FirstOrDefault()
-                            }
-                        },
                         Type = ProjectType.Portfolio,
-                        Year = Int16.Parse(model.Year),
+                        Year = short.Parse(model.Year),
                         Visible = false,
                         Position = _db.Project.Count() != 0
                             ? _db.Project.OrderByDescending(x => x.Position).FirstOrDefault().Position + 1
                             : 1
                     };
 
-                    if (!String.IsNullOrEmpty(model.Description))
+                    gallery.Title = new ProjectTitle[]
                     {
-                        gallery.Description = new TextValue[]
-                        { 
-                            new TextValue
+                        new ProjectTitle
+                        {
+                            Language = language,
+                            Text = model.Title
+                        }
+                    };
+
+                    if (!string.IsNullOrEmpty(model.Description))
+                    {
+                        gallery.Description = new ProjectDescription[]
+                        {
+                            new ProjectDescription
                             {
-                                Text = model.Description,
-                                Language = _db.Language.Where(x => x.LCID == model.LCID).FirstOrDefault()
+                                Language = language,
+                                Text = model.Description
                             }
                         };
                     }

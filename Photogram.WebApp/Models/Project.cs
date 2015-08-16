@@ -17,10 +17,10 @@ namespace Photogram.WebApp.Models
         public Project()
         {
             this.Visible = false;
-            this.Title = new HashSet<TextValue>();
-            this.Description = new HashSet<TextValue>();
             this.Media = new HashSet<Media>();
             this.Log = new HashSet<Log>();
+            this.Title = new HashSet<ProjectTitle>();
+            this.Description = new HashSet<ProjectDescription>();
         }
     
         public int Id { get; set; }
@@ -29,9 +29,9 @@ namespace Photogram.WebApp.Models
         public short Year { get; set; }
         public int Position { get; set; }
     
-        public virtual ICollection<TextValue> Title { get; set; }
-        public virtual ICollection<TextValue> Description { get; set; }
         public virtual ICollection<Media> Media { get; set; }
         public virtual ICollection<Log> Log { get; set; }
+        public virtual ICollection<ProjectTitle> Title { get; set; }
+        public virtual ICollection<ProjectDescription> Description { get; set; }
     }
 }

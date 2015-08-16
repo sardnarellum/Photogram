@@ -241,6 +241,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This language is not supported..
+        /// </summary>
+        public static string ErrInvalidLanguage {
+            get {
+                return ResourceManager.GetString("ErrInvalidLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The original file not found in the database..
         /// </summary>
         public static string ErrItemNotFoundInDb {
