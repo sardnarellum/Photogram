@@ -174,35 +174,42 @@ namespace Photogram.WebApp.Controllers
                         var language = _db.Language
                             .Where(x => x.LCID == model.LCID).FirstOrDefault();
 
-                        var title = media.Title
-                            .Where(x => x.Language == language).FirstOrDefault();
-
-                        if (null == title)
+                        if (!string.IsNullOrEmpty(model.Title))
                         {
-                            title = new TextValue
-                            {
-                                Language = language
-                            };
+                            var title = media.Title
+                                .Where(x => x.Language == language).FirstOrDefault();
 
-                            media.Title.Add(title);
+                            if (null == title)
+                            {
+                                title = new MediaTitle
+                                {
+                                    Language = language
+                                };
+
+                                media.Title.Add(title);
+                            }
+
+                            title.Text = model.Title;
                         }
 
-                        title.Text = model.Title;
-
-                        var description = media.Description
-                            .Where(x => x.Language == language).FirstOrDefault();
-
-                        if (null == description)
+                        if (!string.IsNullOrEmpty(model.Description))
                         {
-                            description = new TextValue
+
+                            var description = media.Description
+                                .Where(x => x.Language == language).FirstOrDefault();
+
+                            if (null == description)
                             {
-                                Language = language
-                            };
+                                description = new MediaDescription
+                                {
+                                    Language = language
+                                };
 
-                            media.Description.Add(description);
+                                media.Description.Add(description);
+                            }
+
+                            description.Text = model.Description;
                         }
-
-                        description.Text = model.Description;
 
                         _db.SaveChanges();
                     }
@@ -371,32 +378,8 @@ namespace Photogram.WebApp.Controllers
             if (System.IO.File.Exists(fullPath))
                 System.IO.File.Delete(fullPath);
 
-
-            try
-            {
-                var titles = item.Title;
-                foreach (var elem in titles) // Nem végleges
-                {
-                    _db.TextValue.Remove(elem);
-                    _db.SaveChanges();
-                }
-
-                var descriptions = item.Description;
-                foreach (var elem in descriptions)
-                {
-                    _db.TextValue.Remove(elem);
-                    _db.SaveChanges();
-                }
-
-
-                _db.Media.Remove(item);
-                _db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Delete: " + ex.Message);
-                Debug.WriteLine("Delete: " + ex.InnerException.Message);
-            }
+            _db.Media.Remove(item);
+            _db.SaveChanges();
 
             return true;
         }

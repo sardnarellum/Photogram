@@ -12,20 +12,13 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Setup
+    public partial class MediaTitle
     {
-        public Setup()
-        {
-            this.Published = false;
-            this.MainTitle = new HashSet<SetupMainTitle>();
-            this.Footer = new HashSet<SetupFooter>();
-        }
+        private int MediaId { get; set; }
+        private int LCID { get; set; }
+        public string Text { get; set; }
     
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public bool Published { get; set; }
-    
-        public virtual ICollection<SetupMainTitle> MainTitle { get; set; }
-        public virtual ICollection<SetupFooter> Footer { get; set; }
+        public virtual Media Media { get; set; }
+        public virtual Language Language { get; set; }
     }
 }

@@ -8,72 +8,65 @@
   <EntityContainer Name="PhotogramModelStoreContainer">
     <EntitySet Name="Setup" EntityType="PhotogramModel.Store.Setup" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Project" EntityType="PhotogramModel.Store.Project" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TextValue" EntityType="PhotogramModel.Store.TextValue" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Media" EntityType="PhotogramModel.Store.Media" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Language" EntityType="PhotogramModel.Store.Language" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Log" EntityType="PhotogramModel.Store.Log" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Stat" EntityType="PhotogramModel.Store.Stat" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectTitle" EntityType="PhotogramModel.Store.ProjectTitle" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ProjectDescriptionSet" EntityType="PhotogramModel.Store.ProjectDescriptionSet" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="TextValueSetupMainTitle" Association="PhotogramModel.Store.TextValueSetupMainTitle">
-      <End Role="TextValue" EntitySet="TextValue" />
-      <End Role="Setup" EntitySet="Setup" />
-    </AssociationSet>
-    <AssociationSet Name="TextValueSetupFooter" Association="PhotogramModel.Store.TextValueSetupFooter">
-      <End Role="TextValue" EntitySet="TextValue" />
-      <End Role="Setup" EntitySet="Setup" />
-    </AssociationSet>
+    <EntitySet Name="ProjectDescription" EntityType="PhotogramModel.Store.ProjectDescription" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MediaTitle" EntityType="PhotogramModel.Store.MediaTitle" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MediaDescription" EntityType="PhotogramModel.Store.MediaDescription" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SetupMainTitle" EntityType="PhotogramModel.Store.SetupMainTitle" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SetupFooter" EntityType="PhotogramModel.Store.SetupFooter" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ProjectMedia" Association="PhotogramModel.Store.ProjectMedia">
       <End Role="Project" EntitySet="Project" />
       <End Role="Media" EntitySet="Media" />
-    </AssociationSet>
-    <AssociationSet Name="TextValueLanguage" Association="PhotogramModel.Store.TextValueLanguage">
-      <End Role="TextValue" EntitySet="TextValue" />
-      <End Role="Language" EntitySet="Language" />
-    </AssociationSet>
-    <AssociationSet Name="TextValueMedia" Association="PhotogramModel.Store.TextValueMedia">
-      <End Role="TextValue" EntitySet="TextValue" />
-      <End Role="Media" EntitySet="Media" />
-    </AssociationSet>
-    <AssociationSet Name="MediaTextValue" Association="PhotogramModel.Store.MediaTextValue">
-      <End Role="Media" EntitySet="Media" />
-      <End Role="TextValue" EntitySet="TextValue" />
-    </AssociationSet>
-    <AssociationSet Name="MediaLog" Association="PhotogramModel.Store.MediaLog">
-      <End Role="Media" EntitySet="Media" />
-      <End Role="Log" EntitySet="Log" />
-    </AssociationSet>
-    <AssociationSet Name="ProjectLog" Association="PhotogramModel.Store.ProjectLog">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="Log" EntitySet="Log" />
-    </AssociationSet>
-    <AssociationSet Name="TextValueLog" Association="PhotogramModel.Store.TextValueLog">
-      <End Role="TextValue" EntitySet="TextValue" />
-      <End Role="Log" EntitySet="Log" />
-    </AssociationSet>
-    <AssociationSet Name="SetupLog" Association="PhotogramModel.Store.SetupLog">
-      <End Role="Setup" EntitySet="Setup" />
-      <End Role="Log" EntitySet="Log" />
-    </AssociationSet>
-    <AssociationSet Name="LanguageLog" Association="PhotogramModel.Store.LanguageLog">
-      <End Role="Language" EntitySet="Language" />
-      <End Role="Log" EntitySet="Log" />
-    </AssociationSet>
-    <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.Store.ProjectProjectTitle">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectTitle" EntitySet="ProjectTitle" />
     </AssociationSet>
     <AssociationSet Name="LanguageProjectTitle" Association="PhotogramModel.Store.LanguageProjectTitle">
       <End Role="Language" EntitySet="Language" />
       <End Role="ProjectTitle" EntitySet="ProjectTitle" />
     </AssociationSet>
+    <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.Store.ProjectProjectTitle">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="ProjectTitle" EntitySet="ProjectTitle" />
+    </AssociationSet>
     <AssociationSet Name="LanguageProjectDescription" Association="PhotogramModel.Store.LanguageProjectDescription">
       <End Role="Language" EntitySet="Language" />
-      <End Role="ProjectDescription" EntitySet="ProjectDescriptionSet" />
+      <End Role="ProjectDescription" EntitySet="ProjectDescription" />
     </AssociationSet>
     <AssociationSet Name="ProjectProjectDescription" Association="PhotogramModel.Store.ProjectProjectDescription">
       <End Role="Project" EntitySet="Project" />
-      <End Role="ProjectDescription" EntitySet="ProjectDescriptionSet" />
+      <End Role="ProjectDescription" EntitySet="ProjectDescription" />
+    </AssociationSet>
+    <AssociationSet Name="MediaMediaTitle" Association="PhotogramModel.Store.MediaMediaTitle">
+      <End Role="Media" EntitySet="Media" />
+      <End Role="MediaTitle" EntitySet="MediaTitle" />
+    </AssociationSet>
+    <AssociationSet Name="LanguageMediaTitle" Association="PhotogramModel.Store.LanguageMediaTitle">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="MediaTitle" EntitySet="MediaTitle" />
+    </AssociationSet>
+    <AssociationSet Name="MediaMediaDescription" Association="PhotogramModel.Store.MediaMediaDescription">
+      <End Role="Media" EntitySet="Media" />
+      <End Role="MediaDescription" EntitySet="MediaDescription" />
+    </AssociationSet>
+    <AssociationSet Name="LanguageMediaDescription" Association="PhotogramModel.Store.LanguageMediaDescription">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="MediaDescription" EntitySet="MediaDescription" />
+    </AssociationSet>
+    <AssociationSet Name="SetupSetupMainTitle" Association="PhotogramModel.Store.SetupSetupMainTitle">
+      <End Role="Setup" EntitySet="Setup" />
+      <End Role="SetupMainTitle" EntitySet="SetupMainTitle" />
+    </AssociationSet>
+    <AssociationSet Name="LanguageSetupMainTitle" Association="PhotogramModel.Store.LanguageSetupMainTitle">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="SetupMainTitle" EntitySet="SetupMainTitle" />
+    </AssociationSet>
+    <AssociationSet Name="SetupSetupFooter" Association="PhotogramModel.Store.SetupSetupFooter">
+      <End Role="Setup" EntitySet="Setup" />
+      <End Role="SetupFooter" EntitySet="SetupFooter" />
+    </AssociationSet>
+    <AssociationSet Name="LanguageSetupFooter" Association="PhotogramModel.Store.LanguageSetupFooter">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="SetupFooter" EntitySet="SetupFooter" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Setup">
@@ -94,18 +87,6 @@
     <Property Name="Year" Type="smallint" Nullable="false" />
     <Property Name="Position" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="TextValue">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="SetupMainTitle_Id" Type="int" Nullable="true" />
-    <Property Name="SetupFooter_Id" Type="int" Nullable="true" />
-    <Property Name="Language_LCID" Type="int" Nullable="false" />
-    <Property Name="MediaTitle_Id" Type="int" Nullable="true" />
-    <Property Name="MediaDescription_Id" Type="int" Nullable="true" />
-  </EntityType>
   <EntityType Name="Media">
     <Key>
       <PropertyRef Name="Id" />
@@ -122,72 +103,60 @@
     </Key>
     <Property Name="LCID" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="Log">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="Media_Id" Type="int" Nullable="true" />
-    <Property Name="Project_Id" Type="int" Nullable="true" />
-    <Property Name="TextValue_Id" Type="int" Nullable="true" />
-    <Property Name="Setup_Id" Type="int" Nullable="true" />
-    <Property Name="Language_LCID" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Stat">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
-    <Property Name="Page" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
   <EntityType Name="ProjectTitle">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="ProjectId" />
       <PropertyRef Name="LCID" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="ProjectId" Type="int" Nullable="false" />
     <Property Name="LCID" Type="int" Nullable="false" />
-    <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="50" />
   </EntityType>
-  <EntityType Name="ProjectDescriptionSet">
+  <EntityType Name="ProjectDescription">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="ProjectId" />
       <PropertyRef Name="LCID" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="ProjectId" Type="int" Nullable="false" />
     <Property Name="LCID" Type="int" Nullable="false" />
     <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="TextValueSetupMainTitle">
-    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
-    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <ReferentialConstraint>
-      <Principal Role="Setup">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TextValue">
-        <PropertyRef Name="SetupMainTitle_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TextValueSetupFooter">
-    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
-    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Setup">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TextValue">
-        <PropertyRef Name="SetupFooter_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="MediaTitle">
+    <Key>
+      <PropertyRef Name="MediaId" />
+      <PropertyRef Name="LCID" />
+    </Key>
+    <Property Name="MediaId" Type="int" Nullable="false" />
+    <Property Name="LCID" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="MediaDescription">
+    <Key>
+      <PropertyRef Name="MediaId" />
+      <PropertyRef Name="LCID" />
+    </Key>
+    <Property Name="MediaId" Type="int" Nullable="false" />
+    <Property Name="LCID" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SetupMainTitle">
+    <Key>
+      <PropertyRef Name="SetupId" />
+      <PropertyRef Name="LCID" />
+    </Key>
+    <Property Name="SetupId" Type="int" Nullable="false" />
+    <Property Name="LCID" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="SetupFooter">
+    <Key>
+      <PropertyRef Name="SetupId" />
+      <PropertyRef Name="LCID" />
+    </Key>
+    <Property Name="SetupId" Type="int" Nullable="false" />
+    <Property Name="LCID" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <Association Name="ProjectMedia">
     <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="0..1" />
     <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="*" />
@@ -197,118 +166,6 @@
       </Principal>
       <Dependent Role="Media">
         <PropertyRef Name="Project_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TextValueLanguage">
-    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
-    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Language">
-        <PropertyRef Name="LCID" />
-      </Principal>
-      <Dependent Role="TextValue">
-        <PropertyRef Name="Language_LCID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TextValueMedia">
-    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
-    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <ReferentialConstraint>
-      <Principal Role="Media">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TextValue">
-        <PropertyRef Name="MediaTitle_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="MediaTextValue">
-    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="0..1" />
-    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Media">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TextValue">
-        <PropertyRef Name="MediaDescription_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="MediaLog">
-    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="0..1" />
-    <End Role="Log" Type="PhotogramModel.Store.Log" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Media">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Log">
-        <PropertyRef Name="Media_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProjectLog">
-    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="0..1" />
-    <End Role="Log" Type="PhotogramModel.Store.Log" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Log">
-        <PropertyRef Name="Project_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="TextValueLog">
-    <End Role="TextValue" Type="PhotogramModel.Store.TextValue" Multiplicity="0..1" />
-    <End Role="Log" Type="PhotogramModel.Store.Log" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TextValue">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Log">
-        <PropertyRef Name="TextValue_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="SetupLog">
-    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="0..1" />
-    <End Role="Log" Type="PhotogramModel.Store.Log" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Setup">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Log">
-        <PropertyRef Name="Setup_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="LanguageLog">
-    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="0..1" />
-    <End Role="Log" Type="PhotogramModel.Store.Log" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Language">
-        <PropertyRef Name="LCID" />
-      </Principal>
-      <Dependent Role="Log">
-        <PropertyRef Name="Language_LCID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ProjectProjectTitle">
-    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="ProjectTitle" Type="PhotogramModel.Store.ProjectTitle" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ProjectTitle">
-        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -326,11 +183,23 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="LanguageProjectDescription">
-    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1">
+  <Association Name="ProjectProjectTitle">
+    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="ProjectDescription" Type="PhotogramModel.Store.ProjectDescriptionSet" Multiplicity="*" />
+    <End Role="ProjectTitle" Type="PhotogramModel.Store.ProjectTitle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProjectTitle">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LanguageProjectDescription">
+    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1" />
+    <End Role="ProjectDescription" Type="PhotogramModel.Store.ProjectDescription" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Language">
         <PropertyRef Name="LCID" />
@@ -341,14 +210,124 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="ProjectProjectDescription">
-    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1" />
-    <End Role="ProjectDescription" Type="PhotogramModel.Store.ProjectDescriptionSet" Multiplicity="*" />
+    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProjectDescription" Type="PhotogramModel.Store.ProjectDescription" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Project">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="ProjectDescription">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MediaMediaTitle">
+    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MediaTitle" Type="PhotogramModel.Store.MediaTitle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
         <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MediaTitle">
+        <PropertyRef Name="MediaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LanguageMediaTitle">
+    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MediaTitle" Type="PhotogramModel.Store.MediaTitle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LCID" />
+      </Principal>
+      <Dependent Role="MediaTitle">
+        <PropertyRef Name="LCID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MediaMediaDescription">
+    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MediaDescription" Type="PhotogramModel.Store.MediaDescription" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MediaDescription">
+        <PropertyRef Name="MediaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LanguageMediaDescription">
+    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1" />
+    <End Role="MediaDescription" Type="PhotogramModel.Store.MediaDescription" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LCID" />
+      </Principal>
+      <Dependent Role="MediaDescription">
+        <PropertyRef Name="LCID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SetupSetupMainTitle">
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupMainTitle" Type="PhotogramModel.Store.SetupMainTitle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupMainTitle">
+        <PropertyRef Name="SetupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LanguageSetupMainTitle">
+    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1" />
+    <End Role="SetupMainTitle" Type="PhotogramModel.Store.SetupMainTitle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LCID" />
+      </Principal>
+      <Dependent Role="SetupMainTitle">
+        <PropertyRef Name="LCID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SetupSetupFooter">
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupFooter" Type="PhotogramModel.Store.SetupFooter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupFooter">
+        <PropertyRef Name="SetupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LanguageSetupFooter">
+    <End Role="Language" Type="PhotogramModel.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupFooter" Type="PhotogramModel.Store.SetupFooter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LCID" />
+      </Principal>
+      <Dependent Role="SetupFooter">
+        <PropertyRef Name="LCID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -359,62 +338,19 @@
         <EntityContainer Name="PhotogramEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Setup" EntityType="PhotogramModel.Setup" />
           <EntitySet Name="Project" EntityType="PhotogramModel.Project" />
-          <EntitySet Name="TextValue" EntityType="PhotogramModel.TextValue" />
           <EntitySet Name="Media" EntityType="PhotogramModel.Media" />
           <EntitySet Name="Language" EntityType="PhotogramModel.Language" />
-          <AssociationSet Name="TextValueSetupMainTitle" Association="PhotogramModel.TextValueSetupMainTitle">
-            <End Role="TextValue" EntitySet="TextValue" />
-            <End Role="Setup" EntitySet="Setup" />
-          </AssociationSet>
-          <AssociationSet Name="TextValueSetupFooter" Association="PhotogramModel.TextValueSetupFooter">
-            <End Role="TextValue" EntitySet="TextValue" />
-            <End Role="Setup" EntitySet="Setup" />
-          </AssociationSet>
           <AssociationSet Name="ProjectMedia" Association="PhotogramModel.ProjectMedia">
             <End Role="Project" EntitySet="Project" />
             <End Role="Media" EntitySet="Media" />
           </AssociationSet>
-          <AssociationSet Name="TextValueLanguage" Association="PhotogramModel.TextValueLanguage">
-            <End Role="TextValue" EntitySet="TextValue" />
-            <End Role="Language" EntitySet="Language" />
-          </AssociationSet>
-          <AssociationSet Name="TextValueMedia" Association="PhotogramModel.TextValueMedia">
-            <End Role="TextValue" EntitySet="TextValue" />
-            <End Role="Media" EntitySet="Media" />
-          </AssociationSet>
-          <AssociationSet Name="MediaTextValue" Association="PhotogramModel.MediaTextValue">
-            <End Role="Media" EntitySet="Media" />
-            <End Role="TextValue" EntitySet="TextValue" />
-          </AssociationSet>
-          <EntitySet Name="Log" EntityType="PhotogramModel.Log" />
-          <AssociationSet Name="MediaLog" Association="PhotogramModel.MediaLog">
-            <End Role="Media" EntitySet="Media" />
-            <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <AssociationSet Name="ProjectLog" Association="PhotogramModel.ProjectLog">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <AssociationSet Name="TextValueLog" Association="PhotogramModel.TextValueLog">
-            <End Role="TextValue" EntitySet="TextValue" />
-            <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <AssociationSet Name="SetupLog" Association="PhotogramModel.SetupLog">
-            <End Role="Setup" EntitySet="Setup" />
-            <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <AssociationSet Name="LanguageLog" Association="PhotogramModel.LanguageLog">
-            <End Role="Language" EntitySet="Language" />
-            <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <EntitySet Name="Stat" EntityType="PhotogramModel.Stat" />
           <EntitySet Name="ProjectTitle" EntityType="PhotogramModel.ProjectTitle" />
-          <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.ProjectProjectTitle">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="ProjectTitle" EntitySet="ProjectTitle" />
-          </AssociationSet>
           <AssociationSet Name="LanguageProjectTitle" Association="PhotogramModel.LanguageProjectTitle">
             <End Role="Language" EntitySet="Language" />
+            <End Role="ProjectTitle" EntitySet="ProjectTitle" />
+          </AssociationSet>
+          <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.ProjectProjectTitle">
+            <End Role="Project" EntitySet="Project" />
             <End Role="ProjectTitle" EntitySet="ProjectTitle" />
           </AssociationSet>
           <EntitySet Name="ProjectDescription" EntityType="PhotogramModel.ProjectDescription" />
@@ -426,17 +362,52 @@
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectDescription" EntitySet="ProjectDescription" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="MediaTitle" EntityType="PhotogramModel.MediaTitle" />
+          <EntitySet Name="MediaDescription" EntityType="PhotogramModel.MediaDescription" />
+          <EntitySet Name="SetupMainTitle" EntityType="PhotogramModel.SetupMainTitle" />
+          <EntitySet Name="SetupFooter" EntityType="PhotogramModel.SetupFooter" />
+          <AssociationSet Name="MediaMediaTitle" Association="PhotogramModel.MediaMediaTitle">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="MediaTitle" EntitySet="MediaTitle" />
+          </AssociationSet>
+          <AssociationSet Name="LanguageMediaTitle" Association="PhotogramModel.LanguageMediaTitle">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="MediaTitle" EntitySet="MediaTitle" />
+          </AssociationSet>
+          <AssociationSet Name="MediaMediaDescription" Association="PhotogramModel.MediaMediaDescription">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="MediaDescription" EntitySet="MediaDescription" />
+          </AssociationSet>
+          <AssociationSet Name="LanguageMediaDescription" Association="PhotogramModel.LanguageMediaDescription">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="MediaDescription" EntitySet="MediaDescription" />
+          </AssociationSet>
+          <AssociationSet Name="SetupSetupMainTitle" Association="PhotogramModel.SetupSetupMainTitle">
+            <End Role="Setup" EntitySet="Setup" />
+            <End Role="SetupMainTitle" EntitySet="SetupMainTitle" />
+          </AssociationSet>
+          <AssociationSet Name="LanguageSetupMainTitle" Association="PhotogramModel.LanguageSetupMainTitle">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="SetupMainTitle" EntitySet="SetupMainTitle" />
+          </AssociationSet>
+          <AssociationSet Name="SetupSetupFooter" Association="PhotogramModel.SetupSetupFooter">
+            <End Role="Setup" EntitySet="Setup" />
+            <End Role="SetupFooter" EntitySet="SetupFooter" />
+          </AssociationSet>
+          <AssociationSet Name="LanguageSetupFooter" Association="PhotogramModel.LanguageSetupFooter">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="SetupFooter" EntitySet="SetupFooter" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Setup">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="254" Unicode="true" />
-          <NavigationProperty Name="MainTitle" Relationship="PhotogramModel.TextValueSetupMainTitle" FromRole="Setup" ToRole="TextValue" />
-          <NavigationProperty Name="Footer" Relationship="PhotogramModel.TextValueSetupFooter" FromRole="Setup" ToRole="TextValue" />
-          <NavigationProperty Name="Log" Relationship="PhotogramModel.SetupLog" FromRole="Setup" ToRole="Log" />
           <Property Name="Published" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <NavigationProperty Name="MainTitle" Relationship="PhotogramModel.SetupSetupMainTitle" FromRole="Setup" ToRole="SetupMainTitle" />
+          <NavigationProperty Name="Footer" Relationship="PhotogramModel.SetupSetupFooter" FromRole="Setup" ToRole="SetupFooter" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -448,22 +419,8 @@
           <Property Name="Type" Type="PhotogramModel.ProjectType" Nullable="false" />
           <Property Name="Year" Type="Int16" Nullable="false" />
           <Property Name="Position" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Log" Relationship="PhotogramModel.ProjectLog" FromRole="Project" ToRole="Log" />
           <NavigationProperty Name="Title" Relationship="PhotogramModel.ProjectProjectTitle" FromRole="Project" ToRole="ProjectTitle" />
           <NavigationProperty Name="Description" Relationship="PhotogramModel.ProjectProjectDescription" FromRole="Project" ToRole="ProjectDescription" />
-        </EntityType>
-        <EntityType Name="TextValue">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" Unicode="true" />
-          <NavigationProperty Name="SetupMainTitle" Relationship="PhotogramModel.TextValueSetupMainTitle" FromRole="TextValue" ToRole="Setup" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <NavigationProperty Name="SetupFooter" Relationship="PhotogramModel.TextValueSetupFooter" FromRole="TextValue" ToRole="Setup" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <NavigationProperty Name="Language" Relationship="PhotogramModel.TextValueLanguage" FromRole="TextValue" ToRole="Language" />
-          <NavigationProperty Name="MediaTitle" Relationship="PhotogramModel.TextValueMedia" FromRole="TextValue" ToRole="Media" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <NavigationProperty Name="MediaDescription" Relationship="PhotogramModel.MediaTextValue" FromRole="TextValue" ToRole="Media" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <NavigationProperty Name="Log" Relationship="PhotogramModel.TextValueLog" FromRole="TextValue" ToRole="Log" />
         </EntityType>
         <EntityType Name="Media">
           <Key>
@@ -473,10 +430,9 @@
           <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectMedia" FromRole="Media" ToRole="Project" />
           <Property Name="FileName" Type="String" Nullable="false" Unicode="true" />
           <Property Name="Type" Type="PhotogramModel.MediaType" Nullable="false" />
-          <NavigationProperty Name="Title" Relationship="PhotogramModel.TextValueMedia" FromRole="Media" ToRole="TextValue" />
-          <NavigationProperty Name="Description" Relationship="PhotogramModel.MediaTextValue" FromRole="Media" ToRole="TextValue" />
-          <NavigationProperty Name="Log" Relationship="PhotogramModel.MediaLog" FromRole="Media" ToRole="Log" />
           <Property Name="PositionInProject" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Title" Relationship="PhotogramModel.MediaMediaTitle" FromRole="Media" ToRole="MediaTitle" />
+          <NavigationProperty Name="Description" Relationship="PhotogramModel.MediaMediaDescription" FromRole="Media" ToRole="MediaDescription" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -487,28 +443,16 @@
               <LongDescription>LCID code for Cultures</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="TextValue" Relationship="PhotogramModel.TextValueLanguage" FromRole="Language" ToRole="TextValue" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <NavigationProperty Name="Log" Relationship="PhotogramModel.LanguageLog" FromRole="Language" ToRole="Log" />
           <NavigationProperty Name="ProjectTitle" Relationship="PhotogramModel.LanguageProjectTitle" FromRole="Language" ToRole="ProjectTitle" />
           <NavigationProperty Name="ProjectDescription" Relationship="PhotogramModel.LanguageProjectDescription" FromRole="Language" ToRole="ProjectDescription" />
+          <NavigationProperty Name="MediaTitle" Relationship="PhotogramModel.LanguageMediaTitle" FromRole="Language" ToRole="MediaTitle" />
+          <NavigationProperty Name="MediaDescription" Relationship="PhotogramModel.LanguageMediaDescription" FromRole="Language" ToRole="MediaDescription" />
+          <NavigationProperty Name="SetupMainTitle" Relationship="PhotogramModel.LanguageSetupMainTitle" FromRole="Language" ToRole="SetupMainTitle" />
+          <NavigationProperty Name="SetupFooter" Relationship="PhotogramModel.LanguageSetupFooter" FromRole="Language" ToRole="SetupFooter" />
         </EntityType>
-        <Association Name="TextValueSetupMainTitle">
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
-          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="0..1" >
-            <OnDelete Action="Cascade" />
-          </End>
-        </Association>
-        <Association Name="TextValueSetupFooter">
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
-          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="0..1" />
-        </Association>
         <Association Name="ProjectMedia">
           <End Type="PhotogramModel.Project" Role="Project" Multiplicity="0..1" />
           <End Type="PhotogramModel.Media" Role="Media" Multiplicity="*" />
-        </Association>
-        <Association Name="TextValueLanguage">
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
-          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" />
         </Association>
         <EnumType Name="ProjectType">
           <Member Name="Portfolio" />
@@ -523,89 +467,22 @@
           <Member Name="Other" />
           <Member Name="Embedded" />
         </EnumType>
-        <Association Name="TextValueMedia">
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
-          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="0..1" >
-            <OnDelete Action="Cascade" />
-          </End>
-        </Association>
-        <Association Name="MediaTextValue">
-          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="0..1" >
-          </End>
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Log">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="Type" Type="PhotogramModel.LogType" Nullable="false" />
-          <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaLog" FromRole="Log" ToRole="Media" />
-          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectLog" FromRole="Log" ToRole="Project" />
-          <NavigationProperty Name="TextValue" Relationship="PhotogramModel.TextValueLog" FromRole="Log" ToRole="TextValue" />
-          <NavigationProperty Name="Setup" Relationship="PhotogramModel.SetupLog" FromRole="Log" ToRole="Setup" />
-          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageLog" FromRole="Log" ToRole="Language" />
-        </EntityType>
         <EnumType Name="LogType">
           <Member Name="Insertion" />
           <Member Name="Deletion" />
           <Member Name="Modification" />
         </EnumType>
-        <Association Name="MediaLog">
-          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="0..1" />
-          <End Type="PhotogramModel.Log" Role="Log" Multiplicity="*" />
-        </Association>
-        <Association Name="ProjectLog">
-          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="0..1" />
-          <End Type="PhotogramModel.Log" Role="Log" Multiplicity="*" />
-        </Association>
-        <Association Name="TextValueLog">
-          <End Type="PhotogramModel.TextValue" Role="TextValue" Multiplicity="0..1" />
-          <End Type="PhotogramModel.Log" Role="Log" Multiplicity="*" />
-        </Association>
-        <Association Name="SetupLog">
-          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="0..1" />
-          <End Type="PhotogramModel.Log" Role="Log" Multiplicity="*" />
-        </Association>
-        <Association Name="LanguageLog">
-          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="0..1" />
-          <End Type="PhotogramModel.Log" Role="Log" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Stat">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Address" Type="String" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" />
-          <Property Name="Page" Type="String" Nullable="false" />
-        </EntityType>
         <EntityType Name="ProjectTitle">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ProjectId" />
             <PropertyRef Name="LCID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:SetterAccess="Internal" cg:GetterAccess="Internal" />
-          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectProjectTitle" FromRole="ProjectTitle" ToRole="Project" cg:SetterAccess="Public" />
-          <Property Name="LCID" Type="Int32" Nullable="false" cg:SetterAccess="Internal" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="80" Unicode="true" />
-          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageProjectTitle" FromRole="ProjectTitle" ToRole="Language" cg:SetterAccess="Public" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="LCID" Type="Int32" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Text" Type="String" Nullable="false" Unicode="true" MaxLength="50" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageProjectTitle" FromRole="ProjectTitle" ToRole="Language" />
+          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectProjectTitle" FromRole="ProjectTitle" ToRole="Project" />
         </EntityType>
-        <Association Name="ProjectProjectTitle">
-          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="1" >
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PhotogramModel.ProjectTitle" Role="ProjectTitle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectTitle">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="LanguageProjectTitle">
           <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" >
             <OnDelete Action="Cascade" />
@@ -620,21 +497,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ProjectDescription">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="LCID" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:SetterAccess="Internal" cg:GetterAccess="Internal" />
-          <Property Name="LCID" Type="Int32" Nullable="false" cg:SetterAccess="Internal" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" Unicode="true" />
-          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectProjectDescription" FromRole="ProjectDescription" ToRole="Project" cg:SetterAccess="Public" />
-          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageProjectDescription" FromRole="ProjectDescription" ToRole="Language" cg:SetterAccess="Public" />
-        </EntityType>
-        <Association Name="LanguageProjectDescription">
-          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" >
+        <Association Name="ProjectProjectTitle">
+          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="1" >
             <OnDelete Action="Cascade" />
           </End>
+          <End Type="PhotogramModel.ProjectTitle" Role="ProjectTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectTitle">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectDescription">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="LCID" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="LCID" Type="Int32" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Text" Type="String" Nullable="false" Unicode="true" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageProjectDescription" FromRole="ProjectDescription" ToRole="Language" />
+          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectProjectDescription" FromRole="ProjectDescription" ToRole="Project" />
+        </EntityType>
+        <Association Name="LanguageProjectDescription">
+          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" />
           <End Type="PhotogramModel.ProjectDescription" Role="ProjectDescription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Language">
@@ -646,18 +535,172 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="ProjectProjectDescription">
-          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="PhotogramModel.ProjectDescription" Role="ProjectDescription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProjectDescription">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ProjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="MediaTitle">
+          <Key>
+            <PropertyRef Name="MediaId" />
+            <PropertyRef Name="LCID" />
+          </Key>
+          <Property Name="MediaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="LCID" Type="Int32" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="80" Unicode="true" />
+          <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaMediaTitle" FromRole="MediaTitle" ToRole="Media" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageMediaTitle" FromRole="MediaTitle" ToRole="Language" />
+        </EntityType>
+        <EntityType Name="MediaDescription">
+          <Key>
+            <PropertyRef Name="MediaId" />
+            <PropertyRef Name="LCID" />
+          </Key>
+          <Property Name="MediaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="LCID" Type="Int32" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Text" Type="String" Nullable="false" Unicode="true" />
+          <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaMediaDescription" FromRole="MediaDescription" ToRole="Media" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageMediaDescription" FromRole="MediaDescription" ToRole="Language" />
+        </EntityType>
+        <EntityType Name="SetupMainTitle">
+          <Key>
+            <PropertyRef Name="SetupId" />
+            <PropertyRef Name="LCID" />
+          </Key>
+          <Property Name="SetupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="LCID" Type="Int32" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="80" Unicode="true" />
+          <NavigationProperty Name="Setup" Relationship="PhotogramModel.SetupSetupMainTitle" FromRole="SetupMainTitle" ToRole="Setup" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageSetupMainTitle" FromRole="SetupMainTitle" ToRole="Language" />
+        </EntityType>
+        <EntityType Name="SetupFooter">
+          <Key>
+            <PropertyRef Name="SetupId" />
+            <PropertyRef Name="LCID" />
+          </Key>
+          <Property Name="SetupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="LCID" Type="Int32" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Name="Text" Type="String" Nullable="false" Unicode="true" />
+          <NavigationProperty Name="Setup" Relationship="PhotogramModel.SetupSetupFooter" FromRole="SetupFooter" ToRole="Setup" />
+          <NavigationProperty Name="Language" Relationship="PhotogramModel.LanguageSetupFooter" FromRole="SetupFooter" ToRole="Language" />
+        </EntityType>
+        <Association Name="MediaMediaTitle">
+          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.MediaTitle" Role="MediaTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MediaTitle">
+              <PropertyRef Name="MediaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LanguageMediaTitle">
+          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.MediaTitle" Role="MediaTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LCID" />
+            </Principal>
+            <Dependent Role="MediaTitle">
+              <PropertyRef Name="LCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MediaMediaDescription">
+          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.MediaDescription" Role="MediaDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MediaDescription">
+              <PropertyRef Name="MediaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LanguageMediaDescription">
+          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" />
+          <End Type="PhotogramModel.MediaDescription" Role="MediaDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LCID" />
+            </Principal>
+            <Dependent Role="MediaDescription">
+              <PropertyRef Name="LCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SetupSetupMainTitle">
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.SetupMainTitle" Role="SetupMainTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SetupMainTitle">
+              <PropertyRef Name="SetupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LanguageSetupMainTitle">
+          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" />
+          <End Type="PhotogramModel.SetupMainTitle" Role="SetupMainTitle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LCID" />
+            </Principal>
+            <Dependent Role="SetupMainTitle">
+              <PropertyRef Name="LCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SetupSetupFooter">
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.SetupFooter" Role="SetupFooter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SetupFooter">
+              <PropertyRef Name="SetupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LanguageSetupFooter">
+          <End Type="PhotogramModel.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.SetupFooter" Role="SetupFooter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LCID" />
+            </Principal>
+            <Dependent Role="SetupFooter">
+              <PropertyRef Name="LCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -683,14 +726,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TextValue">
-      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.TextValue)">
-        <MappingFragment StoreEntitySet="TextValue">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Media">
       <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Media)">
         <MappingFragment StoreEntitySet="Media">
@@ -708,29 +743,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Log">
-      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Log)">
-        <MappingFragment StoreEntitySet="Log">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Stat">
-      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Stat)">
-        <MappingFragment StoreEntitySet="Stat">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
-          <ScalarProperty Name="Page" ColumnName="Page" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProjectTitle">
       <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.ProjectTitle)">
         <MappingFragment StoreEntitySet="ProjectTitle">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
           <ScalarProperty Name="LCID" ColumnName="LCID" />
           <ScalarProperty Name="Text" ColumnName="Text" />
         </MappingFragment>
@@ -738,31 +754,49 @@
     </EntitySetMapping>
     <EntitySetMapping Name="ProjectDescription">
       <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.ProjectDescription)">
-        <MappingFragment StoreEntitySet="ProjectDescriptionSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+        <MappingFragment StoreEntitySet="ProjectDescription">
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
           <ScalarProperty Name="LCID" ColumnName="LCID" />
           <ScalarProperty Name="Text" ColumnName="Text" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="TextValueSetupMainTitle" TypeName="PhotogramModel.TextValueSetupMainTitle" StoreEntitySet="TextValue">
-      <EndProperty Name="Setup">
-        <ScalarProperty Name="Id" ColumnName="SetupMainTitle_Id" />
-      </EndProperty>
-      <EndProperty Name="TextValue">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="SetupMainTitle_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TextValueSetupFooter" TypeName="PhotogramModel.TextValueSetupFooter" StoreEntitySet="TextValue">
-      <EndProperty Name="Setup">
-        <ScalarProperty Name="Id" ColumnName="SetupFooter_Id" />
-      </EndProperty>
-      <EndProperty Name="TextValue">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="SetupFooter_Id" IsNull="false" />
-    </AssociationSetMapping>
+    <EntitySetMapping Name="MediaTitle">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.MediaTitle)">
+        <MappingFragment StoreEntitySet="MediaTitle">
+          <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+          <ScalarProperty Name="LCID" ColumnName="LCID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MediaDescription">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.MediaDescription)">
+        <MappingFragment StoreEntitySet="MediaDescription">
+          <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+          <ScalarProperty Name="LCID" ColumnName="LCID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SetupMainTitle">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.SetupMainTitle)">
+        <MappingFragment StoreEntitySet="SetupMainTitle">
+          <ScalarProperty Name="SetupId" ColumnName="SetupId" />
+          <ScalarProperty Name="LCID" ColumnName="LCID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SetupFooter">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.SetupFooter)">
+        <MappingFragment StoreEntitySet="SetupFooter">
+          <ScalarProperty Name="SetupId" ColumnName="SetupId" />
+          <ScalarProperty Name="LCID" ColumnName="LCID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ProjectMedia" TypeName="PhotogramModel.ProjectMedia" StoreEntitySet="Media">
       <EndProperty Name="Project">
         <ScalarProperty Name="Id" ColumnName="Project_Id" />
@@ -771,77 +805,6 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="Project_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TextValueLanguage" TypeName="PhotogramModel.TextValueLanguage" StoreEntitySet="TextValue">
-      <EndProperty Name="Language">
-        <ScalarProperty Name="LCID" ColumnName="Language_LCID" />
-      </EndProperty>
-      <EndProperty Name="TextValue">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TextValueMedia" TypeName="PhotogramModel.TextValueMedia" StoreEntitySet="TextValue">
-      <EndProperty Name="Media">
-        <ScalarProperty Name="Id" ColumnName="MediaTitle_Id" />
-      </EndProperty>
-      <EndProperty Name="TextValue">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="MediaTitle_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="MediaTextValue" TypeName="PhotogramModel.MediaTextValue" StoreEntitySet="TextValue">
-      <EndProperty Name="Media">
-        <ScalarProperty Name="Id" ColumnName="MediaDescription_Id" />
-      </EndProperty>
-      <EndProperty Name="TextValue">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="MediaDescription_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="MediaLog" TypeName="PhotogramModel.MediaLog" StoreEntitySet="Log">
-      <EndProperty Name="Media">
-        <ScalarProperty Name="Id" ColumnName="Media_Id" />
-      </EndProperty>
-      <EndProperty Name="Log">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Media_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ProjectLog" TypeName="PhotogramModel.ProjectLog" StoreEntitySet="Log">
-      <EndProperty Name="Project">
-        <ScalarProperty Name="Id" ColumnName="Project_Id" />
-      </EndProperty>
-      <EndProperty Name="Log">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Project_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TextValueLog" TypeName="PhotogramModel.TextValueLog" StoreEntitySet="Log">
-      <EndProperty Name="TextValue">
-        <ScalarProperty Name="Id" ColumnName="TextValue_Id" />
-      </EndProperty>
-      <EndProperty Name="Log">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="TextValue_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="SetupLog" TypeName="PhotogramModel.SetupLog" StoreEntitySet="Log">
-      <EndProperty Name="Setup">
-        <ScalarProperty Name="Id" ColumnName="Setup_Id" />
-      </EndProperty>
-      <EndProperty Name="Log">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Setup_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="LanguageLog" TypeName="PhotogramModel.LanguageLog" StoreEntitySet="Log">
-      <EndProperty Name="Language">
-        <ScalarProperty Name="LCID" ColumnName="Language_LCID" />
-      </EndProperty>
-      <EndProperty Name="Log">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Language_LCID" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

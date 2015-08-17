@@ -16,17 +16,21 @@ namespace Photogram.WebApp.Models
     {
         public Language()
         {
-            this.TextValue = new HashSet<TextValue>();
-            this.Log = new HashSet<Log>();
             this.ProjectTitle = new HashSet<ProjectTitle>();
             this.ProjectDescription = new HashSet<ProjectDescription>();
+            this.MediaTitle = new HashSet<MediaTitle>();
+            this.MediaDescription = new HashSet<MediaDescription>();
+            this.SetupMainTitle = new HashSet<SetupMainTitle>();
+            this.SetupFooter = new HashSet<SetupFooter>();
         }
     
         public int LCID { get; set; }
     
-        private ICollection<TextValue> TextValue { get; set; }
-        public virtual ICollection<Log> Log { get; set; }
         public virtual ICollection<ProjectTitle> ProjectTitle { get; set; }
         public virtual ICollection<ProjectDescription> ProjectDescription { get; set; }
+        public virtual ICollection<MediaTitle> MediaTitle { get; set; }
+        public virtual ICollection<MediaDescription> MediaDescription { get; set; }
+        public virtual ICollection<SetupMainTitle> SetupMainTitle { get; set; }
+        public virtual ICollection<SetupFooter> SetupFooter { get; set; }
     }
 }

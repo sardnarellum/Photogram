@@ -14,11 +14,11 @@ namespace Photogram.WebApp.Models
     
     public partial class ProjectDescription
     {
-        internal int Id { get; set; }
-        public int LCID { get; internal set; }
+        private int ProjectId { get; set; }
+        private int LCID { get; set; }
         public string Text { get; set; }
     
-        public virtual Project Project { get; set; }
         public virtual Language Language { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

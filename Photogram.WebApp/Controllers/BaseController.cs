@@ -33,18 +33,18 @@ namespace Photogram.WebApp.Controllers
                     LCID = 1033
                 };
 
-                var s = new Setup
+                var setup = new Setup
                 {
                     Email = "info@andrasmuller.com",
-                    MainTitle = new TextValue[]
+                    MainTitle = new SetupMainTitle[]
                 {
-                    new TextValue
+                    new SetupMainTitle
                     {
                         Text = "MÜLLER ANDRÁS FOTOGRÁFUS",
                         Language = hun
                     },
 
-                    new TextValue
+                    new SetupMainTitle
                     {
                         Text = "ANDRÁS MÜLLER PHOTOGRAPHER",
                         Language = eng
@@ -53,7 +53,7 @@ namespace Photogram.WebApp.Controllers
                 }
                 };
 
-                _db.Setup.Add(s);
+                _db.Setup.Add(setup);
 
 
                 _db.SaveChanges();

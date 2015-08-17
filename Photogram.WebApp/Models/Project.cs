@@ -18,7 +18,6 @@ namespace Photogram.WebApp.Models
         {
             this.Visible = false;
             this.Media = new HashSet<Media>();
-            this.Log = new HashSet<Log>();
             this.Title = new HashSet<ProjectTitle>();
             this.Description = new HashSet<ProjectDescription>();
         }
@@ -30,7 +29,6 @@ namespace Photogram.WebApp.Models
         public int Position { get; set; }
     
         public virtual ICollection<Media> Media { get; set; }
-        public virtual ICollection<Log> Log { get; set; }
         public virtual ICollection<ProjectTitle> Title { get; set; }
         public virtual ICollection<ProjectDescription> Description { get; set; }
     }

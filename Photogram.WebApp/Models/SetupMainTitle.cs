@@ -12,11 +12,13 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Stat
+    public partial class SetupMainTitle
     {
-        public int Id { get; set; }
-        public string Address { get; set; }
-        public System.DateTime Time { get; set; }
-        public string Page { get; set; }
+        private int SetupId { get; set; }
+        private int LCID { get; set; }
+        public string Text { get; set; }
+    
+        public virtual Setup Setup { get; set; }
+        public virtual Language Language { get; set; }
     }
 }

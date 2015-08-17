@@ -16,9 +16,8 @@ namespace Photogram.WebApp.Models
     {
         public Media()
         {
-            this.Title = new HashSet<TextValue>();
-            this.Description = new HashSet<TextValue>();
-            this.Log = new HashSet<Log>();
+            this.Title = new HashSet<MediaTitle>();
+            this.Description = new HashSet<MediaDescription>();
         }
     
         public int Id { get; set; }
@@ -27,8 +26,7 @@ namespace Photogram.WebApp.Models
         public Nullable<int> PositionInProject { get; set; }
     
         public virtual Project Project { get; set; }
-        public virtual ICollection<TextValue> Title { get; set; }
-        public virtual ICollection<TextValue> Description { get; set; }
-        public virtual ICollection<Log> Log { get; set; }
+        public virtual ICollection<MediaTitle> Title { get; set; }
+        public virtual ICollection<MediaDescription> Description { get; set; }
     }
 }
