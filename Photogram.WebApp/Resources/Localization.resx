@@ -330,4 +330,7 @@
   <data name="ErrInvalidLanguage" xml:space="preserve">
     <value>This language is not supported.</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
 </root>

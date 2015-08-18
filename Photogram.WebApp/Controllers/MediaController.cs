@@ -161,6 +161,8 @@ namespace Photogram.WebApp.Controllers
             var media = _db.Media.Where(x => x.Id == model.MediaId)
                 .FirstOrDefault();
 
+            model.FileName = media.FileName;
+
             if (null == media)
             {
                 ModelState.AddModelError("originalNotFound", Localization.ErrItemNotFoundInDb);
@@ -359,6 +361,47 @@ namespace Photogram.WebApp.Controllers
                     Count = n
                 },
                 JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [AjaxErrorHandler]
+        public JsonResult LocalTexts(int? mediaId, int? lcid)
+        {
+            if (null == mediaId)
+                throw new ArgumentNullException("mediaId",
+                    Localization.ErrArgNull);
+
+            if (null == lcid)
+                throw new ArgumentNullException("lcid",
+                    Localization.ErrArgNull);
+
+            var media = _db.Media.Include("Title").Include("Description")
+                .Where(x => x.Id == mediaId).FirstOrDefault();
+
+            if (null == media)
+                throw new ArgumentException(
+                    mediaId.ToString() + " does not exists in Media.",
+                    "mediaId");
+
+            var lang = _db.Language.Where(x => x.LCID == lcid).FirstOrDefault();
+
+            if (null == lang)
+                throw new ArgumentException(
+                    lcid.ToString() + " does not exists in Language.",
+                    "lcid");
+
+            var localTitle = media.Title.Where(x => x.Language == lang)
+                .FirstOrDefault();
+
+            var localDescription = media.Description
+                .Where(x => x.Language == lang).FirstOrDefault();
+
+            return Json(new
+                {
+                    Success = true,
+                    Title = localTitle != null ? localTitle.Text : "",
+                    Description = localDescription != null ? localDescription.Text : ""
+                }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

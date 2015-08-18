@@ -11,12 +11,6 @@
         OnSuccess = "editedSuccess(data, status, xhr)",
         OnFailure = "editedFailure(xhr, status, error)"
     };
-
-    var viewSrc = "";
-    if (!string.IsNullOrEmpty(Model.FileName))
-    {
-        viewSrc = Url.Content(string.Concat("~/Image/2000/400/", Model.FileName, "/"));
-    }
 }
 
 
@@ -34,11 +28,14 @@
     </div>
     <div class="modal-body">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row">                
+                @if (!string.IsNullOrEmpty(Model.FileName))
+                {
                 <div class="col-lg-6">
                     <img class="editView"
-                         src="@viewSrc" />
+                         src="@Url.Content(string.Concat("~/Image/2000/400/", Model.FileName, "/"))" />
                 </div>
+                }
                 <div class="col-lg-6">
                     @if (!Html.ViewData.ModelState.IsValid)
                     {
@@ -61,7 +58,7 @@
                     </div>
                     <div class="form-group">
                         @Html.DropDownListFor(x => x.LCID, Model.Languages,
-                            new { @class = "form-control", placeholder = Localization.Language })
+                            new { @class = "form-control", onchange = "loadLocalTexts()", placeholder = Localization.Language })
                         @Html.ValidationMessageFor(x => x.LCID)
                     </div>
                     <div class="form-group">
@@ -81,7 +78,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Cancel</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Close</button>
         <button type="submit" id="editMediaSubmit" class="btn btn-primary" data-loading-text="@Localization.SaveChanges...">@Localization.SaveChanges</button>
     </div>
 }
@@ -98,13 +95,36 @@
 
     function editedSuccess(data, status, xhr) {
         $("#editMediaModal").find('.modal-content').html(data.View);
-        if (data.Success) {
-            $('#editMediaModal').modal('hide');
-        }
     }
 
     function editedFailure(xhr, status, error) {
         console.log("edit failure: " + xhr.responseJSON + ", status: " + error);
+    }
+
+    function loadLocalTexts() {
+        $.ajax({
+            url: '@Url.Content("~/Media/LocalTexts")',
+            type: 'GET',
+            data: {
+                    mediaId: @Model.MediaId,
+                    lcid: $('#LCID').find(':selected').val()
+            },
+            beforeSend:
+                function (jqXHR, settings) {
+                    //$('#form0').submit();
+                    console.log($('#LCID').find(':selected').val());
+                },
+            success:
+                function (data, status, xhr) {
+                    console.log(data.Title + ' ' + data.Description);
+
+                    var title = $('#Title');
+                    title.val(data.Title);
+
+                    var description = $('#Description');
+                    description.val(data.Description);
+                }
+        });
     }
 
 </script>

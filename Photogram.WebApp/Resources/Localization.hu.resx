@@ -327,4 +327,7 @@
   <data name="ErrInvalidLanguage" xml:space="preserve">
     <value>Ez a nyelv nem támogatott.</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
 </root>

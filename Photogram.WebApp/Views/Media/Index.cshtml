@@ -49,6 +49,8 @@
             <div class="btn btn-default" disabled>
                 @Localization.Manage
             </div>
+            @if (Model.Projects.Count > 0)
+            {
             <div class="btn-group">
                 <button id="project-select" type="button"
                         class="btn btn-operation btn-default dropdown-toggle"
@@ -97,6 +99,7 @@
                     </li>
                 </ul>
             </div>
+            }
         </div>
     </div>
 </div>
