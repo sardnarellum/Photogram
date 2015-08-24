@@ -57,37 +57,7 @@ namespace Photogram.WebApp.Controllers
                         projectId.ToString() + " does not exists in Project.",
                         "mediaId");
 
-                var language = _db.Language
-                    .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
-                    .FirstOrDefault();
-
-                // If CurrentCulture is set to unknown default language is English
-                if (null == language) 
-                {
-                    language = _db.Language.Where(x => x.LCID == 1033)
-                        .FirstOrDefault();
-                }
-
-                var title = project.Title
-                        .Where(x => x.Language == language)
-                        .FirstOrDefault();
-
-                if (null != title)
-                {
-                    projectTitle = title.Text;
-                }
-                else // If title does not exists with current lang or english or 1033 is deleted from db.
-                {
-                    title = project.Title.FirstOrDefault();
-                    if (null != title)
-                    {
-                        projectTitle = title.Text;
-                    }
-                    else
-                    {
-                        projectTitle = "";
-                    }
-                }
+                projectTitle = project.CurrentTitleText();
             }
             else
             {
@@ -119,7 +89,7 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Title = project.Title.FirstOrDefault().Text; // TODO: ML support
+            ViewBag.Title = project.CurrentTitleText();
 
             return View("Details", project);
         }
@@ -212,7 +182,8 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var gallery = _db.Project.Where(x => x.Id == galleryId).FirstOrDefault();
+            var gallery = _db.Project.Where(x => x.Id == galleryId)
+                .FirstOrDefault();
 
             if (null == gallery)
             {
@@ -234,14 +205,17 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var gallery = _db.Project.Where(x => x.Id == galleryId).FirstOrDefault();
+            var gallery = _db.Project.Where(x => x.Id == galleryId)
+                .FirstOrDefault();
 
             if (null == gallery)
             {
                 return new HttpNotFoundResult();
             }
 
-            var gallery2 = _db.Project.Where(x => x.Position - 1 == gallery.Position).FirstOrDefault();
+            var gallery2 = _db.Project
+                .Where(x => x.Position - 1 == gallery.Position)
+                .FirstOrDefault();
 
             if (null != gallery2)
             {
@@ -262,14 +236,17 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var project = _db.Project.Where(x => x.Id == projectId).FirstOrDefault();
+            var project = _db.Project.Where(x => x.Id == projectId)
+                .FirstOrDefault();
 
             if (null == project)
             {
                 return new HttpNotFoundResult();
             }
 
-            var project2 = _db.Project.Where(x => x.Position + 1 == project.Position).FirstOrDefault();
+            var project2 = _db.Project
+                .Where(x => x.Position + 1 == project.Position)
+                .FirstOrDefault();
 
             if (null != project2)
             {
@@ -295,7 +272,8 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var project = _db.Project.Include("Title").Include("Description").Where(x => x.Id == projectId).FirstOrDefault();
+            var project = _db.Project.Include("Title").Include("Description")
+                .Where(x => x.Id == projectId).FirstOrDefault();
 
             if (null == project)
             {

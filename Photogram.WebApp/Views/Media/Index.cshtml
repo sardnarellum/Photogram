@@ -63,7 +63,7 @@
                     {
                         <li>
                             <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                @project.Title.FirstOrDefault().Text
+                                @project.CurrentTitleText()
                             </a>
                         </li>
                     }
@@ -87,7 +87,7 @@
                     {
                         <li>
                             <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                @project.Title.FirstOrDefault().Text
+                                @project.CurrentTitleText()
                             </a>
                         </li>
                     }
@@ -184,7 +184,7 @@
 
         $.ajax({
             url: '@Url.Action("GetFileData", "Media")',
-            type: 'POST',
+            type: 'GET',
             success:
                 function (data, status, xhr) {
                     var pckry = new Packery('#pckry-container', {

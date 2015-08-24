@@ -103,7 +103,7 @@
 
     function loadLocalTexts() {
         $.ajax({
-            url: '@Url.Content("~/Media/LocalTexts")',
+            url: '@Url.Action("LocalTexts", "Media")',
             type: 'GET',
             data: {
                     mediaId: @Model.MediaId,

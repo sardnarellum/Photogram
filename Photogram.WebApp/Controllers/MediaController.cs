@@ -127,23 +127,20 @@ namespace Photogram.WebApp.Controllers
                     mediaId.ToString() + " does not exists in Media.",
                     "mediaId");
 
-            var currLCID = CultureInfo.CurrentCulture.LCID;
+            var currLang = _db.Language
+                .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
+                .FirstOrDefault();
 
-            var currTitle = media.Title
-                    .Where(x => x.Language.LCID == currLCID)
-                    .FirstOrDefault();
-
-            var currDesc = media.Description
-                    .Where(x => x.Language.LCID == currLCID)
+            if (null != currLang)
+                currLang = _db.Language.Where(x => x.LCID == 1033)
                     .FirstOrDefault();
 
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
-                LCID = _db.Language.Where(x => x.LCID == currLCID)
-                    .FirstOrDefault().LCID,
-                Title = currTitle != null ? currTitle.Text : "",
-                Description = currDesc != null ? currDesc.Text : ""
+                LCID = currLang.LCID,
+                Title = media.CurrentTitleText(),
+                Description = media.CurrentDescriptionText()
             };
 
             return JsonView(true, "_EditMediaPartial", model,
@@ -230,23 +227,26 @@ namespace Photogram.WebApp.Controllers
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns>JSON formatted array of BasicFileData elements.</returns>
-        [HttpPost]
+        [HttpGet]
         [AjaxErrorHandler]
         public JsonResult GetFileData()
         {
-            var media = _db.Media.Include("Project").ToList();
+            var media = _db.Media.Include("Project")
+                .OrderBy(x => x.PositionInProject).ToList();
+
             var fileDataList = new List<BasicFileData>();
 
             foreach(var elem in media)
             {
                 var inProject = elem.Project != null;
+
                 var fileData =
                     new BasicFileData
                     {
                         Id = elem.Id,
                         FileName = elem.FileName,
                         ProjectId = inProject ? elem.Project.Id : -1,
-                        ProjectTitle = inProject ? elem.Project.Title.FirstOrDefault().Text : "" // TODO: ML support
+                        ProjectTitle = inProject ? elem.Project.CurrentTitleText() : ""
                     };
 
                 fileDataList.Add(fileData);
@@ -411,7 +411,8 @@ namespace Photogram.WebApp.Controllers
         /// <returns>True if item exists in database.</returns>
         private bool Delete(int mediaId)
         {
-            var item = _db.Media.Where(x => x.Id == mediaId).FirstOrDefault();
+            var item = _db.Media.Include("Title").Include("Description")
+                .Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == item)
                 return false;
@@ -420,6 +421,16 @@ namespace Photogram.WebApp.Controllers
 
             if (System.IO.File.Exists(fullPath))
                 System.IO.File.Delete(fullPath);
+
+            foreach (var t in item.Title.ToList())
+            {
+                _db.Translation.Remove(t);
+            }
+
+            foreach (var d in item.Description.ToList())
+            {
+                _db.Translation.Remove(d);
+            }
 
             _db.Media.Remove(item);
             _db.SaveChanges();

@@ -4,30 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="00e0d2930ee745efbef8babf24aa94cf" Name="Diagram1" ZoomLevel="82" >
-        <EntityTypeShape EntityType="PhotogramModel.Setup" Width="1.5" PointX="4.75" PointY="0.5" FillColor="255, 255, 128" />
+      <Diagram DiagramId="00e0d2930ee745efbef8babf24aa94cf" Name="Diagram1" ZoomLevel="86" >
+        <EntityTypeShape EntityType="PhotogramModel.Setup" Width="1.5" PointX="5.75" PointY="1.75" FillColor="255, 255, 128" />
         <EntityTypeShape EntityType="PhotogramModel.Project" Width="1.5" PointX="0.5" PointY="9.5" FillColor="128, 255, 128" />
         <EntityTypeShape EntityType="PhotogramModel.Media" Width="1.5" PointX="0.75" PointY="4.625" FillColor="255, 128, 128" />
-        <EntityTypeShape EntityType="PhotogramModel.Language" Width="1.5" PointX="5.375" PointY="4.125" />
+        <EntityTypeShape EntityType="PhotogramModel.Language" Width="1.5" PointX="9.5" PointY="6" FillColor="128, 255, 255" />
         <AssociationConnector Association="PhotogramModel.ProjectMedia" />
         <EntityTypeShape EntityType="PhotogramModel.ProjectTitle" Width="1.5" PointX="7.875" PointY="7.75" FillColor="128, 255, 128" />
-        <AssociationConnector Association="PhotogramModel.LanguageProjectTitle" />
         <AssociationConnector Association="PhotogramModel.ProjectProjectTitle" />
         <EntityTypeShape EntityType="PhotogramModel.ProjectDescription" Width="1.5" PointX="5.25" PointY="9.375" FillColor="128, 255, 128" />
-        <AssociationConnector Association="PhotogramModel.LanguageProjectDescription" />
         <AssociationConnector Association="PhotogramModel.ProjectProjectDescription" />
         <EntityTypeShape EntityType="PhotogramModel.MediaTitle" Width="1.5" PointX="3" PointY="4.625" FillColor="255, 128, 128" />
-        <EntityTypeShape EntityType="PhotogramModel.MediaDescription" Width="1.5" PointX="3" PointY="8.125" FillColor="255, 128, 128" />
-        <EntityTypeShape EntityType="PhotogramModel.SetupMainTitle" Width="1.5" PointX="0.75" PointY="1.875" FillColor="255, 255, 128" />
-        <EntityTypeShape EntityType="PhotogramModel.SetupFooter" Width="1.5" PointX="7.875" PointY="2.875" FillColor="255, 255, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.MediaDescription" Width="1.5" PointX="3" PointY="8.5" FillColor="255, 128, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.SetupMainTitle" Width="1.5" PointX="0.75" PointY="2.625" FillColor="255, 255, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.SetupFooter" Width="1.5" PointX="7.875" PointY="1.75" FillColor="255, 255, 128" />
         <AssociationConnector Association="PhotogramModel.MediaMediaTitle" />
-        <AssociationConnector Association="PhotogramModel.LanguageMediaTitle" />
         <AssociationConnector Association="PhotogramModel.MediaMediaDescription" />
-        <AssociationConnector Association="PhotogramModel.LanguageMediaDescription" />
         <AssociationConnector Association="PhotogramModel.SetupSetupMainTitle" />
-        <AssociationConnector Association="PhotogramModel.LanguageSetupMainTitle" />
         <AssociationConnector Association="PhotogramModel.SetupSetupFooter" />
-        <AssociationConnector Association="PhotogramModel.LanguageSetupFooter" />
+        <EntityTypeShape EntityType="PhotogramModel.Translation" Width="1.5" PointX="5.75" PointY="6" FillColor="128, 255, 255" />
+        <InheritanceConnector EntityType="PhotogramModel.SetupMainTitle" />
+        <InheritanceConnector EntityType="PhotogramModel.SetupFooter" />
+        <InheritanceConnector EntityType="PhotogramModel.ProjectTitle" />
+        <InheritanceConnector EntityType="PhotogramModel.ProjectDescription" />
+        <InheritanceConnector EntityType="PhotogramModel.MediaTitle" />
+        <InheritanceConnector EntityType="PhotogramModel.MediaDescription" />
+        <AssociationConnector Association="PhotogramModel.LanguageTranslation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

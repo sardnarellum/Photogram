@@ -9,7 +9,7 @@
     if (Request.IsAuthenticated)
     {
         <li class="gallery-item">
-        @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Details", "Project",
+        @Html.ActionLink(elem.CurrentTitleText(), "Details", "Project",
             new { projectId = elem.Id },
             new { @class = "gallery-link" })
         @{
@@ -49,15 +49,14 @@
                 },
                      new { @class = "glyphicon glyphicon-remove keepOpen" }
                 )
-            @* TODO: ML link text*@
         </li>
     }
     else if (elem.Visible == true)
     {
         <li>
-            @Html.ActionLink(elem.Title.FirstOrDefault().Text, "Details", "Project",
+            @Html.ActionLink(elem.CurrentTitleText(), "Details", "Project",
                 new { projectId = elem.Id },
-                new { @class = "gallery-link" }) @* TODO: ML link text, dummy link address *@
+                new { @class = "gallery-link" })
         </li>
     }
     

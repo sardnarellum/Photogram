@@ -12,13 +12,9 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ProjectTitle
+    public partial class ProjectTitle : Translation
     {
-        private int ProjectId { get; set; }
-        private int LCID { get; set; }
-        public string Text { get; set; }
     
-        public virtual Language Language { get; set; }
         public virtual Project Project { get; set; }
     }
 }

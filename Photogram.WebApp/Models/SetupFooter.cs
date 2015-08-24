@@ -12,13 +12,9 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SetupFooter
+    public partial class SetupFooter : Translation
     {
-        private int SetupId { get; set; }
-        private int LCID { get; set; }
-        public string Text { get; set; }
     
         public virtual Setup Setup { get; set; }
-        public virtual Language Language { get; set; }
     }
 }

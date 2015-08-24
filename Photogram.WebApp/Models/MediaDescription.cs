@@ -12,13 +12,9 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MediaDescription
+    public partial class MediaDescription : Translation
     {
-        private int MediaId { get; set; }
-        private int LCID { get; set; }
-        public string Text { get; set; }
     
         public virtual Media Media { get; set; }
-        public virtual Language Language { get; set; }
     }
 }

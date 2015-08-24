@@ -12,7 +12,7 @@ namespace Photogram.WebApp.Controllers
     {
         protected PhotogramEntities _db;
 
-        #region Constructor
+        #region Constructor / Dispose
 
         /// <summary>
         /// Instantiate controller.
@@ -59,9 +59,7 @@ namespace Photogram.WebApp.Controllers
                 _db.SaveChanges();
             }
 
-            ViewBag.MainTitle = _db.Setup.First().MainTitle
-                .Where(x => x.Language.LCID == CultureInfo.CurrentCulture.LCID)
-                .FirstOrDefault().Text;
+            ViewBag.MainTitle = _db.Setup.First().CurrentMainTitleText();
 
             ViewBag.Years = new SelectList(
                     Enumerable.Range(DateTime.Now.Year - 50, DateTime.Now.Year)
@@ -72,6 +70,12 @@ namespace Photogram.WebApp.Controllers
                         Text = year.ToString()
                     }
                 ), "Value", "Text");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _db.Dispose();
+            base.Dispose(disposing);
         }
 
         #endregion

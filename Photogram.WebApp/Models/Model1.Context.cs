@@ -29,11 +29,6 @@ namespace Photogram.WebApp.Models
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<Media> Media { get; set; }
         public virtual DbSet<Language> Language { get; set; }
-        public virtual DbSet<ProjectTitle> ProjectTitle { get; set; }
-        public virtual DbSet<ProjectDescription> ProjectDescription { get; set; }
-        public virtual DbSet<MediaTitle> MediaTitle { get; set; }
-        public virtual DbSet<MediaDescription> MediaDescription { get; set; }
-        public virtual DbSet<SetupMainTitle> SetupMainTitle { get; set; }
-        public virtual DbSet<SetupFooter> SetupFooter { get; set; }
+        public virtual DbSet<Translation> Translation { get; set; }
     }
 }

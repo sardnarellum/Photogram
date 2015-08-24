@@ -12,9 +12,11 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SetupMainTitle : Translation
+    public abstract partial class Translation
     {
+        public int Id { get; set; }
+        public string Text { get; set; }
     
-        public virtual Setup Setup { get; set; }
+        public virtual Language Language { get; set; }
     }
 }

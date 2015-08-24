@@ -4,10 +4,10 @@
 @model Project
 
 <div class="page-header">
-    <h1>@Model.Title.FirstOrDefault().Text</h1>
+    <h1>@Model.CurrentTitleText()</h1>
 </div>
 <div class="page-description">
-    <p>@Model.Description.FirstOrDefault().Text</p>
+    <p>@Model.CurrentDescriptionText()</p>
 </div>
 
 @*<h2>Details</h2>

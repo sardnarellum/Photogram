@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/17/2015 18:43:05
+-- Date Created: 08/21/2015 22:35:16
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -20,41 +20,44 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectMedia]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Media] DROP CONSTRAINT [FK_ProjectMedia];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LanguageProjectTitle]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectTitle] DROP CONSTRAINT [FK_LanguageProjectTitle];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectProjectTitle]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectTitle] DROP CONSTRAINT [FK_ProjectProjectTitle];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LanguageProjectDescription]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectDescription] DROP CONSTRAINT [FK_LanguageProjectDescription];
+    ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectProjectTitle];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectProjectDescription]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectDescription] DROP CONSTRAINT [FK_ProjectProjectDescription];
+    ALTER TABLE [dbo].[Translation_ProjectDescription] DROP CONSTRAINT [FK_ProjectProjectDescription];
 GO
 IF OBJECT_ID(N'[dbo].[FK_MediaMediaTitle]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MediaTitle] DROP CONSTRAINT [FK_MediaMediaTitle];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LanguageMediaTitle]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MediaTitle] DROP CONSTRAINT [FK_LanguageMediaTitle];
+    ALTER TABLE [dbo].[Translation_MediaTitle] DROP CONSTRAINT [FK_MediaMediaTitle];
 GO
 IF OBJECT_ID(N'[dbo].[FK_MediaMediaDescription]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MediaDescription] DROP CONSTRAINT [FK_MediaMediaDescription];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LanguageMediaDescription]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MediaDescription] DROP CONSTRAINT [FK_LanguageMediaDescription];
+    ALTER TABLE [dbo].[Translation_MediaDescription] DROP CONSTRAINT [FK_MediaMediaDescription];
 GO
 IF OBJECT_ID(N'[dbo].[FK_SetupSetupMainTitle]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SetupMainTitle] DROP CONSTRAINT [FK_SetupSetupMainTitle];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LanguageSetupMainTitle]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SetupMainTitle] DROP CONSTRAINT [FK_LanguageSetupMainTitle];
+    ALTER TABLE [dbo].[Translation_SetupMainTitle] DROP CONSTRAINT [FK_SetupSetupMainTitle];
 GO
 IF OBJECT_ID(N'[dbo].[FK_SetupSetupFooter]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SetupFooter] DROP CONSTRAINT [FK_SetupSetupFooter];
+    ALTER TABLE [dbo].[Translation_SetupFooter] DROP CONSTRAINT [FK_SetupSetupFooter];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LanguageSetupFooter]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SetupFooter] DROP CONSTRAINT [FK_LanguageSetupFooter];
+IF OBJECT_ID(N'[dbo].[FK_LanguageTranslation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation] DROP CONSTRAINT [FK_LanguageTranslation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProjectTitle_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectTitle_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProjectDescription_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_ProjectDescription] DROP CONSTRAINT [FK_ProjectDescription_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MediaTitle_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_MediaTitle] DROP CONSTRAINT [FK_MediaTitle_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MediaDescription_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_MediaDescription] DROP CONSTRAINT [FK_MediaDescription_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupMainTitle_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupMainTitle] DROP CONSTRAINT [FK_SetupMainTitle_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupFooter_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupFooter] DROP CONSTRAINT [FK_SetupFooter_inherits_Translation];
 GO
 
 -- --------------------------------------------------
@@ -73,23 +76,26 @@ GO
 IF OBJECT_ID(N'[dbo].[Language]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Language];
 GO
-IF OBJECT_ID(N'[dbo].[ProjectTitle]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ProjectTitle];
+IF OBJECT_ID(N'[dbo].[Translation]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation];
 GO
-IF OBJECT_ID(N'[dbo].[ProjectDescription]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ProjectDescription];
+IF OBJECT_ID(N'[dbo].[Translation_ProjectTitle]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_ProjectTitle];
 GO
-IF OBJECT_ID(N'[dbo].[MediaTitle]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[MediaTitle];
+IF OBJECT_ID(N'[dbo].[Translation_ProjectDescription]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_ProjectDescription];
 GO
-IF OBJECT_ID(N'[dbo].[MediaDescription]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[MediaDescription];
+IF OBJECT_ID(N'[dbo].[Translation_MediaTitle]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_MediaTitle];
 GO
-IF OBJECT_ID(N'[dbo].[SetupMainTitle]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SetupMainTitle];
+IF OBJECT_ID(N'[dbo].[Translation_MediaDescription]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_MediaDescription];
 GO
-IF OBJECT_ID(N'[dbo].[SetupFooter]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SetupFooter];
+IF OBJECT_ID(N'[dbo].[Translation_SetupMainTitle]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_SetupMainTitle];
+GO
+IF OBJECT_ID(N'[dbo].[Translation_SetupFooter]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_SetupFooter];
 GO
 
 -- --------------------------------------------------
@@ -130,51 +136,53 @@ CREATE TABLE [dbo].[Language] (
 );
 GO
 
--- Creating table 'ProjectTitle'
-CREATE TABLE [dbo].[ProjectTitle] (
-    [ProjectId] int  NOT NULL,
-    [LCID] int  NOT NULL,
-    [Text] nvarchar(50)  NOT NULL
+-- Creating table 'Translation'
+CREATE TABLE [dbo].[Translation] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Text] nvarchar(max)  NOT NULL,
+    [Language_LCID] int  NOT NULL
 );
 GO
 
--- Creating table 'ProjectDescription'
-CREATE TABLE [dbo].[ProjectDescription] (
-    [ProjectId] int  NOT NULL,
-    [LCID] int  NOT NULL,
-    [Text] nvarchar(max)  NOT NULL
+-- Creating table 'Translation_ProjectTitle'
+CREATE TABLE [dbo].[Translation_ProjectTitle] (
+    [Id] int  NOT NULL,
+    [Project_Id] int  NOT NULL
 );
 GO
 
--- Creating table 'MediaTitle'
-CREATE TABLE [dbo].[MediaTitle] (
-    [MediaId] int  NOT NULL,
-    [LCID] int  NOT NULL,
-    [Text] nvarchar(80)  NOT NULL
+-- Creating table 'Translation_ProjectDescription'
+CREATE TABLE [dbo].[Translation_ProjectDescription] (
+    [Id] int  NOT NULL,
+    [Project_Id] int  NOT NULL
 );
 GO
 
--- Creating table 'MediaDescription'
-CREATE TABLE [dbo].[MediaDescription] (
-    [MediaId] int  NOT NULL,
-    [LCID] int  NOT NULL,
-    [Text] nvarchar(max)  NOT NULL
+-- Creating table 'Translation_MediaTitle'
+CREATE TABLE [dbo].[Translation_MediaTitle] (
+    [Id] int  NOT NULL,
+    [Media_Id] int  NOT NULL
 );
 GO
 
--- Creating table 'SetupMainTitle'
-CREATE TABLE [dbo].[SetupMainTitle] (
-    [SetupId] int  NOT NULL,
-    [LCID] int  NOT NULL,
-    [Text] nvarchar(80)  NOT NULL
+-- Creating table 'Translation_MediaDescription'
+CREATE TABLE [dbo].[Translation_MediaDescription] (
+    [Id] int  NOT NULL,
+    [Media_Id] int  NOT NULL
 );
 GO
 
--- Creating table 'SetupFooter'
-CREATE TABLE [dbo].[SetupFooter] (
-    [SetupId] int  NOT NULL,
-    [LCID] int  NOT NULL,
-    [Text] nvarchar(max)  NOT NULL
+-- Creating table 'Translation_SetupMainTitle'
+CREATE TABLE [dbo].[Translation_SetupMainTitle] (
+    [Id] int  NOT NULL,
+    [Setup_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Translation_SetupFooter'
+CREATE TABLE [dbo].[Translation_SetupFooter] (
+    [Id] int  NOT NULL,
+    [Setup_Id] int  NOT NULL
 );
 GO
 
@@ -206,40 +214,46 @@ ADD CONSTRAINT [PK_Language]
     PRIMARY KEY CLUSTERED ([LCID] ASC);
 GO
 
--- Creating primary key on [ProjectId], [LCID] in table 'ProjectTitle'
-ALTER TABLE [dbo].[ProjectTitle]
-ADD CONSTRAINT [PK_ProjectTitle]
-    PRIMARY KEY CLUSTERED ([ProjectId], [LCID] ASC);
+-- Creating primary key on [Id] in table 'Translation'
+ALTER TABLE [dbo].[Translation]
+ADD CONSTRAINT [PK_Translation]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [ProjectId], [LCID] in table 'ProjectDescription'
-ALTER TABLE [dbo].[ProjectDescription]
-ADD CONSTRAINT [PK_ProjectDescription]
-    PRIMARY KEY CLUSTERED ([ProjectId], [LCID] ASC);
+-- Creating primary key on [Id] in table 'Translation_ProjectTitle'
+ALTER TABLE [dbo].[Translation_ProjectTitle]
+ADD CONSTRAINT [PK_Translation_ProjectTitle]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [MediaId], [LCID] in table 'MediaTitle'
-ALTER TABLE [dbo].[MediaTitle]
-ADD CONSTRAINT [PK_MediaTitle]
-    PRIMARY KEY CLUSTERED ([MediaId], [LCID] ASC);
+-- Creating primary key on [Id] in table 'Translation_ProjectDescription'
+ALTER TABLE [dbo].[Translation_ProjectDescription]
+ADD CONSTRAINT [PK_Translation_ProjectDescription]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [MediaId], [LCID] in table 'MediaDescription'
-ALTER TABLE [dbo].[MediaDescription]
-ADD CONSTRAINT [PK_MediaDescription]
-    PRIMARY KEY CLUSTERED ([MediaId], [LCID] ASC);
+-- Creating primary key on [Id] in table 'Translation_MediaTitle'
+ALTER TABLE [dbo].[Translation_MediaTitle]
+ADD CONSTRAINT [PK_Translation_MediaTitle]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [SetupId], [LCID] in table 'SetupMainTitle'
-ALTER TABLE [dbo].[SetupMainTitle]
-ADD CONSTRAINT [PK_SetupMainTitle]
-    PRIMARY KEY CLUSTERED ([SetupId], [LCID] ASC);
+-- Creating primary key on [Id] in table 'Translation_MediaDescription'
+ALTER TABLE [dbo].[Translation_MediaDescription]
+ADD CONSTRAINT [PK_Translation_MediaDescription]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [SetupId], [LCID] in table 'SetupFooter'
-ALTER TABLE [dbo].[SetupFooter]
-ADD CONSTRAINT [PK_SetupFooter]
-    PRIMARY KEY CLUSTERED ([SetupId], [LCID] ASC);
+-- Creating primary key on [Id] in table 'Translation_SetupMainTitle'
+ALTER TABLE [dbo].[Translation_SetupMainTitle]
+ADD CONSTRAINT [PK_Translation_SetupMainTitle]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Translation_SetupFooter'
+ALTER TABLE [dbo].[Translation_SetupFooter]
+ADD CONSTRAINT [PK_Translation_SetupFooter]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -261,148 +275,163 @@ ON [dbo].[Media]
     ([Project_Id]);
 GO
 
--- Creating foreign key on [LCID] in table 'ProjectTitle'
-ALTER TABLE [dbo].[ProjectTitle]
-ADD CONSTRAINT [FK_LanguageProjectTitle]
-    FOREIGN KEY ([LCID])
-    REFERENCES [dbo].[Language]
-        ([LCID])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_LanguageProjectTitle'
-CREATE INDEX [IX_FK_LanguageProjectTitle]
-ON [dbo].[ProjectTitle]
-    ([LCID]);
-GO
-
--- Creating foreign key on [ProjectId] in table 'ProjectTitle'
-ALTER TABLE [dbo].[ProjectTitle]
+-- Creating foreign key on [Project_Id] in table 'Translation_ProjectTitle'
+ALTER TABLE [dbo].[Translation_ProjectTitle]
 ADD CONSTRAINT [FK_ProjectProjectTitle]
-    FOREIGN KEY ([ProjectId])
+    FOREIGN KEY ([Project_Id])
     REFERENCES [dbo].[Project]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [LCID] in table 'ProjectDescription'
-ALTER TABLE [dbo].[ProjectDescription]
-ADD CONSTRAINT [FK_LanguageProjectDescription]
-    FOREIGN KEY ([LCID])
-    REFERENCES [dbo].[Language]
-        ([LCID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProjectProjectTitle'
+CREATE INDEX [IX_FK_ProjectProjectTitle]
+ON [dbo].[Translation_ProjectTitle]
+    ([Project_Id]);
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LanguageProjectDescription'
-CREATE INDEX [IX_FK_LanguageProjectDescription]
-ON [dbo].[ProjectDescription]
-    ([LCID]);
-GO
-
--- Creating foreign key on [ProjectId] in table 'ProjectDescription'
-ALTER TABLE [dbo].[ProjectDescription]
+-- Creating foreign key on [Project_Id] in table 'Translation_ProjectDescription'
+ALTER TABLE [dbo].[Translation_ProjectDescription]
 ADD CONSTRAINT [FK_ProjectProjectDescription]
-    FOREIGN KEY ([ProjectId])
+    FOREIGN KEY ([Project_Id])
     REFERENCES [dbo].[Project]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [MediaId] in table 'MediaTitle'
-ALTER TABLE [dbo].[MediaTitle]
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProjectProjectDescription'
+CREATE INDEX [IX_FK_ProjectProjectDescription]
+ON [dbo].[Translation_ProjectDescription]
+    ([Project_Id]);
+GO
+
+-- Creating foreign key on [Media_Id] in table 'Translation_MediaTitle'
+ALTER TABLE [dbo].[Translation_MediaTitle]
 ADD CONSTRAINT [FK_MediaMediaTitle]
-    FOREIGN KEY ([MediaId])
+    FOREIGN KEY ([Media_Id])
     REFERENCES [dbo].[Media]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [LCID] in table 'MediaTitle'
-ALTER TABLE [dbo].[MediaTitle]
-ADD CONSTRAINT [FK_LanguageMediaTitle]
-    FOREIGN KEY ([LCID])
-    REFERENCES [dbo].[Language]
-        ([LCID])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
+-- Creating non-clustered index for FOREIGN KEY 'FK_MediaMediaTitle'
+CREATE INDEX [IX_FK_MediaMediaTitle]
+ON [dbo].[Translation_MediaTitle]
+    ([Media_Id]);
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LanguageMediaTitle'
-CREATE INDEX [IX_FK_LanguageMediaTitle]
-ON [dbo].[MediaTitle]
-    ([LCID]);
-GO
-
--- Creating foreign key on [MediaId] in table 'MediaDescription'
-ALTER TABLE [dbo].[MediaDescription]
+-- Creating foreign key on [Media_Id] in table 'Translation_MediaDescription'
+ALTER TABLE [dbo].[Translation_MediaDescription]
 ADD CONSTRAINT [FK_MediaMediaDescription]
-    FOREIGN KEY ([MediaId])
+    FOREIGN KEY ([Media_Id])
     REFERENCES [dbo].[Media]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [LCID] in table 'MediaDescription'
-ALTER TABLE [dbo].[MediaDescription]
-ADD CONSTRAINT [FK_LanguageMediaDescription]
-    FOREIGN KEY ([LCID])
-    REFERENCES [dbo].[Language]
-        ([LCID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- Creating non-clustered index for FOREIGN KEY 'FK_MediaMediaDescription'
+CREATE INDEX [IX_FK_MediaMediaDescription]
+ON [dbo].[Translation_MediaDescription]
+    ([Media_Id]);
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LanguageMediaDescription'
-CREATE INDEX [IX_FK_LanguageMediaDescription]
-ON [dbo].[MediaDescription]
-    ([LCID]);
-GO
-
--- Creating foreign key on [SetupId] in table 'SetupMainTitle'
-ALTER TABLE [dbo].[SetupMainTitle]
+-- Creating foreign key on [Setup_Id] in table 'Translation_SetupMainTitle'
+ALTER TABLE [dbo].[Translation_SetupMainTitle]
 ADD CONSTRAINT [FK_SetupSetupMainTitle]
-    FOREIGN KEY ([SetupId])
+    FOREIGN KEY ([Setup_Id])
     REFERENCES [dbo].[Setup]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [LCID] in table 'SetupMainTitle'
-ALTER TABLE [dbo].[SetupMainTitle]
-ADD CONSTRAINT [FK_LanguageSetupMainTitle]
-    FOREIGN KEY ([LCID])
-    REFERENCES [dbo].[Language]
-        ([LCID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupSetupMainTitle'
+CREATE INDEX [IX_FK_SetupSetupMainTitle]
+ON [dbo].[Translation_SetupMainTitle]
+    ([Setup_Id]);
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LanguageSetupMainTitle'
-CREATE INDEX [IX_FK_LanguageSetupMainTitle]
-ON [dbo].[SetupMainTitle]
-    ([LCID]);
-GO
-
--- Creating foreign key on [SetupId] in table 'SetupFooter'
-ALTER TABLE [dbo].[SetupFooter]
+-- Creating foreign key on [Setup_Id] in table 'Translation_SetupFooter'
+ALTER TABLE [dbo].[Translation_SetupFooter]
 ADD CONSTRAINT [FK_SetupSetupFooter]
-    FOREIGN KEY ([SetupId])
+    FOREIGN KEY ([Setup_Id])
     REFERENCES [dbo].[Setup]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [LCID] in table 'SetupFooter'
-ALTER TABLE [dbo].[SetupFooter]
-ADD CONSTRAINT [FK_LanguageSetupFooter]
-    FOREIGN KEY ([LCID])
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupSetupFooter'
+CREATE INDEX [IX_FK_SetupSetupFooter]
+ON [dbo].[Translation_SetupFooter]
+    ([Setup_Id]);
+GO
+
+-- Creating foreign key on [Language_LCID] in table 'Translation'
+ALTER TABLE [dbo].[Translation]
+ADD CONSTRAINT [FK_LanguageTranslation]
+    FOREIGN KEY ([Language_LCID])
     REFERENCES [dbo].[Language]
         ([LCID])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LanguageSetupFooter'
-CREATE INDEX [IX_FK_LanguageSetupFooter]
-ON [dbo].[SetupFooter]
-    ([LCID]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_LanguageTranslation'
+CREATE INDEX [IX_FK_LanguageTranslation]
+ON [dbo].[Translation]
+    ([Language_LCID]);
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_ProjectTitle'
+ALTER TABLE [dbo].[Translation_ProjectTitle]
+ADD CONSTRAINT [FK_ProjectTitle_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_ProjectDescription'
+ALTER TABLE [dbo].[Translation_ProjectDescription]
+ADD CONSTRAINT [FK_ProjectDescription_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_MediaTitle'
+ALTER TABLE [dbo].[Translation_MediaTitle]
+ADD CONSTRAINT [FK_MediaTitle_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_MediaDescription'
+ALTER TABLE [dbo].[Translation_MediaDescription]
+ADD CONSTRAINT [FK_MediaDescription_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_SetupMainTitle'
+ALTER TABLE [dbo].[Translation_SetupMainTitle]
+ADD CONSTRAINT [FK_SetupMainTitle_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_SetupFooter'
+ALTER TABLE [dbo].[Translation_SetupFooter]
+ADD CONSTRAINT [FK_SetupFooter_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- --------------------------------------------------
