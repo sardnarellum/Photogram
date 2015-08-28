@@ -80,7 +80,7 @@ namespace Photogram.WebApp.Controllers
                         fileName = GetUniqueFileName()
                             + Path.GetExtension(file.FileName);
                         SaveFile(file, fileName,
-                            ServerDirectory(Common.UploadPathImg));
+                            ServerDirectory(Macros.UploadPathImg));
 
                         var media = new Media
                         {
@@ -424,14 +424,14 @@ namespace Photogram.WebApp.Controllers
         /// <returns>True if item exists in database.</returns>
         private bool Delete(int mediaId)
         {
-            var item = _db.Media.Include("ProjectInclude").Include("Title").Include("Description")
+            var item = _db.Media.Include("Title").Include("Description")
                 .Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == item)
                 return false;
 
             var fullPath = Request.MapPath(
-                string.Concat(Common.UploadPathImgRel, item.FileName));
+                string.Concat(Macros.UploadPathImgRel, item.FileName));
 
             if (System.IO.File.Exists(fullPath))
                 System.IO.File.Delete(fullPath);

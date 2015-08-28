@@ -35,7 +35,7 @@ namespace Photogram.WebApp.Controllers
         private string GetFullFilePath(string file)
         {
             return string.Concat(
-                System.Web.HttpContext.Current.Server.MapPath(Common.UploadPathImgRel), file);
+                System.Web.HttpContext.Current.Server.MapPath(Macros.UploadPathImgRel), file);
         }
 
         private bool FileNotAvailable(string fullFilePath)
