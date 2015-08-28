@@ -333,4 +333,7 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="ErrPosRange" xml:space="preserve">
+    <value>The item's position cannot be smaller than 1 and greater than the container's cardinality.</value>
+  </data>
 </root>

@@ -11,16 +11,13 @@
     <EntitySet Name="Media" EntityType="PhotogramModel.Store.Media" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Language" EntityType="PhotogramModel.Store.Language" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation" EntityType="PhotogramModel.Store.Translation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProjectInclude" EntityType="PhotogramModel.Store.ProjectInclude" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_ProjectTitle" EntityType="PhotogramModel.Store.Translation_ProjectTitle" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_ProjectDescription" EntityType="PhotogramModel.Store.Translation_ProjectDescription" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_MediaTitle" EntityType="PhotogramModel.Store.Translation_MediaTitle" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_MediaDescription" EntityType="PhotogramModel.Store.Translation_MediaDescription" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_SetupMainTitle" EntityType="PhotogramModel.Store.Translation_SetupMainTitle" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_SetupFooter" EntityType="PhotogramModel.Store.Translation_SetupFooter" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="ProjectMedia" Association="PhotogramModel.Store.ProjectMedia">
-      <End Role="Project" EntitySet="Project" />
-      <End Role="Media" EntitySet="Media" />
-    </AssociationSet>
     <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.Store.ProjectProjectTitle">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectTitle" EntitySet="Translation_ProjectTitle" />
@@ -48,6 +45,14 @@
     <AssociationSet Name="LanguageTranslation" Association="PhotogramModel.Store.LanguageTranslation">
       <End Role="Language" EntitySet="Language" />
       <End Role="Translation" EntitySet="Translation" />
+    </AssociationSet>
+    <AssociationSet Name="ProjectIncludeProject" Association="PhotogramModel.Store.ProjectIncludeProject">
+      <End Role="ProjectInclude" EntitySet="ProjectInclude" />
+      <End Role="Project" EntitySet="Project" />
+    </AssociationSet>
+    <AssociationSet Name="MediaProjectInclude" Association="PhotogramModel.Store.MediaProjectInclude">
+      <End Role="Media" EntitySet="Media" />
+      <End Role="ProjectInclude" EntitySet="ProjectInclude" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectTitle_inherits_Translation" Association="PhotogramModel.Store.FK_ProjectTitle_inherits_Translation">
       <End Role="Translation" EntitySet="Translation" />
@@ -99,8 +104,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="PositionInProject" Type="int" Nullable="true" />
-    <Property Name="Project_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Language">
     <Key>
@@ -115,6 +118,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Language_LCID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProjectInclude">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Position" Type="int" Nullable="false" />
+    <Property Name="Cover" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Project_Id" Type="int" Nullable="false" />
+    <Property Name="Media_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Translation_ProjectTitle">
     <Key>
@@ -158,18 +171,6 @@
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="Setup_Id" Type="int" Nullable="false" />
   </EntityType>
-  <Association Name="ProjectMedia">
-    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="0..1" />
-    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Project">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Media">
-        <PropertyRef Name="Project_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="ProjectProjectTitle">
     <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -268,6 +269,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ProjectIncludeProject">
+    <End Role="ProjectInclude" Type="PhotogramModel.Store.ProjectInclude" Multiplicity="*" />
+    <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProjectInclude">
+        <PropertyRef Name="Project_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MediaProjectInclude">
+    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProjectInclude" Type="PhotogramModel.Store.ProjectInclude" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProjectInclude">
+        <PropertyRef Name="Media_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectTitle_inherits_Translation">
     <End Role="Translation" Type="PhotogramModel.Store.Translation" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -361,10 +390,6 @@
           <EntitySet Name="Project" EntityType="PhotogramModel.Project" />
           <EntitySet Name="Media" EntityType="PhotogramModel.Media" />
           <EntitySet Name="Language" EntityType="PhotogramModel.Language" />
-          <AssociationSet Name="ProjectMedia" Association="PhotogramModel.ProjectMedia">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Media" EntitySet="Media" />
-          </AssociationSet>
           <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.ProjectProjectTitle">
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectTitle" EntitySet="Translation" />
@@ -394,6 +419,15 @@
             <End Role="Language" EntitySet="Language" />
             <End Role="Translation" EntitySet="Translation" />
           </AssociationSet>
+          <EntitySet Name="ProjectInclude" EntityType="PhotogramModel.ProjectInclude" />
+          <AssociationSet Name="ProjectIncludeProject" Association="PhotogramModel.ProjectIncludeProject">
+            <End Role="ProjectInclude" EntitySet="ProjectInclude" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="MediaProjectInclude" Association="PhotogramModel.MediaProjectInclude">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="ProjectInclude" EntitySet="ProjectInclude" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Setup">
           <Key>
@@ -410,25 +444,24 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Media" Relationship="PhotogramModel.ProjectMedia" FromRole="Project" ToRole="Media" />
           <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
           <Property Name="Type" Type="PhotogramModel.ProjectType" Nullable="false" />
           <Property Name="Year" Type="Int16" Nullable="false" />
           <Property Name="Position" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Title" Relationship="PhotogramModel.ProjectProjectTitle" FromRole="Project" ToRole="ProjectTitle" />
           <NavigationProperty Name="Description" Relationship="PhotogramModel.ProjectProjectDescription" FromRole="Project" ToRole="ProjectDescription" />
+          <NavigationProperty Name="ProjectInclude" Relationship="PhotogramModel.ProjectIncludeProject" FromRole="Project" ToRole="ProjectInclude" />
         </EntityType>
         <EntityType Name="Media">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectMedia" FromRole="Media" ToRole="Project" />
           <Property Name="FileName" Type="String" Nullable="false" Unicode="true" />
           <Property Name="Type" Type="PhotogramModel.MediaType" Nullable="false" />
-          <Property Name="PositionInProject" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Title" Relationship="PhotogramModel.MediaMediaTitle" FromRole="Media" ToRole="MediaTitle" />
           <NavigationProperty Name="Description" Relationship="PhotogramModel.MediaMediaDescription" FromRole="Media" ToRole="MediaDescription" />
+          <NavigationProperty Name="ProjectInclude" Relationship="PhotogramModel.MediaProjectInclude" FromRole="Media" ToRole="ProjectInclude" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -441,10 +474,6 @@
           </Property>
           <NavigationProperty Name="Translation" Relationship="PhotogramModel.LanguageTranslation" FromRole="Language" ToRole="Translation" />
         </EntityType>
-        <Association Name="ProjectMedia">
-          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="0..1" />
-          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="*" />
-        </Association>
         <EnumType Name="ProjectType">
           <Member Name="Portfolio" />
           <Member Name="Customer" />
@@ -531,6 +560,28 @@
           </End>
           <End Type="PhotogramModel.Translation" Role="Translation" Multiplicity="*" />
         </Association>
+        <EntityType Name="ProjectInclude">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Position" Type="Int32" Nullable="false" cg:SetterAccess="Public" />
+          <NavigationProperty Name="Project" Relationship="PhotogramModel.ProjectIncludeProject" FromRole="ProjectInclude" ToRole="Project" />
+          <Property Name="Cover" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaProjectInclude" FromRole="ProjectInclude" ToRole="Media" />
+        </EntityType>
+        <Association Name="ProjectIncludeProject">
+          <End Type="PhotogramModel.ProjectInclude" Role="ProjectInclude" Multiplicity="*" />
+          <End Type="PhotogramModel.Project" Role="Project" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <Association Name="MediaProjectInclude">
+          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.ProjectInclude" Role="ProjectInclude" Multiplicity="0..1" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -563,7 +614,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FileName" ColumnName="FileName" />
           <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="PositionInProject" ColumnName="PositionInProject" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -612,15 +662,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ProjectMedia" TypeName="PhotogramModel.ProjectMedia" StoreEntitySet="Media">
-      <EndProperty Name="Project">
-        <ScalarProperty Name="Id" ColumnName="Project_Id" />
-      </EndProperty>
-      <EndProperty Name="Media">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Project_Id" IsNull="false" />
-    </AssociationSetMapping>
+    <EntitySetMapping Name="ProjectInclude">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.ProjectInclude)">
+        <MappingFragment StoreEntitySet="ProjectInclude">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Cover" ColumnName="Cover" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ProjectProjectTitle" TypeName="PhotogramModel.ProjectProjectTitle" StoreEntitySet="Translation_ProjectTitle">
       <EndProperty Name="Project">
         <ScalarProperty Name="Id" ColumnName="Project_Id" />
@@ -674,6 +724,22 @@
         <ScalarProperty Name="LCID" ColumnName="Language_LCID" />
       </EndProperty>
       <EndProperty Name="Translation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProjectIncludeProject" TypeName="PhotogramModel.ProjectIncludeProject" StoreEntitySet="ProjectInclude">
+      <EndProperty Name="Project">
+        <ScalarProperty Name="Id" ColumnName="Project_Id" />
+      </EndProperty>
+      <EndProperty Name="ProjectInclude">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MediaProjectInclude" TypeName="PhotogramModel.MediaProjectInclude" StoreEntitySet="ProjectInclude">
+      <EndProperty Name="Media">
+        <ScalarProperty Name="Id" ColumnName="Media_Id" />
+      </EndProperty>
+      <EndProperty Name="ProjectInclude">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -211,6 +211,9 @@
     <Compile Include="Models\ProjectDescription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectInclude.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectTitle.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

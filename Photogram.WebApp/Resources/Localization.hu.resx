@@ -330,4 +330,7 @@
   <data name="Close" xml:space="preserve">
     <value>Bezárás</value>
   </data>
+  <data name="ErrPosRange" xml:space="preserve">
+    <value>Az elem sorszáma nem lehet kisebb 1-nél és nagyobb a tartalmazó gyűjtemény számosságánál.</value>
+  </data>
 </root>

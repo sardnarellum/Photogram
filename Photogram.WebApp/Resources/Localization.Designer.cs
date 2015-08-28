@@ -286,6 +286,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The item&apos;s position cannot be smaller than 1 and greater than the container&apos;s cardinality..
+        /// </summary>
+        public static string ErrPosRange {
+            get {
+                return ResourceManager.GetString("ErrPosRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The title can&apos;t be longer than 80 characters..
         /// </summary>
         public static string ErrTitleLength {

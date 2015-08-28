@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Resources;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -52,6 +53,8 @@ namespace Photogram.WebApp.Models
                     .FirstOrDefault();
             }
 
+            db.Dispose();
+
             return language;
         }
     }
@@ -77,6 +80,21 @@ namespace Photogram.WebApp.Models
 
             return null != description ? description.Text : "";
         }
+
+        /// <summary>
+        /// Position for a newly associated element.
+        /// </summary>
+        /// <returns>The position after the last associated element's position.</returns>
+        public int NewPosition()
+        {
+            var db = new PhotogramEntities();
+            var includes = db.ProjectInclude.Where(x => x.Project.Id == Id)
+                .ToList();
+
+            db.Dispose();
+
+            return includes.Count > 0 ? includes.Max(x => x.Position) + 1 : 1;
+        }
     }
 
     public partial class Media
@@ -99,6 +117,47 @@ namespace Photogram.WebApp.Models
             var description = Description.Current();
 
             return null != description ? description.Text : "";
+        }
+    }
+
+    public partial class ProjectInclude
+    {
+        /// <summary>
+        /// Set an elements position in project and shifting the other elements.
+        /// </summary>
+        /// <param name="newPosition"></param>
+        public void SetPosition(int newPosition)
+        {
+            if (newPosition == Position)
+                return;
+
+            var db = new PhotogramEntities();
+            var includes = db.ProjectInclude.Include("Project")
+                .Where(x => x.Project.Id == Project.Id);
+
+            db.Dispose();
+
+            var maxPosition = includes.Max(x => x.Position);
+
+            if (newPosition < 1 || newPosition > maxPosition)
+            {
+                throw new ArgumentOutOfRangeException(
+                    Localization.ErrPosRange);
+            }
+
+            var involved = includes.Where(x =>
+                    x.Position >= Math.Min(Position, newPosition) &&
+                    x.Position <= Math.Max(Position, newPosition) &&
+                    x.Position != Position);
+
+            var direction = Position < newPosition ? -1 : 1;
+
+            foreach (var elem in involved)
+            {
+                elem.Position += direction;
+            }
+
+            Position = newPosition;
         }
     }
 

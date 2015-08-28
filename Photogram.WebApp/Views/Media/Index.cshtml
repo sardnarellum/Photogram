@@ -188,7 +188,8 @@
             success:
                 function (data, status, xhr) {
                     var pckry = new Packery('#pckry-container', {
-                        gutter: 5
+                        gutter: 5,
+                        rowHeight: 208
                     });
 
                     pckry.on('removeComplete', function (event, removedItems) {

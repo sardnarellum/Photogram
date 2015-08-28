@@ -162,7 +162,8 @@ namespace Photogram.WebApp.Controllers
 
             if (null == media)
             {
-                ModelState.AddModelError("originalNotFound", Localization.ErrItemNotFoundInDb);
+                ModelState.AddModelError("originalNotFound"
+                    , Localization.ErrItemNotFoundInDb);
             }
             else
             {
@@ -231,22 +232,25 @@ namespace Photogram.WebApp.Controllers
         [AjaxErrorHandler]
         public JsonResult GetFileData()
         {
-            var media = _db.Media.Include("Project")
-                .OrderBy(x => x.PositionInProject).ToList();
+            var media = _db.Media.Include("ProjectInclude")
+                .OrderBy(x => x.ProjectInclude.Position).ToList();
 
             var fileDataList = new List<BasicFileData>();
 
             foreach(var elem in media)
             {
-                var inProject = elem.Project != null;
+                var inProject = elem.ProjectInclude != null;
 
                 var fileData =
                     new BasicFileData
                     {
                         Id = elem.Id,
                         FileName = elem.FileName,
-                        ProjectId = inProject ? elem.Project.Id : -1,
-                        ProjectTitle = inProject ? elem.Project.CurrentTitleText() : ""
+                        ProjectId = inProject
+                            ? elem.ProjectInclude.Project.Id
+                            : -1,
+                        ProjectTitle = inProject ? elem.ProjectInclude.Project
+                            .CurrentTitleText() : ""
                     };
 
                 fileDataList.Add(fileData);
@@ -273,7 +277,8 @@ namespace Photogram.WebApp.Controllers
                 throw new ArgumentNullException("mediaId",
                     Localization.ErrArgNull);
 
-            var media = _db.Media.Include("Project").Where(x => x.Id == mediaId).FirstOrDefault();
+            var media = _db.Media.Include("ProjectInclude")
+                .Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
                 throw new ArgumentException(
@@ -287,7 +292,7 @@ namespace Photogram.WebApp.Controllers
 
             if (-1 == projectId)
             {
-                media.Project = null;
+                _db.ProjectInclude.Remove(media.ProjectInclude);
             }
             else
             {
@@ -296,24 +301,32 @@ namespace Photogram.WebApp.Controllers
                 if (null == project)
                     return Json(new { Success = false, Message = "" });
 
-                media.Project = project;
+                var pInclude = new ProjectInclude
+                {
+                    Project = project,
+                    Media = media,
+                    Cover = false,
+                    Position = project.NewPosition()
+                };
+
+                media.ProjectInclude = pInclude;
             }
 
             _db.SaveChanges();
 
-            var inProject = media.Project != null;
+            var inProject = media.ProjectInclude != null;
 
             return Json(
                 new
                 {
                     Success = true,
                     ProjectTitle = inProject
-                        ? media.Project.Title.FirstOrDefault().Text
+                        ? media.ProjectInclude.Project.CurrentTitleText()
                         : Localization.NoProject,
                     InProject = inProject,
                     MediaId = media.Id // unused now
                 },
-                JsonRequestBehavior.AllowGet); // ML support
+                JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -328,13 +341,13 @@ namespace Photogram.WebApp.Controllers
             if (null == mediaId)
                 return Json(new { Success = false, Message = "" }); // TODO: error msgs
 
-            var media = _db.Media.Include("Project").Where(x => x.Id == mediaId).FirstOrDefault();
+            var media = _db.Media.Include("ProjectInclude").Where(x => x.Id == mediaId).FirstOrDefault();
 
             if (null == media)
                 return Json(new { Success = false, Message = "" });
 
 
-            media.Project = null;
+            media.ProjectInclude = null;
             _db.SaveChanges();
 
             return Json(new
@@ -417,7 +430,8 @@ namespace Photogram.WebApp.Controllers
             if (null == item)
                 return false;
 
-            var fullPath = Request.MapPath(string.Concat(Macros.UploadPathImgRel, item.FileName));
+            var fullPath = Request.MapPath(
+                string.Concat(Macros.UploadPathImgRel, item.FileName));
 
             if (System.IO.File.Exists(fullPath))
                 System.IO.File.Delete(fullPath);
