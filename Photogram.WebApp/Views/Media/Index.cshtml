@@ -19,23 +19,23 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             <a id="btn-home"
-                href="@Url.Action("Index", "Home")"
-                type="button"
-                class="btn btn-default">
+               href="@Url.Action("Index", "Home")"
+               type="button"
+               class="btn btn-default">
                 Photogram <span class="glyphicon glyphicon-home"></span>
             </a>
         </div>
         <div class="btn-group">
             <input id="fileupload"
-                    class="filestyle"
-                    type="file"
-                    multiple="multiple"
-                    data-buttontext="@Localization.Upload"
-                    data-badge="false"
-                    data-input="false"
-                    data-icon="false"
-                    accept="image/*"
-                    title="@Localization.UploadDesc">
+                   class="filestyle"
+                   type="file"
+                   multiple="multiple"
+                   data-buttontext="@Localization.Upload"
+                   data-badge="false"
+                   data-input="false"
+                   data-icon="false"
+                   accept="image/*"
+                   title="@Localization.UploadDesc">
         </div>
         <div class="btn-group">
             <button id="btn-delete"
@@ -51,74 +51,71 @@
             </div>
             @if (Model.Projects.Count > 0)
             {
-            <div class="btn-group">
-                <button id="project-select" type="button"
-                        class="btn btn-operation btn-default dropdown-toggle"
-                        data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" disabled>
-                    @Localization.Setup <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    @foreach (var project in Model.Projects)
-                    {
+                <div class="btn-group">
+                    <button id="project-select" type="button"
+                            class="btn btn-operation btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" disabled>
+                        @Localization.Setup <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var project in Model.Projects)
+                        {
+                            <li>
+                                <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
+                                    @project.CurrentTitleText()
+                                </a>
+                            </li>
+                        }
+                        <li class="divider"></li>
                         <li>
-                            <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                @project.CurrentTitleText()
+                            <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
+                                @Localization.NoProject
                             </a>
                         </li>
-                    }
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
-                            @Localization.NoProject
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <button id="project-filter" type="button"
-                        class="btn btn-default dropdown-toggle"
-                        data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    @Localization.Filter <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    @foreach (var project in Model.Projects)
-                    {
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button id="project-filter" type="button"
+                            class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        @Localization.Filter <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var project in Model.Projects)
+                        {
+                            <li>
+                                <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
+                                    @project.CurrentTitleText()
+                                </a>
+                            </li>
+                        }
+                        <li class="divider"></li>
                         <li>
-                            <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                @project.CurrentTitleText()
+                            <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
+                                @Localization.NoProject
                             </a>
                         </li>
-                    }
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
-                            @Localization.NoProject
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                    </ul>
+                </div>
             }
         </div>
     </div>
 </div>
 
-<div id="contmgmt-container" >
+<div id="contmgmt-container">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
     <noscript>
         <div class="alert alert-warning">@Localization.WarnNoScript</div>
     </noscript>
-
-    @*@foreach(var project in Model.Projects)
-    {
-    <div id="pckry-@project.Id">
-
-    </div>
-    }*@
     <div id="pckry-container">
+        @*@foreach (var elem in Model.Medias)
+            {
+                Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
+            }*@
     </div>
 </div>
 
@@ -128,11 +125,11 @@
     </div>
 </div>
 @*<footer>
-    <p>&copy; @DateTime.Now.Year - andrasmuller.com</p>
-</footer>*@
+        <p>&copy; @DateTime.Now.Year - andrasmuller.com</p>
+    </footer>*@
 
 @section scripts{
-<script type="text/javascript">
+    <script type="text/javascript">
     <!--
     var animOptions = {
         duration: 400,
@@ -191,15 +188,12 @@
             success:
                 function (data, status, xhr) {
                     var pckry = new Packery('#pckry-container', {
-                        gutter: 5
+                        gutter: 5,
+                        rowHeight: 208
                     });
 
                     pckry.on('removeComplete', function (event, removedItems) {
                         setWarningVisibility();
-                    });
-
-                    pckry.on('layoutComplete', function (laidOutItems) {
-                        console.log('laid out');
                     });
 
                     var dataList = data.DataList;
@@ -225,8 +219,6 @@
                             var thumbData = dataList[i];
                             createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId, progress);
                         }
-
-                        pckry.layout();
                     }
                 },
             error:
@@ -306,6 +298,9 @@
         thumb.className = 'pckry-item';
         thumb.id = fileId;
 
+        var img = document.createElement('img');
+        img.className = 'pckry-img';
+
         var magnifier = document.createElement('a');
         magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
         magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
@@ -339,47 +334,31 @@
         };
         $(edit).append('<span class="glyphicon glyphicon-edit"></span>');
 
-        var img = document.createElement('img');
-        img.className = 'pckry-img';
-
-        var spinner = document.createElement('img');
-        spinner.className = 'pckry-img';
-
-        $(spinner).attr('src', '@Url.Content("~/Content/ajax-loader-big.gif")').load(function () {
+        $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
 
             var $thumb = $(thumb);
             $thumb.empty();
-            $thumb.append(spinner);
+            $thumb.append(magnifier);
+            $thumb.append($(img));
+            $thumb.append(label);
+            $thumb.append(edit);
+            renderProjectName(projectId, label);
 
             var fragment = document.createDocumentFragment();
             fragment.appendChild(thumb);
 
             var container = document.querySelector('#pckry-container');
-            //var container = document.querySelector('#pckry-' + projectId);
             container.appendChild(fragment);
 
             var pckry = Packery.data(container);
             pckry.appended(thumb);
             pckry.layout();
 
+            if (progress != null)
+                progress.inc();
+            //console.log(fileName + ' loaded and appended to packery');
 
-
-
-            $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
-                $thumb.empty();
-                $thumb.append(magnifier);
-                $thumb.append(img);
-                $thumb.append(label);
-                $thumb.append(edit);
-                renderProjectName(projectId, label);
-                pckry.layout();
-
-                if (progress != null)
-                    progress.inc();
-                //console.log(fileName + ' loaded and appended to packery');
-
-                setWarningVisibility();
-            });
+            setWarningVisibility();
         });
     }
 
@@ -543,7 +522,7 @@
         $('#lightview-viewer').empty();
     }
     //-->
-</script>
+    </script>
 }
 
 
