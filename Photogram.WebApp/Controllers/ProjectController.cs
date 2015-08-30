@@ -81,7 +81,7 @@ namespace Photogram.WebApp.Controllers
             if (null == projectId)
                 return RedirectToAction("Index", "Home");
 
-            var project = _db.Project.Include("Media").
+            var project = _db.Project.Include("ProjectInclude").
                                     Include("Title").
                                     Include("Description").
                                     Where(x => x.Id == projectId).FirstOrDefault();
