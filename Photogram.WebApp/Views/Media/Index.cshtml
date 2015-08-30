@@ -104,31 +104,19 @@
     </div>
 </div>
 
-<div id="contmgmt-container" class="container container-fluid">
+<div id="contmgmt-container">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
     <noscript>
         <div class="alert alert-warning">@Localization.WarnNoScript</div>
     </noscript>
-    <div id="collections" class="packery-list">
-        <h2>@Localization.NoProject <span class="badge">@Model.Medias.Where(x => x.ProjectInclude == null).Count()</span></h2>
-        <div id="pckry--1" class="js-packery" data-packery-options='{ "gutter": 5 }'>
-        </div>
-    @foreach (var elem in Model.Projects.OrderByDescending(x => x.Position))
-    {
-        <hr />
-        <h2>@elem.CurrentTitleText() <span class="badge">@elem.ProjectInclude.Count</span></h2>
-        <div id="pckry-@elem.Id" class="js-packery" data-packery-options='{ "gutter": 5 }'>
-        </div>
-    }
-    </div>
-    @*<div id="pckry-container">
-        @foreach (var elem in Model.Medias)
+    <div id="pckry-container">
+        @*@foreach (var elem in Model.Medias)
             {
                 Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
-            }
-    </div>*@
+            }*@
+    </div>
 </div>
 
 <div id="contmgmt-footer">
@@ -194,19 +182,19 @@
 
     docReady(function () {
 
-        $('.js-packery').each(function (index, value) {
-            var pckry = Packery.data(value);
-
-            pckry.on('removeComplete', function (event, removedItems) {
-                setWarningVisibility();
-            });
-        });
-
         $.ajax({
             url: '@Url.Action("GetFileData", "Media")',
             type: 'GET',
             success:
                 function (data, status, xhr) {
+                    var pckry = new Packery('#pckry-container', {
+                        gutter: 5,
+                        rowHeight: 208
+                    });
+
+                    pckry.on('removeComplete', function (event, removedItems) {
+                        setWarningVisibility();
+                    });
 
                     var dataList = data.DataList;
 
@@ -318,6 +306,10 @@
         magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
         $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
 
+        var label = document.createElement('div');
+        var labelType = projectId != -1 ? 'info' : 'warning';
+        label.className = 'label label-' + labelType + ' thumb-project-title';
+
         var edit = document.createElement('button');
         edit.className = ' btn btn-default btn-xs thumb-edit noselect';
         edit.onclick = function () {
@@ -348,12 +340,14 @@
             $thumb.empty();
             $thumb.append(magnifier);
             $thumb.append($(img));
+            $thumb.append(label);
             $thumb.append(edit);
+            renderProjectName(projectId, label);
 
             var fragment = document.createDocumentFragment();
             fragment.appendChild(thumb);
 
-            var container = document.querySelector('#pckry-' + projectId);
+            var container = document.querySelector('#pckry-container');
             container.appendChild(fragment);
 
             var pckry = Packery.data(container);
@@ -415,7 +409,7 @@
                 },
                 success:
                     function (data, status, xhr) {
-                        var container = document.querySelector('#pckry-' + data.ProjectId);
+                        var container = document.querySelector('#pckry-container');
                         var pckry = Packery.data(container);
                         pckry.remove(element);
                         pckry.layout();
@@ -432,6 +426,25 @@
         $('.btn-operation').prop('disabled', true);
     });
 
+    function renderProjectName(projId, renderElem) {
+        $.ajax({
+            url: '@Url.Content("~/Project/ProjectName")',
+            type: 'POST',
+            data: {
+                projectId: projId
+            },
+            success:
+                function (rdata, status, xhr) {
+                    $(renderElem).html(rdata.ProjectTitle);
+                    //console.log('project title rendered received: ' + rdata.ProjectTitle);
+                },
+            error:
+                function () {
+                    console.log(projId + ' project name rendering failed.');
+                }
+        });
+    }
+
     function setProject(id) {
         $('.ui-selected').each(function (index, element) {
             $.ajax({
@@ -443,32 +456,18 @@
                 },
                 success:
                     function (rdata, status, xhr) {
-                        var $item = $('.pckry-item#' + element.id);
-                        var $oldCont = $item.parent().packery();
+                        var label = $(element).children('.label');
+                        label.hide();
+                        label.html(rdata.ProjectTitle);
 
-                        $oldCont.on('removeComplete', function (event, removedItems) {
-                            var $container = $('#pckry-' + id);
-                            $container.append(removedItems);
-                            $container.packery('appended', removedItems).packery();
+                        if (!rdata.InProject) {
+                            label.switchClass('label-info', 'label-warning');
+                        }
+                        else {
+                            label.switchClass('label-warning', 'label-info');
+                        }
 
-                            console.log('removed from old');
-                        });
-                        
-                        $oldCont.packery('remove', $item);
-
-                        
-                        //var label = $(element).children('.label');
-                        //label.hide();
-                        //label.html(rdata.ProjectTitle);
-
-                        //if (!rdata.InProject) {
-                        //    label.switchClass('label-info', 'label-warning');
-                        //}
-                        //else {
-                        //    label.switchClass('label-warning', 'label-info');
-                        //}
-
-                        //label.fadeIn(animOptions);
+                        label.fadeIn(animOptions);
                     },
                 error:
                     function () {
