@@ -55,44 +55,12 @@ namespace Photogram.WebApp.Controllers
                 throw new ArgumentNullException("mediaId",
                     Localization.ErrArgNull);
 
-            var item = _db.Media.Include("ProjectInclude").Include("Title")
-                .Include("Description")
-                .Where(x => x.Id == mediaId).FirstOrDefault();
-
-            if (null == item)
+            if (!Delete((int)mediaId))
                 throw new ArgumentException(
                     mediaId.ToString() + " does not exists in Media.",
                     "mediaId");
 
-            var fullPath = Request.MapPath(
-                string.Concat(Common.UploadPathImgRel, item.FileName));
-
-            if (System.IO.File.Exists(fullPath))
-                System.IO.File.Delete(fullPath);
-
-            foreach (var t in item.Title.ToList())
-            {
-                _db.Translation.Remove(t);
-            }
-
-            foreach (var d in item.Description.ToList())
-            {
-                _db.Translation.Remove(d);
-            }
-
-            _db.Media.Remove(item);
-            _db.SaveChanges();
-
-            var projectId = item.ProjectInclude != null
-                ? item.ProjectInclude.Project.Id
-                : -1;
-
-            return Json(
-                new
-                {
-                    Success = true,
-                    ProjectId = projectId
-                }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -447,6 +415,41 @@ namespace Photogram.WebApp.Controllers
                     Title = localTitle != null ? localTitle.Text : "",
                     Description = localDescription != null ? localDescription.Text : ""
                 }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Delete media item from database.
+        /// </summary>
+        /// <param name="mediaId">Id of the item.</param>
+        /// <returns>True if item exists in database.</returns>
+        private bool Delete(int mediaId)
+        {
+            var item = _db.Media.Include("ProjectInclude").Include("Title").Include("Description")
+                .Where(x => x.Id == mediaId).FirstOrDefault();
+
+            if (null == item)
+                return false;
+
+            var fullPath = Request.MapPath(
+                string.Concat(Common.UploadPathImgRel, item.FileName));
+
+            if (System.IO.File.Exists(fullPath))
+                System.IO.File.Delete(fullPath);
+
+            foreach (var t in item.Title.ToList())
+            {
+                _db.Translation.Remove(t);
+            }
+
+            foreach (var d in item.Description.ToList())
+            {
+                _db.Translation.Remove(d);
+            }
+
+            _db.Media.Remove(item);
+            _db.SaveChanges();
+
+            return true;
         }
 
         private DirectoryInfo ServerDirectory(string p)
