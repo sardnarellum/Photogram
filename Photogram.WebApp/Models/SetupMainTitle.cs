@@ -12,16 +12,9 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Log
+    public partial class SetupMainTitle : Translation
     {
-        public int Id { get; set; }
-        public System.DateTime Time { get; set; }
-        public LogType Type { get; set; }
     
-        public virtual Media Media { get; set; }
-        public virtual Project Project { get; set; }
-        public virtual TextValue TextValue { get; set; }
         public virtual Setup Setup { get; set; }
-        public virtual Language Language { get; set; }
     }
 }

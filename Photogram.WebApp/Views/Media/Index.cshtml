@@ -2,443 +2,528 @@
 @using Photogram.WebApp.Models
 
 @{
-    ViewBag.Title = Localization.ContentMgmt;
     Layout = "~/Views/Shared/_LayoutContMgmt.cshtml";
 }
 
-@model MediaViewModel
+@model ContentMgmtViewModel
 
-
-<div class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("AM", "Index", "Home", null, new { @class = "navbar-brand" })
+<div id="editMediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editMediaModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @Html.Partial("_EditMediaPartial", new MediaInformation())
         </div>
-        <div class="navbar-collapse collapse">
-            @*@Html.Partial("_LoginPartial")
-                @Html.Partial("_AdminPartial")*@
-            <form class="navbar-form navbar-left">
-                <input id="fileupload"
-                       class="filestyle"
-                       type="file"
-                       multiple="multiple"
-                       data-buttontext="@Localization.Upload"
-                       data-badge="false"
-                       data-input="false"
-                       data-icon="false"
-                       accept="image/*"
-                       title="@Localization.UploadDesc">
-                <button id="btn-delete"
-                        type="button"
-                        class="btn btn-operation btn-danger"
-                        disabled>@Localization.Delete</button>
+    </div>
+</div>
+
+<div id="contTools">
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a id="btn-home"
+               href="@Url.Action("Index", "Home")"
+               type="button"
+               class="btn btn-default">
+                Photogram <span class="glyphicon glyphicon-home"></span>
+            </a>
+        </div>
+        <div class="btn-group">
+            <input id="fileupload"
+                   class="filestyle"
+                   type="file"
+                   multiple="multiple"
+                   data-buttontext="@Localization.Upload"
+                   data-badge="false"
+                   data-input="false"
+                   data-icon="false"
+                   accept="image/*"
+                   title="@Localization.UploadDesc">
+        </div>
+        <div class="btn-group">
+            <button id="btn-delete"
+                    type="button"
+                    class="btn btn-operation btn-danger"
+                    disabled>
+                @Localization.Delete
+            </button>
+        </div>
+        <div class="btn-group">
+            <div class="btn btn-default" disabled>
+                @Localization.Manage
+            </div>
+            @if (Model.Projects.Count > 0)
+            {
                 <div class="btn-group">
-                    <div class="btn-group">
-                        <button id="project-select" type="button"
-                                class="btn btn-operation btn-default dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" disabled>
-                            @Localization.Setup <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach (var project in Model.Projects)
-                            {
-                                <li>
-                                    <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                        @project.Title.FirstOrDefault().Text
-                                    </a>
-                                </li>
-                            }
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
-                                    @Localization.NoProject
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="btn-group">
-                        <button id="project-filter" type="button"
-                                class="btn btn-default dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                            @Localization.Filter <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
+                    <button id="project-select" type="button"
+                            class="btn btn-operation btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" disabled>
+                        @Localization.Setup <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
                         @foreach (var project in Model.Projects)
                         {
                             <li>
                                 <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                    @project.Title.FirstOrDefault().Text
+                                    @project.CurrentTitleText()
                                 </a>
                             </li>
                         }
-                            <li class="divider"></li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
+                                @Localization.NoProject
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button id="project-filter" type="button"
+                            class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        @Localization.Filter <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach (var project in Model.Projects)
+                        {
                             <li>
-                                <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
-                                    @Localization.NoProject
+                                <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
+                                    @project.CurrentTitleText()
                                 </a>
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        @Localization.Works<span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu" id="worksDropDown">
-                        @{ Html.RenderAction("WorksDropDown", "Home"); }
+                        }
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
+                                @Localization.NoProject
+                            </a>
+                        </li>
                     </ul>
-                </li>
-                <li>@Html.ActionLink(Localization.About, "About", "Home")</li>
-                <li>@Html.ActionLink(Localization.Contact, "Contact", "Home")</li>
-            </ul>
+                </div>
+            }
         </div>
     </div>
 </div>
-<div id="contmgmt-container" class="container-fluid body-content">
+
+<div id="contmgmt-container">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
-    <div id="loadProgressContainer" class="progress" style="display: none; min-width: 2em;">
-        <div id="loadProgress" class="progress-bar" role="progressbar">
-        </div>
-    </div>
+    <noscript>
+        <div class="alert alert-warning">@Localization.WarnNoScript</div>
+    </noscript>
     <div id="pckry-container">
         @*@foreach (var elem in Model.Medias)
-        {
-            Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
-        }*@
+            {
+                Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
+            }*@
     </div>
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - andrasmuller.com</p>
-    </footer>
 </div>
 
-    @section scripts{
-        <script type="text/javascript">
+<div id="contmgmt-footer">
+    <div id="loadProgressContainer" class="progress" style="margin-bottom: 0px; display: none;">
+        <div id="loadProgress" class="progress-bar" style="min-width: 10em;" role="progressbar"></div>
+    </div>
+</div>
+@*<footer>
+        <p>&copy; @DateTime.Now.Year - andrasmuller.com</p>
+    </footer>*@
 
-            var animOptions = {
-                duration: 400,
-                easing: 'swing'
-            };
+@section scripts{
+    <script type="text/javascript">
+    <!--
+    var animOptions = {
+        duration: 400,
+        easing: 'swing'
+    };
 
-            var Progress = function (bar, opts) {
+    var Progress = function (bar, opts) {
 
-                this.options = {
-                    all: 100,
-                    showLabel: true,
-                    percent: true,
-                }
+        this.options = {
+            all: 100,
+            showLabel: true,
+            percent: true,
+        }
 
-                this.processed = 0;
+        this.processed = 0;
 
-                if (typeof opts == 'object'){
-                    this.options = $.extend(this.options, opts);
-                }
+        if (typeof opts == 'object') {
+            this.options = $.extend(this.options, opts);
+        }
 
-                this.bar = bar;
-                this.bar.style.width = 0 + '%';
+        this.bar = bar;
+        this.bar.style.width = 0 + '%';
 
-                this.completed = new Event('progressCompleted');
-            }
+        if (this.options.showLabel) {
+            this.bar.innerHTML = this.options.percent
+                ? 0 + '%'
+                : this.options.all + ' / ' + this.processed;
+        }
 
-            Progress.prototype.update = function (processed) {
-                this.processed = processed;
-                this.bar.style.width = ((100/this.options.all) * this.processed) + '%';
-
-                if (this.options.showLabel) {
-                    this.bar.innerHTML = this.options.percent
-                        ? ((100/this.options.all) * this.processed) + '%'
-                        : this.options.all + ' / ' + this.processed;
-                }
-
-                if (this.processed == this.options.all)
-                    document.body.dispatchEvent(this.completed);
-            }
-
-            Progress.prototype.inc = function () {
-                this.update(this.processed + 1);
-            }
-
-            docReady(function () {
-
-                $.ajax({
-                    url: '@Url.Action("GetFileData", "Media")',
-                    type: 'POST',
-                    success:
-                        function (data, status, xhr) {
-                            var pckry = new Packery('#pckry-container');
-
-                            pckry.on('removeComplete', function (event, removedItems) {
-                                setWarningVisibility();
-                            });
-
-                            var dataList = data.DataList;
-
-                            var barContainer = $('#loadProgressContainer');
-                            barContainer.show();
-
-                            var bar = document.getElementById('loadProgress');
-                            var progress = new Progress(bar, {
-                                all: dataList.length,
-                                percent: false
-                            });
-
-                            var hideProgress = function () {                                
-                                barContainer.delay(1000).fadeOut();
-                                document.body.removeEventListener("progressCompleted", hideProgress);
-                            }
-
-                            document.body.addEventListener("progressCompleted", hideProgress);
-
-                            for (var i = 0; i < dataList.length; i++) {
-                                var thumbData = dataList[i];
-                                createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId, progress);
-                            }
-                        },
-                    error:
-                        function (xhr, status, error) {
-                            var errorText = error;
-                            console.log('getFileData error: ' + errorText);
-                        }
-                });
-
-                setWarningVisibility();
-
-                $('#pckry-container').selectable({
-                    filter: '.pckry-item',
-                    cancel: '.noselect',
-                    selected: function (event, ui) {
-                        if ($('.ui-selected').size() > 0) {
-                            $('.btn-operation').prop('disabled', false);
-                        }
-                    },
-                    unselected: function (event, ui) {
-                        if ($('.ui-selected').size() == 0) {
-                            $('.btn-operation').prop('disabled', true);
-                        }
-                    }
-                });
-
-                var uploadfiles = document.querySelector('#fileupload');
-
-                uploadfiles.addEventListener('change', function () {
-                    var files = this.files;
-                    for (var i = 0; i < files.length; ++i) {
-                        uploadFile(this.files[i], 'Media/AjaxUpload');
-                    }
-                }, false);
-
-            });
-
-            function uploadFile(file, url) {
-                var xhr = new XMLHttpRequest();
-                var fd = new FormData();
-
-                xhr.open("POST", url, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        rdata = JSON.parse(xhr.responseText);
-                        createThumbnail(rdata.FileName, rdata.FileId, -1);
-                    }
-                }
-
-                fd.append("upload_file", file);
-                xhr.send(fd);
-            }
-
-            function createThumbnail(fileName, fileId, projectId, progress){
-                var thumb = document.createElement('div');
-                thumb.className = 'pckry-item';
-                thumb.id = fileId;
-
-                var img = document.createElement('img');
-                img.className = 'pckry-img';
-
-                var magnifier = document.createElement('a');
-                magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
-                magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
-                $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
-
-                var label = document.createElement('div');
-                var labelType = projectId != -1 ? 'info' : 'warning';
-                label.className = 'label label-' + labelType + ' thumb-project-title';
-
-                $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
-
-                    var $thumb = $(thumb);
-                    $thumb.empty();
-                    $thumb.append(magnifier);
-                    $thumb.append($(img));
-                    $thumb.append(label);
-                    renderProjectName(projectId, label);
-
-                    var fragment = document.createDocumentFragment();
-                    fragment.appendChild(thumb);
-
-                    var container = document.querySelector('#pckry-container');
-                    container.appendChild(fragment);
-
-                    var pckry = Packery.data(container);
-                    pckry.appended(thumb);
-
-                    if (progress != null)
-                        progress.inc();
-                    //console.log(fileName + ' loaded and appended to packery');
-
-                    setWarningVisibility();
-                });
-            }
-
-            function setWarningVisibility() {
-                var warning = $('#nodata-info');
-                $.ajax({
-                    url: '@Url.Content("~/Media/MediaCount")',
-                    type: 'POST',
-                    success :
-                        function (data, status, xhr) {
-                            if (data.Count == 0) {
-                                warning.fadeIn(animOptions);
-                            }
-                            else {
-                                warning.fadeOut(animOptions);
-                            }
-                        }
-                });
-            }
-
-            $('#btn-delete').click(function () {
-                $('.ui-selected').each(function (index, element) {
-                    $.ajax({
-                        url: '@Url.Content("~/Media/DeleteJson")',
-                        type: 'POST',
-                        data: {
-                            mediaId: element.id
-                        },
-                        success:
-                            function (data, status, xhr) {
-                                var pckry = $('#pckry-container').packery();
-                                pckry.packery('remove', element);
-                                pckry.packery();
-
-                                setWarningVisibility();
-                            },
-                        error:
-                            function (e) {
-                                console.log('delete error: ' + e.responseJSON.error);
-                            }
-                    });
-                });
-                $('.btn-operation').prop('disabled', true);
-            });
-
-            function renderProjectName(projId, renderElem){
-                $.ajax({
-                    url: '@Url.Content("~/Project/ProjectName")',
-                    type: 'POST',
-                    data: {
-                        projectId: projId
-                    },
-                    success:
-                        function (rdata, status, xhr) {
-                            $(renderElem).html(rdata.ProjectTitle);
-                            //console.log('project title rendered received: ' + rdata.ProjectTitle);
-                        },
-                    error:
-                        function () {
-                            console.log(projId + ' project name rendering failed.');
-                        }
-                });
-            }
-
-            function setProject(id) {
-                $('.ui-selected').each(function (index, element) {
-                    $.ajax({
-                        url: '@Url.Content("~/Media/SetProject")',
-                        type: 'POST',
-                        data: {
-                            mediaId: element.id,
-                            projectId: id
-                        },
-                        success:
-                            function (rdata, status, xhr) {
-                                var label = $(element).children('.label');
-                                label.hide();
-                                label.html(rdata.ProjectTitle);
-
-                                if (!rdata.InProject) {
-                                    label.switchClass('label-info', 'label-warning');
-                                }
-                                else {
-                                    label.switchClass('label-warning', 'label-info');
-                                }
-
-                                label.fadeIn(animOptions);
-                            },
-                        error:
-                            function () {
-                                console.log('setProject error: ' + element.id);
-                            }
-                    });
-                });
-
-                return false;
-            }
-
-            function lightView(contentUrl) {
-
-                var viewer = $('#lightview-viewer');
-                if (viewer.size() == 0) {
-                    var view = $('<div id="lightview-viewer"/>');
-                    var shadow = $('<div id="lightview-shadow"/>');
-
-                    $(shadow).click(function (e) {
-                        closeLightView();
-                    });
-
-                    $('body').append(shadow);
-                    $('body').append(view);
-                }
-
-                viewer.empty();
-
-                if (contentUrl != null) {
-                    viewer.append('<img src="Content/ajax-loader.gif">');
-
-                    var img = $("<img />").attr('class', 'lightview-image').attr('src', contentUrl).load(function () {
-                        if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-                            alert('broken image!');
-                        } else {
-                            viewer.empty();
-                            viewer.append(img);
-                        }
-                    });
-                }
-
-                //viewer.css('top', $(window).scrollTop() + 100 + 'px');
-
-                viewer.show();
-                $('#lightview-shadow').show();
-            }
-
-            function closeLightView() {
-                $('#lightview-viewer').hide();
-                $('#lightview-shadow').hide();
-
-                $('#lightview-viewer').empty();
-            }
-
-</script>
+        this.completed = new Event('progressCompleted');
     }
+
+    Progress.prototype.update = function (processed) {
+        this.processed = processed;
+        this.bar.style.width = ((100 / this.options.all) * this.processed) + '%';
+
+        if (this.options.showLabel) {
+            this.bar.innerHTML = this.options.percent
+                ? ((100 / this.options.all) * this.processed) + '%'
+                : this.options.all + ' / ' + this.processed;
+        }
+
+        if (this.processed == this.options.all)
+            document.body.dispatchEvent(this.completed);
+    }
+
+    Progress.prototype.inc = function () {
+        this.update(this.processed + 1);
+    }
+
+    docReady(function () {
+
+        $.ajax({
+            url: '@Url.Action("GetFileData", "Media")',
+            type: 'GET',
+            success:
+                function (data, status, xhr) {
+                    var pckry = new Packery('#pckry-container', {
+                        gutter: 5,
+                        rowHeight: 208
+                    });
+
+                    pckry.on('removeComplete', function (event, removedItems) {
+                        setWarningVisibility();
+                    });
+
+                    var dataList = data.DataList;
+
+                    if (dataList.length > 0) {
+                        var barContainer = $('#loadProgressContainer');
+                        barContainer.show();
+
+                        var bar = document.getElementById('loadProgress');
+                        var progress = new Progress(bar, {
+                            all: dataList.length,
+                            percent: false
+                        });
+
+                        var hideProgress = function () {
+                            barContainer.delay(2000).fadeOut(1000);
+                            document.body.removeEventListener("progressCompleted", hideProgress);
+                        }
+
+                        document.body.addEventListener("progressCompleted", hideProgress);
+
+                        for (var i = 0; i < dataList.length; i++) {
+                            var thumbData = dataList[i];
+                            createThumbnail(thumbData.FileName, thumbData.Id, thumbData.ProjectId, progress);
+                        }
+                    }
+                },
+            error:
+                function (xhr, status, error) {
+                    var errorText = error;
+                    console.log('getFileData error: ' + errorText);
+                }
+        });
+
+        setWarningVisibility();
+
+        $('#contmgmt-container').selectable({
+            filter: '.pckry-item',
+            cancel: '.noselect',
+            selected: function (event, ui) {
+                if ($('.ui-selected').size() > 0) {
+                    $('.btn-operation').prop('disabled', false);
+                }
+            },
+            unselected: function (event, ui) {
+                if ($('.ui-selected').size() == 0) {
+                    $('.btn-operation').prop('disabled', true);
+                }
+            }
+        });
+
+        var uploadfiles = document.querySelector('#fileupload');
+
+        uploadfiles.addEventListener('change', function () {
+            var files = this.files;
+
+            var barContainer = $('#loadProgressContainer');
+            barContainer.show();
+
+            var bar = document.getElementById('loadProgress');
+            $(bar).addClass("progress-bar-success");
+
+            var progress = new Progress(bar, {
+                all: files.length,
+                percent: false
+            });
+
+            var hideProgress = function () {
+                barContainer.delay(2000).fadeOut(1000, function () {
+                    $(bar).removeClass("progress-bar-success");
+                });
+                document.body.removeEventListener("progressCompleted", hideProgress);
+            }
+
+            document.body.addEventListener("progressCompleted", hideProgress);
+
+            for (var i = 0; i < files.length; ++i) {
+                uploadFile(this.files[i], 'Media/AjaxUpload', progress);
+            }
+        }, false);
+
+    });
+
+    function uploadFile(file, url, progress) {
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData();
+
+        xhr.open("POST", url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                rdata = JSON.parse(xhr.responseText);
+                createThumbnail(rdata.FileName, rdata.FileId, -1, progress);
+            }
+        }
+
+        fd.append("upload_file", file);
+        xhr.send(fd);
+    }
+
+    function createThumbnail(fileName, fileId, projectId, progress) {
+        var thumb = document.createElement('div');
+        thumb.className = 'pckry-item';
+        thumb.id = fileId;
+
+        var img = document.createElement('img');
+        img.className = 'pckry-img';
+
+        var magnifier = document.createElement('a');
+        magnifier.className = ' btn btn-default btn-xs thumb-magnifier noselect';
+        magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
+        $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
+
+        var label = document.createElement('div');
+        var labelType = projectId != -1 ? 'info' : 'warning';
+        label.className = 'label label-' + labelType + ' thumb-project-title';
+
+        var edit = document.createElement('button');
+        edit.className = ' btn btn-default btn-xs thumb-edit noselect';
+        edit.onclick = function () {
+            $.ajax({
+                url: '@Url.Content("~/Media/InitEdit")',
+                type: 'GET',
+                data: {
+                    mediaId: fileId
+                },
+                success:
+                    function (data, status, xhr) {
+                        var editModal = $('#editMediaModal');
+                        editModal.find('.modal-content').html(data.View);
+                        editModal.modal('show');
+                    },
+                error:
+                    function (e) {
+                        console.log('edit modal show error: ' + e.responseJSON.error);
+                    }
+            });
+            console.log('elem edited: ' + fileId);
+        };
+        $(edit).append('<span class="glyphicon glyphicon-edit"></span>');
+
+        $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
+
+            var $thumb = $(thumb);
+            $thumb.empty();
+            $thumb.append(magnifier);
+            $thumb.append($(img));
+            $thumb.append(label);
+            $thumb.append(edit);
+            renderProjectName(projectId, label);
+
+            var fragment = document.createDocumentFragment();
+            fragment.appendChild(thumb);
+
+            var container = document.querySelector('#pckry-container');
+            container.appendChild(fragment);
+
+            var pckry = Packery.data(container);
+            pckry.appended(thumb);
+            pckry.layout();
+
+            if (progress != null)
+                progress.inc();
+            //console.log(fileName + ' loaded and appended to packery');
+
+            setWarningVisibility();
+        });
+    }
+
+    function setWarningVisibility() {
+        var warning = $('#nodata-info');
+        $.ajax({
+            url: '@Url.Content("~/Media/MediaCount")',
+            type: 'POST',
+            success:
+                function (data, status, xhr) {
+                    if (data.Count == 0) {
+                        warning.fadeIn(animOptions);
+                    }
+                    else {
+                        warning.hide();
+                    }
+                }
+        });
+    }
+
+    $('#btn-delete').click(function () {
+        var barContainer = $('#loadProgressContainer');
+        barContainer.show();
+
+        var bar = document.getElementById('loadProgress');
+        $(bar).addClass("progress-bar-danger");
+
+        var progress = new Progress(bar, {
+            all: $('.ui-selected').length,
+            percent: false
+        });
+
+        var hideProgress = function () {
+            barContainer.delay(2000).fadeOut(1000, function () {
+                $(bar).removeClass("progress-bar-danger");
+            });
+            document.body.removeEventListener("progressCompleted", hideProgress);
+        }
+
+        document.body.addEventListener("progressCompleted", hideProgress);
+
+        $('.ui-selected').each(function (index, element) {
+            $.ajax({
+                url: '@Url.Content("~/Media/DeleteJson")',
+                type: 'POST',
+                data: {
+                    mediaId: element.id
+                },
+                success:
+                    function (data, status, xhr) {
+                        var container = document.querySelector('#pckry-container');
+                        var pckry = Packery.data(container);
+                        pckry.remove(element);
+                        pckry.layout();
+                        progress.inc();
+
+                        setWarningVisibility();
+                    },
+                error:
+                    function (e) {
+                        console.log('delete error: ' + e.responseJSON.error);
+                    }
+            });
+        });
+        $('.btn-operation').prop('disabled', true);
+    });
+
+    function renderProjectName(projId, renderElem) {
+        $.ajax({
+            url: '@Url.Content("~/Project/ProjectName")',
+            type: 'POST',
+            data: {
+                projectId: projId
+            },
+            success:
+                function (rdata, status, xhr) {
+                    $(renderElem).html(rdata.ProjectTitle);
+                    //console.log('project title rendered received: ' + rdata.ProjectTitle);
+                },
+            error:
+                function () {
+                    console.log(projId + ' project name rendering failed.');
+                }
+        });
+    }
+
+    function setProject(id) {
+        $('.ui-selected').each(function (index, element) {
+            $.ajax({
+                url: '@Url.Content("~/Media/SetProject")',
+                type: 'POST',
+                data: {
+                    mediaId: element.id,
+                    projectId: id
+                },
+                success:
+                    function (rdata, status, xhr) {
+                        var label = $(element).children('.label');
+                        label.hide();
+                        label.html(rdata.ProjectTitle);
+
+                        if (!rdata.InProject) {
+                            label.switchClass('label-info', 'label-warning');
+                        }
+                        else {
+                            label.switchClass('label-warning', 'label-info');
+                        }
+
+                        label.fadeIn(animOptions);
+                    },
+                error:
+                    function () {
+                        console.log('setProject error: ' + element.id);
+                    }
+            });
+        });
+
+        return false;
+    }
+
+    function lightView(contentUrl) {
+
+        var viewer = $('#lightview-viewer');
+        if (viewer.size() == 0) {
+            var view = $('<div id="lightview-viewer"/>');
+            var shadow = $('<div id="lightview-shadow"/>');
+
+            $(shadow).click(function (e) {
+                closeLightView();
+            });
+
+            $('body').append(shadow);
+            $('body').append(view);
+        }
+
+        viewer.empty();
+
+        if (contentUrl != null) {
+            viewer.append('<img src="Content/ajax-loader.gif">');
+
+            var img = $("<img />").attr('class', 'lightview-image').attr('src', contentUrl).load(function () {
+                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                    alert('broken image!');
+                } else {
+                    viewer.empty();
+                    viewer.append(img);
+                }
+            });
+        }
+
+        //viewer.css('top', $(window).scrollTop() + 100 + 'px');
+
+        viewer.show();
+        $('#lightview-shadow').show();
+    }
+
+    function closeLightView() {
+        $('#lightview-viewer').hide();
+        $('#lightview-shadow').hide();
+
+        $('#lightview-viewer').empty();
+    }
+    //-->
+    </script>
+}
 
 
 

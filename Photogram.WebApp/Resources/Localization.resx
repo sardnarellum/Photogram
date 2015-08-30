@@ -297,4 +297,43 @@
   <data name="ErrArgNull" xml:space="preserve">
     <value>Argument cannot be null.</value>
   </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="EditElement" xml:space="preserve">
+    <value>Edit element</value>
+  </data>
+  <data name="WarnNoScript" xml:space="preserve">
+    <value>It seems that your browers not runs scripts. To use all of Photogram functionalities, turn them on.</value>
+  </data>
+  <data name="ErrTitleLength" xml:space="preserve">
+    <value>The title can't be longer than 80 characters.</value>
+  </data>
+  <data name="EditProperties" xml:space="preserve">
+    <value>Edit properties</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
+  </data>
+  <data name="ErrItemNotFoundInDb" xml:space="preserve">
+    <value>The original file not found in the database.</value>
+  </data>
+  <data name="NoDesc" xml:space="preserve">
+    <value>No description</value>
+  </data>
+  <data name="NoTitle" xml:space="preserve">
+    <value>No title</value>
+  </data>
+  <data name="ErrInvalidLanguage" xml:space="preserve">
+    <value>This language is not supported.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ErrPosRange" xml:space="preserve">
+    <value>The item's position cannot be smaller than 1 and greater than the container's cardinality.</value>
+  </data>
 </root>

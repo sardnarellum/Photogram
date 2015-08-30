@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure to delete this item?.
         /// </summary>
         public static string ConfirmDeleteItem {
@@ -187,6 +196,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit element.
+        /// </summary>
+        public static string EditElement {
+            get {
+                return ResourceManager.GetString("EditElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit properties.
+        /// </summary>
+        public static string EditProperties {
+            get {
+                return ResourceManager.GetString("EditProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string Email {
@@ -223,6 +250,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This language is not supported..
+        /// </summary>
+        public static string ErrInvalidLanguage {
+            get {
+                return ResourceManager.GetString("ErrInvalidLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The original file not found in the database..
+        /// </summary>
+        public static string ErrItemNotFoundInDb {
+            get {
+                return ResourceManager.GetString("ErrItemNotFoundInDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login failed!.
         /// </summary>
         public static string ErrLogin {
@@ -241,11 +286,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The item&apos;s position cannot be smaller than 1 and greater than the container&apos;s cardinality..
+        /// </summary>
+        public static string ErrPosRange {
+            get {
+                return ResourceManager.GetString("ErrPosRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The title can&apos;t be longer than 80 characters..
+        /// </summary>
+        public static string ErrTitleLength {
+            get {
+                return ResourceManager.GetString("ErrTitleLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This username is already taken.
         /// </summary>
         public static string ErrUsernameTaken {
             get {
                 return ResourceManager.GetString("ErrUsernameTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filename.
+        /// </summary>
+        public static string Filename {
+            get {
+                return ResourceManager.GetString("Filename", resourceCulture);
             }
         }
         
@@ -331,6 +412,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        public static string Manage {
+            get {
+                return ResourceManager.GetString("Manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Project.
         /// </summary>
         public static string NewProject {
@@ -349,11 +439,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No description.
+        /// </summary>
+        public static string NoDesc {
+            get {
+                return ResourceManager.GetString("NoDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Project.
         /// </summary>
         public static string NoProject {
             get {
                 return ResourceManager.GetString("NoProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No title.
+        /// </summary>
+        public static string NoTitle {
+            get {
+                return ResourceManager.GetString("NoTitle", resourceCulture);
             }
         }
         
@@ -570,6 +678,15 @@ namespace Resources {
         public static string UserRememberMe {
             get {
                 return ResourceManager.GetString("UserRememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It seems that your browers not runs scripts. To use all of Photogram functionalities, turn them on..
+        /// </summary>
+        public static string WarnNoScript {
+            get {
+                return ResourceManager.GetString("WarnNoScript", resourceCulture);
             }
         }
         

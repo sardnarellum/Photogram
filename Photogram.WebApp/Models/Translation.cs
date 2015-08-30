@@ -12,11 +12,11 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Stat
+    public abstract partial class Translation
     {
         public int Id { get; set; }
-        public string Address { get; set; }
-        public System.DateTime Time { get; set; }
-        public string Page { get; set; }
+        public string Text { get; set; }
+    
+        public virtual Language Language { get; set; }
     }
 }

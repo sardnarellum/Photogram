@@ -12,23 +12,18 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TextValue
+    public partial class ProjectInclude
     {
-        public TextValue()
+        public ProjectInclude()
         {
-            this.Log = new HashSet<Log>();
+            this.Cover = false;
         }
     
         public int Id { get; set; }
-        public string Text { get; set; }
+        public int Position { get; set; }
+        public bool Cover { get; set; }
     
-        private Setup SetupMainTitle { get; set; }
-        private Setup SetupFooter { get; set; }
-        private Project ProjectTitle { get; set; }
-        private Project ProjectDescription { get; set; }
-        public virtual Language Language { get; set; }
-        private Media MediaTitle { get; set; }
-        private Media MediaDescription { get; set; }
-        public virtual ICollection<Log> Log { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual Media Media { get; set; }
     }
 }

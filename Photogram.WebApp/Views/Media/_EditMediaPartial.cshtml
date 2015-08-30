@@ -1,0 +1,130 @@
+﻿@using Resources
+@using Photogram.WebApp.Models
+
+@model MediaInformation
+
+@{ 
+    var ajaxOptions = new AjaxOptions
+    {
+        OnBegin = "editedBegin(xhr)",
+        OnComplete = "editedCompleted(xhr, status)",
+        OnSuccess = "editedSuccess(data, status, xhr)",
+        OnFailure = "editedFailure(xhr, status, error)"
+    };
+}
+
+
+@using (Ajax.BeginForm("Edit", "Media", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="editMediaModalLabel">@Localization.EditProperties</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row">                
+                @if (!string.IsNullOrEmpty(Model.FileName))
+                {
+                <div class="col-lg-6">
+                    <img class="editView"
+                         src="@Url.Content(string.Concat("~/Image/2000/400/", Model.FileName, "/"))" />
+                </div>
+                }
+                <div class="col-lg-6">
+                    @if (!Html.ViewData.ModelState.IsValid)
+                    {
+                        foreach (ModelState modelState in ViewData.ModelState.Values)
+                        {
+                            foreach (ModelError error in modelState.Errors)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @error.ErrorMessage
+                                </div>
+                            }
+                        }
+                    }
+                    @Html.HiddenFor(x => x.MediaId)
+                    <div class="form-group">
+                        @*<label>@Localization.Filename</label>*@
+                        <div>
+                            <p class="form-control-static" id="elemFileName">@Model.FileName</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.LCID, Model.Languages,
+                            new { @class = "form-control", onchange = "loadLocalTexts()", placeholder = Localization.Language })
+                        @Html.ValidationMessageFor(x => x.LCID)
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(x => x.Title)*@
+                        @Html.TextBoxFor(x => x.Title,
+                            new { @class = "form-control", placeholder = Localization.NoTitle })
+                        @Html.ValidationMessageFor(x => x.Title)
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(x => x.Description)*@
+                        @Html.TextAreaFor(x => x.Description,
+                            new { @class = "form-control", placeholder = Localization.NoDesc, rows = 5 })
+                        @Html.ValidationMessageFor(x => x.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">@Localization.Close</button>
+        <button type="submit" id="editMediaSubmit" class="btn btn-primary" data-loading-text="@Localization.SaveChanges...">@Localization.SaveChanges</button>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function editedBegin(xhr) {
+        $('#editMediaSubmit').button('loading');
+    }
+    
+    function editedCompleted(xhr, status) {
+        $('#editMediaSubmit').button('reset');
+    }
+
+    function editedSuccess(data, status, xhr) {
+        $("#editMediaModal").find('.modal-content').html(data.View);
+    }
+
+    function editedFailure(xhr, status, error) {
+        console.log("edit failure: " + xhr.responseJSON + ", status: " + error);
+    }
+
+    function loadLocalTexts() {
+        $.ajax({
+            url: '@Url.Action("LocalTexts", "Media")',
+            type: 'GET',
+            data: {
+                    mediaId: @Model.MediaId,
+                    lcid: $('#LCID').find(':selected').val()
+            },
+            beforeSend:
+                function (jqXHR, settings) {
+                    //$('#form0').submit();
+                    console.log($('#LCID').find(':selected').val());
+                },
+            success:
+                function (data, status, xhr) {
+                    console.log(data.Title + ' ' + data.Description);
+
+                    var title = $('#Title');
+                    title.val(data.Title);
+
+                    var description = $('#Description');
+                    description.val(data.Description);
+                }
+        });
+    }
+
+</script>

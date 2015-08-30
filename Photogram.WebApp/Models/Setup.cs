@@ -17,17 +17,15 @@ namespace Photogram.WebApp.Models
         public Setup()
         {
             this.Published = false;
-            this.MainTitle = new HashSet<TextValue>();
-            this.Footer = new HashSet<TextValue>();
-            this.Log = new HashSet<Log>();
+            this.MainTitle = new HashSet<SetupMainTitle>();
+            this.Footer = new HashSet<SetupFooter>();
         }
     
         public int Id { get; set; }
         public string Email { get; set; }
         public bool Published { get; set; }
     
-        public virtual ICollection<TextValue> MainTitle { get; set; }
-        public virtual ICollection<TextValue> Footer { get; set; }
-        public virtual ICollection<Log> Log { get; set; }
+        public virtual ICollection<SetupMainTitle> MainTitle { get; set; }
+        public virtual ICollection<SetupFooter> Footer { get; set; }
     }
 }

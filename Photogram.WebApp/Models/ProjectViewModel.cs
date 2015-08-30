@@ -13,12 +13,12 @@ namespace Photogram.WebApp.Models
     //{
     //}
 
-    public class AddProjectViewModel
+    public class AddProjectViewModel : LanguageList
     {
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Title", ResourceType=typeof(Localization))]
-        [MaxLength(10)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [Required]
@@ -32,7 +32,7 @@ namespace Photogram.WebApp.Models
 
         [Required]
         [Display(Name = "Language", ResourceType = typeof(Localization))]
-        public string Language { get; set; }
+        public int LCID { get; set; }
 
         public IEnumerable<SelectListItem> Years
         {
@@ -45,23 +45,6 @@ namespace Photogram.WebApp.Models
                     {
                         Value = year.ToString(),
                         Text = year.ToString()
-                    }
-                ), "Value", "Text");
-            }
-        }
-
-        public IEnumerable<SelectListItem> Languages
-        {
-            get
-            {
-                PhotogramEntities db = new PhotogramEntities();
-                var languages = db.Language.OrderByDescending(x => x.Name).ToList();
-
-                return new SelectList(
-                    languages.Select(language => new SelectListItem
-                    {
-                        Value = language.Code,
-                        Text = language.Name
                     }
                 ), "Value", "Text");
             }

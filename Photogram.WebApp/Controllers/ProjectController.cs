@@ -1,6 +1,7 @@
 ﻿using Photogram.WebApp.Models;
 using Resources;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -56,14 +57,14 @@ namespace Photogram.WebApp.Controllers
                         projectId.ToString() + " does not exists in Project.",
                         "mediaId");
 
-                projectTitle = project.Title.FirstOrDefault().Text;
+                projectTitle = project.CurrentTitleText();
             }
             else
             {
                 projectTitle = Localization.NoProject;
             }
 
-            return Json(new { ProjectTitle = projectTitle }, // TODO: ML support
+            return Json(new { ProjectTitle = projectTitle },
                 JsonRequestBehavior.AllowGet);
 
         }
@@ -88,7 +89,7 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Title = project.Title.FirstOrDefault().Text; // TODO: ML support
+            ViewBag.Title = project.CurrentTitleText();
 
             return View("Details", project);
         }
@@ -117,32 +118,42 @@ namespace Photogram.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var language = _db.Language
+                        .Where(x => x.LCID == model.LCID).FirstOrDefault();
+
+                    if (null == language)
+                    {
+                        ModelState.AddModelError("invalid_lang",
+                            Localization.ErrInvalidLanguage);
+                    }
+
                     var gallery = new Project
                     {
-                        Title = new TextValue[]
-                        {
-                            new TextValue
-                            {
-                                Text = model.Title,
-                                Language = _db.Language.Where(x => x.Code == model.Language).FirstOrDefault()
-                            }
-                        },
                         Type = ProjectType.Portfolio,
-                        Year = Int16.Parse(model.Year),
+                        Year = short.Parse(model.Year),
                         Visible = false,
                         Position = _db.Project.Count() != 0
                             ? _db.Project.OrderByDescending(x => x.Position).FirstOrDefault().Position + 1
                             : 1
                     };
 
-                    if (!String.IsNullOrEmpty(model.Description))
+                    gallery.Title = new ProjectTitle[]
                     {
-                        gallery.Description = new TextValue[]
-                        { 
-                            new TextValue
+                        new ProjectTitle
+                        {
+                            Language = language,
+                            Text = model.Title
+                        }
+                    };
+
+                    if (!string.IsNullOrEmpty(model.Description))
+                    {
+                        gallery.Description = new ProjectDescription[]
+                        {
+                            new ProjectDescription
                             {
-                                Text = model.Description,
-                                Language = _db.Language.Where(x => x.Code == model.Language).FirstOrDefault()
+                                Language = language,
+                                Text = model.Description
                             }
                         };
                     }
@@ -171,7 +182,8 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var gallery = _db.Project.Where(x => x.Id == galleryId).FirstOrDefault();
+            var gallery = _db.Project.Where(x => x.Id == galleryId)
+                .FirstOrDefault();
 
             if (null == gallery)
             {
@@ -193,14 +205,17 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var gallery = _db.Project.Where(x => x.Id == galleryId).FirstOrDefault();
+            var gallery = _db.Project.Where(x => x.Id == galleryId)
+                .FirstOrDefault();
 
             if (null == gallery)
             {
                 return new HttpNotFoundResult();
             }
 
-            var gallery2 = _db.Project.Where(x => x.Position - 1 == gallery.Position).FirstOrDefault();
+            var gallery2 = _db.Project
+                .Where(x => x.Position - 1 == gallery.Position)
+                .FirstOrDefault();
 
             if (null != gallery2)
             {
@@ -221,14 +236,17 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var project = _db.Project.Where(x => x.Id == projectId).FirstOrDefault();
+            var project = _db.Project.Where(x => x.Id == projectId)
+                .FirstOrDefault();
 
             if (null == project)
             {
                 return new HttpNotFoundResult();
             }
 
-            var project2 = _db.Project.Where(x => x.Position + 1 == project.Position).FirstOrDefault();
+            var project2 = _db.Project
+                .Where(x => x.Position + 1 == project.Position)
+                .FirstOrDefault();
 
             if (null != project2)
             {
@@ -254,7 +272,8 @@ namespace Photogram.WebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var project = _db.Project.Include("Title").Include("Description").Where(x => x.Id == projectId).FirstOrDefault();
+            var project = _db.Project.Include("Title").Include("Description")
+                .Where(x => x.Id == projectId).FirstOrDefault();
 
             if (null == project)
             {

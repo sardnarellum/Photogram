@@ -12,15 +12,9 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Language
+    public partial class ProjectDescription : Translation
     {
-        public Language()
-        {
-            this.Translation = new HashSet<Translation>();
-        }
     
-        public int LCID { get; set; }
-    
-        public virtual ICollection<Translation> Translation { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

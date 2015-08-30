@@ -9,8 +9,26 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <style>
+        /* Sticky footer styles
+        -------------------------------------------------- */
+        html {
+          position: relative;
+          min-height: 100%;
+        }
+
         body {
-            padding-top: 70px;
+          /* Margin bottom by footer height */
+          margin-bottom: 35px;
+        }
+
+        footer {
+          position: absolute;
+          bottom: 0;
+          /* Set the fixed height of the footer here */
+          height: 30px;
+        }
+        body {
+            /*padding-top: 80px;*/
         }
     </style>
 </head>

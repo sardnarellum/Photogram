@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Photogram.WebApp.Models
 {
-    public class MediaViewModel
+    public class ContentMgmtViewModel
     {
         public IList<Media> Medias { get; set; }
 

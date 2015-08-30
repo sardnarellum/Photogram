@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO;
 using System.Net;
+using System.Globalization;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -11,7 +12,7 @@ namespace Photogram.WebApp.Controllers
     {
         protected PhotogramEntities _db;
 
-        #region Constructor
+        #region Constructor / Dispose
 
         /// <summary>
         /// Instantiate controller.
@@ -24,28 +25,26 @@ namespace Photogram.WebApp.Controllers
             {
                 var hun = new Language
                 {
-                    Code = "hun",
-                    Name = "magyar"
+                    LCID = 1038
                 };
 
                 var eng = new Language
                 {
-                    Code = "eng",
-                    Name = "angol"
+                    LCID = 1033
                 };
 
-                var s = new Setup
+                var setup = new Setup
                 {
                     Email = "info@andrasmuller.com",
-                    MainTitle = new TextValue[]
+                    MainTitle = new SetupMainTitle[]
                 {
-                    new TextValue
+                    new SetupMainTitle
                     {
                         Text = "MÜLLER ANDRÁS FOTOGRÁFUS",
                         Language = hun
                     },
 
-                    new TextValue
+                    new SetupMainTitle
                     {
                         Text = "ANDRÁS MÜLLER PHOTOGRAPHER",
                         Language = eng
@@ -54,14 +53,13 @@ namespace Photogram.WebApp.Controllers
                 }
                 };
 
-                _db.Setup.Add(s);
+                _db.Setup.Add(setup);
 
 
                 _db.SaveChanges();
             }
 
-            ViewBag.MainTitle = _db.Setup.First().MainTitle.Where(x => x.Language.Code == "hun")
-                .FirstOrDefault().Text; // TODO: ML support
+            ViewBag.MainTitle = _db.Setup.First().CurrentMainTitleText();
 
             ViewBag.Years = new SelectList(
                     Enumerable.Range(DateTime.Now.Year - 50, DateTime.Now.Year)
@@ -74,23 +72,36 @@ namespace Photogram.WebApp.Controllers
                 ), "Value", "Text");
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _db.Dispose();
+            base.Dispose(disposing);
+        }
+
         #endregion
 
         #region AJAX
 
-        protected JsonResult JsonView(bool success, string viewName, object model)
+        protected JsonResult JsonView(bool success, string viewName
+            , object model, JsonRequestBehavior behavior = JsonRequestBehavior.DenyGet)
         {
-            return Json(new { Success = success, View = RenderPartialView(viewName, model) });
+            return Json(
+                new { Success = success,
+                      View = RenderPartialView(viewName, model)
+                    }
+                , behavior);
         }
 
-        protected JsonResult JsonView(bool success, string viewName1, object model1, string viewName2, object model2)
+        protected JsonResult JsonView(bool success, string viewName1
+            , object model1, string viewName2, object model2
+            , JsonRequestBehavior behavior = JsonRequestBehavior.DenyGet)
         {
             return Json(new
             {
                 Success = success,
                 View1 = RenderPartialView(viewName1, model1),
                 View2 = RenderPartialView(viewName2, model2)
-            });
+            }, behavior);
         }
 
         private string RenderPartialView(string partialViewName, object model)
