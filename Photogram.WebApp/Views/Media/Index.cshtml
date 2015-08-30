@@ -83,14 +83,14 @@
                         @Localization.Filter <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        @foreach (var project in Model.Projects)
-                        {
-                            <li>
-                                <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
-                                    @project.CurrentTitleText()
-                                </a>
-                            </li>
-                        }
+                    @foreach (var project in Model.Projects)
+                    {
+                        <li>
+                            <a href="#" class="project-link" id="@project.Id" onclick="setProject(@project.Id)">
+                                @project.CurrentTitleText()
+                            </a>
+                        </li>
+                    }
                         <li class="divider"></li>
                         <li>
                             <a href="#" class="project-link" id="-1" onclick="setProject(-1)">
@@ -113,13 +113,13 @@
     </noscript>
     <div id="collections" class="packery-list">
         <h2>@Localization.NoProject <span class="badge">@Model.Medias.Where(x => x.ProjectInclude == null).Count()</span></h2>
-        <div id="pckry--1" class="js-packery" data-packery-options='{ "gutter": 5 }'>
+        <div id="-1" class="js-packery" data-packery-options='{ "gutter": 5 }'>
         </div>
     @foreach (var elem in Model.Projects.OrderByDescending(x => x.Position))
     {
         <hr />
         <h2>@elem.CurrentTitleText() <span class="badge">@elem.ProjectInclude.Count</span></h2>
-        <div id="pckry-@elem.Id" class="js-packery" data-packery-options='{ "gutter": 5 }'>
+        <div id="@elem.Id" class="js-packery" data-packery-options='{ "gutter": 5 }'>
         </div>
     }
     </div>
@@ -298,6 +298,7 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 rdata = JSON.parse(xhr.responseText);
                 createThumbnail(rdata.FileName, rdata.FileId, -1, progress);
+                console.log(rdata.ProjectPosition);
             }
         }
 
@@ -342,23 +343,17 @@
         };
         $(edit).append('<span class="glyphicon glyphicon-edit"></span>');
 
-        $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
+        var $thumb = $(thumb);
+        $thumb.empty();
+        $thumb.append(magnifier);
+        $thumb.append($(img));
+        $thumb.append(edit);
 
-            var $thumb = $(thumb);
-            $thumb.empty();
-            $thumb.append(magnifier);
-            $thumb.append($(img));
-            $thumb.append(edit);
+        var $container = $('#' + projectId + '.js-packery');
+        $container.append($thumb);
+        $container.packery('appended', $thumb);
 
-            var fragment = document.createDocumentFragment();
-            fragment.appendChild(thumb);
-
-            var container = document.querySelector('#pckry-' + projectId);
-            container.appendChild(fragment);
-
-            var pckry = Packery.data(container);
-            pckry.appended(thumb);
-            pckry.layout();
+        $(img).attr('src', '@Url.Content("~/Image/2000/200/")' + fileName + '/').load(function () {
 
             if (progress != null)
                 progress.inc();
@@ -415,10 +410,9 @@
                 },
                 success:
                     function (data, status, xhr) {
-                        var container = document.querySelector('#pckry-' + data.ProjectId);
-                        var pckry = Packery.data(container);
-                        pckry.remove(element);
-                        pckry.layout();
+                        var $container = $('#' + data.ProjectId + '.js-packery');
+                        $container.packery('remove', element);
+                        $container.packery();
                         progress.inc();
 
                         setWarningVisibility();
@@ -443,32 +437,20 @@
                 },
                 success:
                     function (rdata, status, xhr) {
-                        var $item = $('.pckry-item#' + element.id);
+                        var $item = $('#' + element.id + '.pckry-item');
                         var $oldCont = $item.parent().packery();
 
-                        $oldCont.on('removeComplete', function (event, removedItems) {
-                            var $container = $('#pckry-' + id);
-                            $container.append(removedItems);
-                            $container.packery('appended', removedItems).packery();
+                        $oldCont.on('removeComplete', function (event, items) {
 
                             console.log('removed from old');
                         });
                         
                         $oldCont.packery('remove', $item);
+                        $oldCont.packery();
 
-                        
-                        //var label = $(element).children('.label');
-                        //label.hide();
-                        //label.html(rdata.ProjectTitle);
-
-                        //if (!rdata.InProject) {
-                        //    label.switchClass('label-info', 'label-warning');
-                        //}
-                        //else {
-                        //    label.switchClass('label-warning', 'label-info');
-                        //}
-
-                        //label.fadeIn(animOptions);
+                        var $container = $('#' + id + '.js-packery');
+                        $container.append(element);
+                        $container.packery('appended', element);
                     },
                 error:
                     function () {

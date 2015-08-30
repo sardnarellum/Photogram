@@ -12,5 +12,7 @@
         public int? ProjectId { get; set; }
 
         public string ProjectTitle { get; set; }
+
+        public int? ProjectPosition { get; set; }
     }
 }

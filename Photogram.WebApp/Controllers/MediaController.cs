@@ -80,12 +80,12 @@ namespace Photogram.WebApp.Controllers
                 _db.Translation.Remove(d);
             }
 
-            _db.Media.Remove(item);
-            _db.SaveChanges();
-
             var projectId = item.ProjectInclude != null
                 ? item.ProjectInclude.Project.Id
                 : -1;
+
+            _db.Media.Remove(item);
+            _db.SaveChanges();
 
             return Json(
                 new
@@ -265,6 +265,7 @@ namespace Photogram.WebApp.Controllers
         public JsonResult GetFileData()
         {
             var media = _db.Media.Include("ProjectInclude")
+                .OrderBy(x => x.ProjectInclude.Project.Position)
                 .OrderBy(x => x.ProjectInclude.Position).ToList();
 
             var fileDataList = new List<BasicFileData>();
@@ -282,7 +283,10 @@ namespace Photogram.WebApp.Controllers
                             ? elem.ProjectInclude.Project.Id
                             : -1,
                         ProjectTitle = inProject ? elem.ProjectInclude.Project
-                            .CurrentTitleText() : ""
+                            .CurrentTitleText() : "",
+                        ProjectPosition = inProject
+                            ? elem.ProjectInclude.Position
+                            : -1
                     };
 
                 fileDataList.Add(fileData);
@@ -322,11 +326,12 @@ namespace Photogram.WebApp.Controllers
                 throw new ArgumentNullException("projectId",
                     Localization.ErrArgNull);
 
-            if (-1 == projectId)
+            if (media.ProjectInclude != null)
             {
                 _db.ProjectInclude.Remove(media.ProjectInclude);
             }
-            else
+
+            if (-1 != projectId)
             {
                 var project = _db.Project.Where(x => x.Id == projectId).FirstOrDefault();
 
