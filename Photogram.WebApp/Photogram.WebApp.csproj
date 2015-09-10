@@ -398,6 +398,8 @@
     <Content Include="Views\Shared\_LayoutContMgmt.cshtml" />
     <Content Include="Views\Shared\_ErrorMsgPartial.cshtml" />
     <Content Include="Views\Media\_EditMediaPartial.cshtml" />
+    <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

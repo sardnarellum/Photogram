@@ -46,9 +46,7 @@
             </button>
         </div>
         <div class="btn-group">
-            <div class="btn btn-default" disabled>
-                @Localization.Manage
-            </div>
+            @Html.ActionLink(Localization.Projects, "Index", "Project", new { }, new { @class = "btn btn-default" })
             @if (Model.Projects.Count > 0)
             {
                 <div class="btn-group">

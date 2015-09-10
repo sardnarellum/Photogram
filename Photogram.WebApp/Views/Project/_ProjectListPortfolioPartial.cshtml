@@ -25,23 +25,7 @@
             }, new { @class = visibIcon + " keepOpen" }
          )
 
-        @Ajax.ActionLink(" ", "Up", "Project",
-            new { galleryId = elem.Id },
-            new AjaxOptions
-            {
-                UpdateTargetId = "worksDropDown"
-            }, new { @class = "glyphicon glyphicon-chevron-up keepOpen" }
-         )
-        
-        @Ajax.ActionLink(" ", "Down", "Project",
-            new { galleryId = elem.Id },
-            new AjaxOptions
-            {
-                UpdateTargetId = "worksDropDown"
-            }, new { @class = "glyphicon glyphicon-chevron-down keepOpen" }
-         )
-
-        @Ajax.ActionLink(" ", "Delete", "Project", new { galleryId = elem.Id },
+        @Ajax.ActionLink(" ", "Delete", "Project", new { projectId = elem.Id },
                 new AjaxOptions
                 {
                     Confirm = Localization.ConfirmDeleteItem,

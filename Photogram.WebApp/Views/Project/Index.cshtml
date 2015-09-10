@@ -1,0 +1,48 @@
+﻿@using Photogram.WebApp.Models
+@using Resources
+
+@{
+    ViewBag.Title = "EditList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IList<Project>
+
+<div class="page-header">
+    <h1>@Localization.Projects</h1>
+</div>
+<div id="projects-sortable" class="list-group">
+    @foreach (var item in Model)
+    {
+        string visibIcon = item.Visible ? "glyphicon glyphicon-eye-open" : "glyphicon glyphicon-eye-close";
+        <a id="@item.Id" class="list-group-item" href="@Url.Action("Edit", "Project", new { projectId = item.Id })">
+            <span class="badge">@item.ProjectInclude.Count</span>
+            @item.CurrentTitleText()
+        </a>
+    }
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#projects-sortable").sortable({
+                containment: "document",
+                stop: function (event, ui) {
+                    //console.log(ui.item.attr('id') + ' ' + ui.item.index());
+                    $.ajax({
+                        url: '@Url.Action("SetPosition", "Project")',
+                        type: 'GET',
+                        data: {
+                            projectId: ui.item.attr('id'),
+                            position: ui.item.index() + 1
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $("#projects-sortable").sortable("cancel");
+                        }
+                    });
+                }
+            });
+            $("#projects-sortable").disableSelection();
+        });
+    </script>
+}

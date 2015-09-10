@@ -15,10 +15,11 @@ namespace Photogram.WebApp.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Home");
+            var items = _db.Project.Include("Title").OrderBy(x => x.Position).ToList();
+
+            return View(items);
         }
 
         /// <summary>
@@ -92,6 +93,22 @@ namespace Photogram.WebApp.Controllers
             ViewBag.Title = project.CurrentTitleText();
 
             return View("Details", project);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int? projectId)
+        {
+            if (null == projectId)
+                return RedirectToAction("Index", "Home");
+
+            var project = _db.Project.Include("ProjectInclude")
+                .Include("Title").Include("Description")
+                .Where(x => x.Id == projectId).FirstOrDefault();
+
+            if (null == project)
+                return RedirectToAction("Index", "Home");
+
+            return View(project);
         }
 
         /// <summary>
@@ -198,6 +215,33 @@ namespace Photogram.WebApp.Controllers
         }
 
         [HttpGet]
+        [AjaxErrorHandler]
+        public JsonResult SetPosition(int? projectId, int? position)
+        {
+            if (null == projectId)
+                throw new ArgumentNullException("projectId",
+                    Localization.ErrArgNull);
+
+            var project = _db.Project.Where(x => x.Id == projectId)
+                .FirstOrDefault();
+
+            if (null == project)
+                throw new ArgumentException(
+                    projectId.ToString() + " does not exists in Project.",
+                    "projectId");
+
+            if (null == position)
+                throw new ArgumentNullException("position",
+                    Localization.ErrArgNull);
+
+            project.SetPosition((int)position);
+
+            _db.SaveChanges();
+
+            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult Up(Int32? galleryId)
         {
             if (null == galleryId)
@@ -281,6 +325,13 @@ namespace Photogram.WebApp.Controllers
             }
 
             _db.Project.Remove(project);
+
+            var sortables = _db.Project.Where(x => x.Position > project.Position);
+
+            foreach (var elem in sortables)
+            {
+                --elem.Position;
+            }
             _db.SaveChanges();
 
             return PartialView("_WorksDropDownPartial");
