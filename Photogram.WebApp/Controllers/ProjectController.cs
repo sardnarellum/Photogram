@@ -300,29 +300,6 @@ namespace Photogram.WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult SetVisibility(Int32? galleryId)
-        {
-            if (null == galleryId)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var gallery = _db.Project.Where(x => x.Id == galleryId)
-                .FirstOrDefault();
-
-            if (null == gallery)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            gallery.Visible = gallery.Visible ? false : true;
-
-            _db.SaveChanges();
-
-            return PartialView("_WorksDropDownPartial");
-        }
-
-        [HttpGet]
         [AjaxErrorHandler]
         public JsonResult SetPosition(int? projectId, int? position)
         {
@@ -347,68 +324,6 @@ namespace Photogram.WebApp.Controllers
             _db.SaveChanges();
 
             return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult Up(Int32? galleryId)
-        {
-            if (null == galleryId)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var gallery = _db.Project.Where(x => x.Id == galleryId)
-                .FirstOrDefault();
-
-            if (null == gallery)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            var gallery2 = _db.Project
-                .Where(x => x.Position - 1 == gallery.Position)
-                .FirstOrDefault();
-
-            if (null != gallery2)
-            {
-                --gallery2.Position;
-                ++gallery.Position;
-
-                _db.SaveChanges();
-            }
-
-            return PartialView("_WorksDropDownPartial");
-        }
-
-        [HttpGet]
-        public ActionResult Down(Int32? projectId)
-        {
-            if (null == projectId)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var project = _db.Project.Where(x => x.Id == projectId)
-                .FirstOrDefault();
-
-            if (null == project)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            var project2 = _db.Project
-                .Where(x => x.Position + 1 == project.Position)
-                .FirstOrDefault();
-
-            if (null != project2)
-            {
-                ++project2.Position;
-                --project.Position;
-
-                _db.SaveChanges();
-            }
-
-            return PartialView("_WorksDropDownPartial");
         }
 
         /// <summary>
