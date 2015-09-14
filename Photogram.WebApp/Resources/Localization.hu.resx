@@ -336,4 +336,28 @@
   <data name="Projects" xml:space="preserve">
     <value>Projektek</value>
   </data>
+  <data name="EditProject" xml:space="preserve">
+    <value>Projekt szerkesztése</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Vissza</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Láthatóság</value>
+  </data>
+  <data name="Slug" xml:space="preserve">
+    <value>Keresőbarát URL</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Tulajdonságok</value>
+  </data>
+  <data name="ErrInvalidProject" xml:space="preserve">
+    <value>Érvénytelen projekt azonosítószám.</value>
+  </data>
+  <data name="ErrOccupiedSlug" xml:space="preserve">
+    <value>Ez a Keresőbarát URL már foglalt. Próbálj egy másikat használni.</value>
+  </data>
 </root>

@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string Browse {
@@ -205,6 +214,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit project.
+        /// </summary>
+        public static string EditProject {
+            get {
+                return ResourceManager.GetString("EditProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit properties.
         /// </summary>
         public static string EditProperties {
@@ -259,6 +277,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid project Id.
+        /// </summary>
+        public static string ErrInvalidProject {
+            get {
+                return ResourceManager.GetString("ErrInvalidProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The original file not found in the database..
         /// </summary>
         public static string ErrItemNotFoundInDb {
@@ -282,6 +309,15 @@ namespace Resources {
         public static string ErrLoginData {
             get {
                 return ResourceManager.GetString("ErrLoginData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Friendly URL is occupied. Try to use another one..
+        /// </summary>
+        public static string ErrOccupiedSlug {
+            get {
+                return ResourceManager.GetString("ErrOccupiedSlug", resourceCulture);
             }
         }
         
@@ -529,6 +565,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        public static string Properties {
+            get {
+                return ResourceManager.GetString("Properties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Published.
         /// </summary>
         public static string Published {
@@ -574,6 +619,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes.
         /// </summary>
         public static string SaveChanges {
@@ -588,6 +642,15 @@ namespace Resources {
         public static string Setup {
             get {
                 return ResourceManager.GetString("Setup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friendly URL.
+        /// </summary>
+        public static string Slug {
+            get {
+                return ResourceManager.GetString("Slug", resourceCulture);
             }
         }
         
@@ -687,6 +750,15 @@ namespace Resources {
         public static string UserRememberMe {
             get {
                 return ResourceManager.GetString("UserRememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visibility.
+        /// </summary>
+        public static string Visibility {
+            get {
+                return ResourceManager.GetString("Visibility", resourceCulture);
             }
         }
         

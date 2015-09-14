@@ -153,6 +153,7 @@ namespace Photogram.WebApp.Controllers
         /// <param name="model">New data from view.</param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Edit(MediaInformation model)
         {
             var media = _db.Media.Where(x => x.Id == model.MediaId)
@@ -435,16 +436,6 @@ namespace Photogram.WebApp.Controllers
 
             if (System.IO.File.Exists(fullPath))
                 System.IO.File.Delete(fullPath);
-
-            foreach (var t in item.Title.ToList())
-            {
-                _db.Translation.Remove(t);
-            }
-
-            foreach (var d in item.Description.ToList())
-            {
-                _db.Translation.Remove(d);
-            }
 
             _db.Media.Remove(item);
             _db.SaveChanges();

@@ -108,7 +108,113 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
-            return View(project);
+            var currLang = _db.Language
+                .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
+                .FirstOrDefault();
+
+            if (null != currLang)
+                currLang = _db.Language.Where(x => x.LCID == 1033)
+                    .FirstOrDefault();
+
+            var properties = new ProjectProperties
+            {
+                Id = project.Id,
+                Title = project.CurrentTitleText(),
+                Description = project.CurrentDescriptionText(),
+                LCID = currLang.LCID,
+                Year = project.Year.ToString(),
+                Visible = project.Visible,
+                Slug = project.Slug,
+            };
+
+            var model = new ProjectViewModel
+            {
+                Properties = properties
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ProjectProperties viewModel)
+        {
+            var project = _db.Project.Where(x => x.Id == viewModel.Id)
+                .FirstOrDefault();
+
+            if (null == project)
+            {
+                ModelState.AddModelError("unknown project",
+                    Localization.ErrInvalidProject);
+            }
+
+            if (_db.Project.Any(
+                    x => x.Slug == viewModel.Slug && x.Id != viewModel.Id)
+                   )
+            {
+                ModelState.AddModelError("slug occupied",
+                    Localization.ErrOccupiedSlug);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var language = _db.Language
+                    .Where(x => x.LCID == viewModel.LCID).FirstOrDefault();
+
+
+                var title = project.Title.Where(x => x.Language == language)
+                    .FirstOrDefault();
+
+                if (null == title)
+                {
+                    title = new ProjectTitle
+                    {
+                        Language = language,
+                        Text = viewModel.Title
+                    };
+
+                    project.Title.Add(title);
+                }
+                else
+                {
+                    title.Text = viewModel.Title;
+                }
+
+
+                var description = project.Description
+                    .Where(x => x.Language == language).FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(viewModel.Description))
+                {
+                    if (null == description)
+                    {
+                        description = new ProjectDescription
+                        {
+                            Language = language,
+                            Text = viewModel.Description
+                        };
+
+                        project.Description.Add(description);
+                    }
+                    else
+                    {
+                        description.Text = viewModel.Description;
+                    }
+                }
+                else if (null != description)
+                {
+                    _db.Translation.Remove(description);
+                }
+
+
+                project.Slug = viewModel.Slug;
+                project.Year = short.Parse(viewModel.Year);
+                project.Visible = viewModel.Visible;
+
+                _db.SaveChanges();
+            }
+
+            return PartialView("_EditPropertiesPartial", viewModel);
         }
 
         /// <summary>
@@ -118,7 +224,7 @@ namespace Photogram.WebApp.Controllers
         [ChildActionOnly]
         public ActionResult Add()
         {
-            return PartialView("_AddProjectPartial", new AddProjectViewModel());
+            return PartialView("_AddProjectPartial", new ProjectProperties());
         }
 
         /// <summary>
@@ -129,7 +235,7 @@ namespace Photogram.WebApp.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(AddProjectViewModel model)
+        public ActionResult Add(ProjectProperties model)
         {
             try
             {
@@ -144,7 +250,7 @@ namespace Photogram.WebApp.Controllers
                             Localization.ErrInvalidLanguage);
                     }
 
-                    var gallery = new Project
+                    var project = new Project
                     {
                         Type = ProjectType.Portfolio,
                         Year = short.Parse(model.Year),
@@ -154,7 +260,7 @@ namespace Photogram.WebApp.Controllers
                             : 1
                     };
 
-                    gallery.Title = new ProjectTitle[]
+                    project.Title = new ProjectTitle[]
                     {
                         new ProjectTitle
                         {
@@ -165,7 +271,7 @@ namespace Photogram.WebApp.Controllers
 
                     if (!string.IsNullOrEmpty(model.Description))
                     {
-                        gallery.Description = new ProjectDescription[]
+                        project.Description = new ProjectDescription[]
                         {
                             new ProjectDescription
                             {
@@ -175,10 +281,12 @@ namespace Photogram.WebApp.Controllers
                         };
                     }
 
-                    _db.Project.Add(gallery);
+                    project.Slug = model.Title.ToLower().Replace(" ", "-");
+
+                    _db.Project.Add(project);
                     _db.SaveChanges();
                     ////ModelState.AddModelError("", Localization.ErrProjectInsertion);
-                    model = new AddProjectViewModel();
+                    model = new ProjectProperties();
                 }
             }
             catch (InvalidOperationException ex)
@@ -309,7 +417,7 @@ namespace Photogram.WebApp.Controllers
         /// <param name="projectId"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Delete(Int32? projectId)
+        public ActionResult Delete(int? projectId)
         {
             if (null == projectId)
             {
@@ -334,7 +442,7 @@ namespace Photogram.WebApp.Controllers
             }
             _db.SaveChanges();
 
-            return PartialView("_WorksDropDownPartial");
+            return RedirectToAction("Index");
         }
 	}
 }

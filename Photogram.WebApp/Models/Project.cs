@@ -27,6 +27,7 @@ namespace Photogram.WebApp.Models
         public ProjectType Type { get; set; }
         public short Year { get; set; }
         public int Position { get; set; }
+        public string Slug { get; set; }
     
         public virtual ICollection<ProjectTitle> Title { get; set; }
         public virtual ICollection<ProjectDescription> Description { get; set; }

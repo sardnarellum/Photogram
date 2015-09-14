@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/24/2015 19:11:00
+-- Date Created: 09/11/2015 12:00:47
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -38,11 +38,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_LanguageTranslation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation] DROP CONSTRAINT [FK_LanguageTranslation];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MediaProjectInclude]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProjectInclude] DROP CONSTRAINT [FK_MediaProjectInclude];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectIncludeProject]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProjectInclude] DROP CONSTRAINT [FK_ProjectIncludeProject];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MediaProjectInclude]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProjectInclude] DROP CONSTRAINT [FK_MediaProjectInclude];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectTitle_inherits_Translation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectTitle_inherits_Translation];
@@ -122,7 +122,8 @@ CREATE TABLE [dbo].[Project] (
     [Visible] bit  NOT NULL,
     [Type] int  NOT NULL,
     [Year] smallint  NOT NULL,
-    [Position] int  NOT NULL
+    [Position] int  NOT NULL,
+    [Slug] nvarchar(2000)  NOT NULL
 );
 GO
 

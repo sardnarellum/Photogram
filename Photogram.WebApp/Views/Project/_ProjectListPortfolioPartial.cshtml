@@ -12,27 +12,6 @@
         @Html.ActionLink(elem.CurrentTitleText(), "Details", "Project",
             new { projectId = elem.Id },
             new { @class = "gallery-link" })
-        @{
-            string visibIcon = elem.Visible ? "glyphicon glyphicon-eye-open" : "glyphicon glyphicon-eye-close" ;            
-        }
-
-
-        @Ajax.ActionLink(" ", "SetVisibility", "Project",
-            new { galleryId = elem.Id },
-            new AjaxOptions
-            {
-                UpdateTargetId = "worksDropDown"
-            }, new { @class = visibIcon + " keepOpen" }
-         )
-
-        @Ajax.ActionLink(" ", "Delete", "Project", new { projectId = elem.Id },
-                new AjaxOptions
-                {
-                    Confirm = Localization.ConfirmDeleteItem,
-                    UpdateTargetId = "worksDropDown"
-                },
-                     new { @class = "glyphicon glyphicon-remove keepOpen" }
-                )
         </li>
     }
     else if (elem.Visible == true)

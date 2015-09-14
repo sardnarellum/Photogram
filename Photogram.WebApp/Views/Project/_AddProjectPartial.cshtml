@@ -1,7 +1,7 @@
 ﻿@using Photogram.WebApp.Models
 @using Resources
 
-@model AddProjectViewModel
+@model ProjectProperties
 
 
 @{
@@ -54,7 +54,7 @@
                 @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 6, placeholder = Localization.Description })
                 @Html.ValidationMessageFor(x => x.Description)
             </div>
-            <div>
+            <div class="form-group">
                 @Html.LabelFor(x => x.LCID)
                 @Html.DropDownListFor(x => x.LCID, Model.Languages,
                             new { @class = "form-control", placeholder = Localization.Language })

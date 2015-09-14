@@ -1,64 +1,31 @@
 ﻿@using Photogram.WebApp.Models
+@using Resources
 
-@model Project
+@model ProjectViewModel
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<div class="page-header">
+    <h1>@Localization.EditProject</h1>
+</div>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Project</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Visible, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Visible)
-                @Html.ValidationMessageFor(model => model.Visible)
+<div class="container">
+    @*@Html.ActionLink(Localization.Back, "Index", "Project", new { }, new { @class = "btn btn-default" })*@
+    <div class="row">
+        <div class="col-lg-4 col-md-5 col-sm-6">
+            <h3>@Localization.Properties</h3>
+            <div id="project-properties-form">
+                @Html.Partial("_EditPropertiesPartial", Model.Properties)
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Type)
-                @Html.ValidationMessageFor(model => model.Type)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Year)
-                @Html.ValidationMessageFor(model => model.Year)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Position)
-                @Html.ValidationMessageFor(model => model.Position)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <h3>@Localization.Contents</h3>
+            <div class="alert alert-info" role="alert">
+                Nincsenek itt képek.
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>

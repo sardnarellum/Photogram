@@ -339,4 +339,28 @@
   <data name="Projects" xml:space="preserve">
     <value>Projects</value>
   </data>
+  <data name="EditProject" xml:space="preserve">
+    <value>Edit project</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
+  <data name="Slug" xml:space="preserve">
+    <value>Friendly URL</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="ErrInvalidProject" xml:space="preserve">
+    <value>Invalid project Id</value>
+  </data>
+  <data name="ErrOccupiedSlug" xml:space="preserve">
+    <value>This Friendly URL is occupied. Try to use another one.</value>
+  </data>
 </root>

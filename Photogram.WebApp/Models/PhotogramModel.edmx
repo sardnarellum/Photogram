@@ -96,6 +96,7 @@
     <Property Name="Type" Type="int" Nullable="false" />
     <Property Name="Year" Type="smallint" Nullable="false" />
     <Property Name="Position" Type="int" Nullable="false" />
+    <Property Name="Slug" Type="nvarchar" Nullable="false" MaxLength="2000" />
   </EntityType>
   <EntityType Name="Media">
     <Key>
@@ -451,6 +452,7 @@
           <NavigationProperty Name="Title" Relationship="PhotogramModel.ProjectProjectTitle" FromRole="Project" ToRole="ProjectTitle" />
           <NavigationProperty Name="Description" Relationship="PhotogramModel.ProjectProjectDescription" FromRole="Project" ToRole="ProjectDescription" />
           <NavigationProperty Name="ProjectInclude" Relationship="PhotogramModel.ProjectIncludeProject" FromRole="Project" ToRole="ProjectInclude" />
+          <Property Name="Slug" Type="String" Nullable="false" MaxLength="2000" Unicode="true" />
         </EntityType>
         <EntityType Name="Media">
           <Key>
@@ -605,6 +607,7 @@
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Year" ColumnName="Year" />
           <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Slug" ColumnName="Slug" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

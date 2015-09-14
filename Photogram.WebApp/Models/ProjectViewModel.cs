@@ -8,46 +8,10 @@ using Resources;
 
 namespace Photogram.WebApp.Models
 {
-    //[MetadataType(typeof(AddProjectViewModel))]
-    //public partial class Project
-    //{
-    //}
-
-    public class AddProjectViewModel : LanguageList
+    public class ProjectViewModel
     {
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Title", ResourceType=typeof(Localization))]
-        [MaxLength(50)]
-        public string Title { get; set; }
+        public ProjectProperties Properties { get; set; }
 
-        [Required]
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Description", ResourceType = typeof(Localization))]
-        public string Description { get; set; }
-
-        [Required]
-        [Display(Name = "Year", ResourceType = typeof(Localization))]
-        public string Year { get; set; }
-
-        [Required]
-        [Display(Name = "Language", ResourceType = typeof(Localization))]
-        public int LCID { get; set; }
-
-        public IEnumerable<SelectListItem> Years
-        {
-            get
-            {
-                return new SelectList(
-                    Enumerable.Range(1989, DateTime.Now.Year + 1 - 1989)
-                    .OrderByDescending(year => year)
-                    .Select(year => new SelectListItem
-                    {
-                        Value = year.ToString(),
-                        Text = year.ToString()
-                    }
-                ), "Value", "Text");
-            }
-        }
+        public ProjectInclude Includes { get; set; }
     }
 }

@@ -183,6 +183,7 @@
     <Compile Include="Models\EntityExtensions.cs" />
     <Compile Include="Models\FileData.cs" />
     <Compile Include="Models\FilesystemExtensionMethods.cs" />
+    <Compile Include="Models\HtmlHelperExtensions.cs" />
     <Compile Include="Models\HttpResponseExtensionMethods.cs" />
     <Compile Include="Models\ImageFileResult.cs" />
     <Compile Include="Models\Language.cs">
@@ -214,6 +215,7 @@
     <Compile Include="Models\ProjectInclude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectProperties.cs" />
     <Compile Include="Models\ProjectTitle.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -400,6 +402,7 @@
     <Content Include="Views\Media\_EditMediaPartial.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\_EditPropertiesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
