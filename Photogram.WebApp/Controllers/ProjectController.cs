@@ -129,7 +129,10 @@ namespace Photogram.WebApp.Controllers
 
             var model = new ProjectViewModel
             {
-                Properties = properties
+                Properties = properties,
+                Includes = _db.ProjectInclude.Include("Media")
+                    .OrderBy(x => x.Position)
+                    .Where(x => x.Project.Id == project.Id)
             };
 
             return View(model);

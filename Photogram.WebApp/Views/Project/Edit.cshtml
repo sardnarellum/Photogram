@@ -23,9 +23,49 @@
         </div>
         <div class="col-lg-8 col-md-7 col-sm-6">
             <h3>@Localization.Contents</h3>
-            <div class="alert alert-info" role="alert">
-                Nincsenek itt képek.
+        @if (0 < Model.Includes.Count())        
+        {
+            <div id="included-files" class="row">
+            @foreach (var elem in Model.Includes)
+            {
+                var title = !string.IsNullOrEmpty(elem.Media.CurrentTitleText())
+                                    ? elem.Media.CurrentTitleText()
+                                    : Localization.NoTitle;
+                var desc = !string.IsNullOrEmpty(elem.Media.CurrentDescriptionText())
+                                    ? elem.Media.CurrentDescriptionText()
+                                    : Localization.NoDesc;
+                <div class="col-sm-4 col-md-3 sortable-thumbnail">
+                    <div class="thumbnail">
+                        <img src="@Url.Action("RenderResized", "Image", new { width = 150, height = 150, file = elem.Media.FileName })/" />
+                        <div class="caption">
+                            <h4 class="list-group-item-heading">@title</h4>
+                            <p>@desc</p>
+                            <p>
+                                @Html.ActionLink(Localization.Details, "Edit", "Media",
+                                    new { mediaId = elem.Media.Id },
+                                    new { @class = "btn btn-sm btn-default" })
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
             </div>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                @Localization.NoData
+            </div>
+        }
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#included-files").sortable();
+            $("#included-files").disableSelection();
+        });
+    </script>
+}

@@ -45,6 +45,11 @@ else
                             projectId: ui.item.attr('id'),
                             position: ui.item.index() + 1
                         },
+                        success: function (data, status, xhr) {
+                            if (!data.Success) {
+                                $("#projects-sortable").sortable("cancel");
+                            }
+                        },
                         error: function (jqXHR, textStatus, errorThrown) {
                             $("#projects-sortable").sortable("cancel");
                         }

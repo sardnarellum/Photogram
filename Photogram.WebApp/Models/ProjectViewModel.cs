@@ -12,6 +12,6 @@ namespace Photogram.WebApp.Models
     {
         public ProjectProperties Properties { get; set; }
 
-        public ProjectInclude Includes { get; set; }
+        public IEnumerable<ProjectInclude> Includes { get; set; }
     }
 }
