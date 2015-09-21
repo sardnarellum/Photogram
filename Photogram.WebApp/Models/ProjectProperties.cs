@@ -33,12 +33,14 @@ namespace Photogram.WebApp.Models
         public string Year { get; set; }
 
         [Required]
-        [Display(Name = "Language", ResourceType = typeof(Localization))]
-        public int LCID { get; set; }
-
-        [Required]
         [Display(Name = "Visibility", ResourceType = typeof(Localization))]
         public bool Visible { get; set; }
+
+        [Required]
+        [Display(Name = "Cover", ResourceType = typeof(Localization))]
+        public string CoverId { get; set; }
+
+        public IEnumerable<SelectListItem> SelectableCovers { get; set; }
 
         public IEnumerable<SelectListItem> Years
         {

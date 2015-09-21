@@ -360,4 +360,10 @@
   <data name="ErrOccupiedSlug" xml:space="preserve">
     <value>Ez a Keresőbarát URL már foglalt. Próbálj egy másikat használni.</value>
   </data>
+  <data name="Cover" xml:space="preserve">
+    <value>Borító</value>
+  </data>
+  <data name="IncludeTableCaption" xml:space="preserve">
+    <value>Drag &amp; drop módszerrel rendezheted az elemeket.</value>
+  </data>
 </root>

@@ -1,7 +1,6 @@
 ﻿using Photogram.WebApp.Models;
 using Resources;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -108,23 +107,24 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
-            var currLang = _db.Language
-                .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
+            var currLang = _db.Language.CurrentOrDefaultLanguage();
+            var coverInclude = project.ProjectInclude.Where(x => x.Cover)
                 .FirstOrDefault();
-
-            if (null != currLang)
-                currLang = _db.Language.Where(x => x.LCID == 1033)
-                    .FirstOrDefault();
-
             var properties = new ProjectProperties
             {
                 Id = project.Id,
                 Title = project.CurrentTitleText(),
                 Description = project.CurrentDescriptionText(),
-                LCID = currLang.LCID,
+                Languages = _db.Language.SelectList(currLang),
+                LCID = currLang.LCID.ToString(),
                 Year = project.Year.ToString(),
                 Visible = project.Visible,
                 Slug = project.Slug,
+                SelectableCovers = project.ProjectInclude
+                    .OrderBy(x => x.Position).SelectList(),
+                CoverId = coverInclude != null
+                    ? coverInclude.Id.ToString()
+                    : "-1"
             };
 
             var model = new ProjectViewModel
@@ -161,9 +161,8 @@ namespace Photogram.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                var language = _db.Language
-                    .Where(x => x.LCID == viewModel.LCID).FirstOrDefault();
-
+                var language = _db.Language.AsEnumerable()
+                    .Where(x => x.LCID == int.Parse(viewModel.LCID)).FirstOrDefault();
 
                 var title = project.Title.Where(x => x.Language == language)
                     .FirstOrDefault();
@@ -209,6 +208,13 @@ namespace Photogram.WebApp.Controllers
                     _db.Translation.Remove(description);
                 }
 
+                foreach (var elem in project.ProjectInclude)
+                {
+                    elem.Cover = int.Parse(viewModel.CoverId) == elem.Id
+                        ? true
+                        : false;
+                }
+
 
                 project.Slug = viewModel.Slug;
                 project.Year = short.Parse(viewModel.Year);
@@ -216,6 +222,13 @@ namespace Photogram.WebApp.Controllers
 
                 _db.SaveChanges();
             }
+
+            viewModel.SelectableCovers = project.ProjectInclude
+                .OrderBy(x => x.Position).SelectList();
+
+            var currLang = _db.Language.CurrentOrDefaultLanguage();
+
+            viewModel.Languages = _db.Language.SelectList(currLang);
 
             return PartialView("_EditPropertiesPartial", viewModel);
         }
@@ -227,7 +240,13 @@ namespace Photogram.WebApp.Controllers
         [ChildActionOnly]
         public ActionResult Add()
         {
-            return PartialView("_AddProjectPartial", new ProjectProperties());
+            var currlang = _db.Language.CurrentOrDefaultLanguage();
+            var viewModel = new ProjectProperties
+                {
+                    Languages = _db.Language.SelectList(currlang)
+                };
+
+            return PartialView("_AddProjectPartial", viewModel);
         }
 
         /// <summary>
@@ -244,8 +263,8 @@ namespace Photogram.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var language = _db.Language
-                        .Where(x => x.LCID == model.LCID).FirstOrDefault();
+                    var language = _db.Language.AsEnumerable()
+                        .Where(x => x.LCID == int.Parse(model.LCID)).FirstOrDefault();
 
                     if (null == language)
                     {
@@ -329,6 +348,33 @@ namespace Photogram.WebApp.Controllers
             return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [AjaxErrorHandler]
+        public JsonResult SetIncludePosition(int? includeId, int? position)
+        {
+            if (null == includeId)
+                throw new ArgumentNullException("includeId",
+                    Localization.ErrArgNull);
+
+            var include = _db.ProjectInclude.Where(x => x.Id == includeId)
+                .FirstOrDefault();
+
+            if (null == include)
+                throw new ArgumentException(
+                    includeId.ToString() + " does not exists in ProjectInclude.",
+                    "includeId");
+
+            if (null == position)
+                throw new ArgumentNullException("position",
+                    Localization.ErrArgNull);
+
+            include.SetPosition((int)position);
+
+            _db.SaveChanges();
+
+            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+        }
+
         /// <summary>
         /// Removes a project
         /// </summary>
@@ -362,5 +408,5 @@ namespace Photogram.WebApp.Controllers
 
             return RedirectToAction("Index");
         }
-	}
+    }
 }

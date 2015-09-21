@@ -293,7 +293,18 @@ namespace Photogram.WebApp.Controllers
 
             if (-1 == projectId)
             {
-                _db.ProjectInclude.Remove(media.ProjectInclude);
+                var include = media.ProjectInclude;
+
+                var sortables = _db.ProjectInclude.Include("Project").Where(
+                    x => x.Project.Id == include.Project.Id
+                        && x.Position > include.Position).ToList();
+
+                foreach (var elem in sortables)
+                {
+                    --elem.Position;
+                }
+
+                _db.ProjectInclude.Remove(include);
             }
             else
             {
@@ -434,11 +445,11 @@ namespace Photogram.WebApp.Controllers
             var fullPath = Request.MapPath(
                 string.Concat(Common.UploadPathImgRel, item.FileName));
 
-            if (System.IO.File.Exists(fullPath))
-                System.IO.File.Delete(fullPath);
-
             _db.Media.Remove(item);
             _db.SaveChanges();
+
+            if (System.IO.File.Exists(fullPath))
+                System.IO.File.Delete(fullPath);
 
             return true;
         }

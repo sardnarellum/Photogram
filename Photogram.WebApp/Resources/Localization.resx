@@ -363,4 +363,10 @@
   <data name="ErrOccupiedSlug" xml:space="preserve">
     <value>This Friendly URL is occupied. Try to use another one.</value>
   </data>
+  <data name="Cover" xml:space="preserve">
+    <value>Cover</value>
+  </data>
+  <data name="IncludeTableCaption" xml:space="preserve">
+    <value>Drag &amp; drop elements, to sort them.</value>
+  </data>
 </root>

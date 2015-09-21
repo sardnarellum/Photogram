@@ -1,9 +1,10 @@
 ﻿using Resources;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 
 namespace Photogram.WebApp.Models
 {
@@ -20,7 +21,10 @@ namespace Photogram.WebApp.Models
         /// <returns></returns>
         public static T Current<T>(this ICollection<T> collection) where T : Translation
         {
-            var language = CurrentOrDefaultLanguage();
+            var db = new PhotogramEntities();
+            var language = db.Language.CurrentOrDefaultLanguage();
+
+            db.Dispose();
 
             var title = collection
                     .Where(x => x.Language == language)
@@ -37,24 +41,54 @@ namespace Photogram.WebApp.Models
             return title;
         }
 
-        private static Language CurrentOrDefaultLanguage()
+        /// <summary>
+        /// SelectList of Languages with LCID keys, and DisplayName Texts.
+        /// </summary>
+        /// <param name="languages"></param>
+        /// <param name="selected"></param>
+        /// <returns></returns>
+        public static IEnumerable<SelectListItem> SelectList(this DbSet<Language> languages, Language selected)
         {
-            var db = new PhotogramEntities();
+            return languages.AsEnumerable().Select(x => new SelectListItem
+                {
+                    Value = x.LCID.ToString(),
+                    Text = CultureInfo.GetCultureInfo(x.LCID).DisplayName,
+                    Selected = x.LCID == selected.LCID
+                });
+        }
 
-            var language = db.Language
+        /// <summary>
+        /// SelectList of ProjectIncludes with ID keys, and Position + Title Texts. The selected item is the current cover.
+        /// </summary>
+        /// <param name="includes"></param>
+        /// <returns></returns>
+        public static IEnumerable<SelectListItem> SelectList(this IEnumerable<ProjectInclude> includes)
+        {
+            return includes.AsEnumerable().Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Position.ToString() + " - "
+                            + (x.Media.Title.Count != 0
+                                ? x.Media.CurrentTitleText()
+                                : x.Media.FileName),
+                Selected = x.Cover
+            });
+        }
+
+        public static Language CurrentOrDefaultLanguage(this DbSet<Language> languages)
+        {
+            var currLang = languages
                 .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
                 .FirstOrDefault();
 
             // If CurrentCulture is set to unknown default language is English
-            if (null == language)
+            if (null == currLang)
             {
-                language = db.Language.Where(x => x.LCID == 1033)
+                currLang = languages.Where(x => x.LCID == 1033)
                     .FirstOrDefault();
             }
 
-            db.Dispose();
-
-            return language;
+            return currLang;
         }
     }
 
@@ -177,7 +211,7 @@ namespace Photogram.WebApp.Models
                     Localization.ErrPosRange);
             }
 
-            var involved = includes.Where(x =>
+            var involved = includes.AsEnumerable().Where(x =>
                     x.Position >= Math.Min(Position, newPosition) &&
                     x.Position <= Math.Max(Position, newPosition) &&
                     x.Position != Position);

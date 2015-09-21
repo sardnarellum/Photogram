@@ -169,6 +169,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cover.
+        /// </summary>
+        public static string Cover {
+            get {
+                return ResourceManager.GetString("Cover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -390,6 +399,15 @@ namespace Resources {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag &amp; drop elements, to sort them..
+        /// </summary>
+        public static string IncludeTableCaption {
+            get {
+                return ResourceManager.GetString("IncludeTableCaption", resourceCulture);
             }
         }
         

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO;
 using System.Net;
-using System.Globalization;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -151,10 +150,10 @@ namespace Photogram.WebApp.Controllers
                 filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 filterContext.Result = new JsonResult
                 {
-                    Data = new { success = false, error = filterContext.Exception.Message.ToString() },
+                    Data = new { Success = false, Error = filterContext.Exception.Message.ToString() },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }
         }
-    }
+    }    
 }

@@ -27,7 +27,7 @@
     }
 }
 
-@using (Ajax.BeginForm("Edit", "Project", ajaxOptions, new { role = "form" }))
+@using (Ajax.BeginForm("Edit", "Project", new { }, ajaxOptions, new { role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="btn-group" data-toggle="buttons" title="@Localization.Visibility">
@@ -59,6 +59,12 @@
         @Html.ValidationMessageFor(x => x.Description)
     </div>
     <div class="form-group">
+        @Html.LabelFor(x => x.CoverId)
+        @Html.DropDownListFor(x => x.CoverId, Model.SelectableCovers,
+            new { @class = "form-control input-sm", placeholder = Localization.Cover })
+        @Html.ValidationMessageFor(x => x.CoverId)
+    </div>
+    <div class="form-group">
         @Html.LabelFor(x => x.Year)
         @Html.DropDownListFor(x => x.Year, Model.Years,
             new { @class = "form-control input-sm", placeholder = Localization.Year })
@@ -72,7 +78,10 @@
     </div>
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group" role="group">
-            <button type="submit" id="edit-properties-submit" class="btn btn-primary" data-loading-text="@Localization.Save...">@Localization.Save</button>
+            <button type="submit"
+                    id="edit-properties-submit"
+                    class="btn btn-primary"
+                    data-loading-text="@Localization.Save...">@Localization.Save</button>
         </div>
         <div class="btn-group" role="group">
             @Html.ActionLink(Localization.Delete, "Delete", "Project",
