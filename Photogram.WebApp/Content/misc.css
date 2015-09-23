@@ -53,6 +53,13 @@
     /*margin-top: 30px;*/
 }
 
+.carousel-arrow {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+}
+
 #contmgmt-footer {
     position: fixed;
     width: 100%;

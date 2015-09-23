@@ -1,27 +1,113 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-</div>
+﻿@using Photogram.WebApp.Models
+@using Resources
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+@{ 
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@model Project[]
+
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <i class="fa fa-play-circle"></i>  <span class="light">A</span> <span class="brand">M</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#about">@Localization.About</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#contact">@Localization.Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <!-- /.container -->
+</nav>
+
+<!-- Header Carousel -->
+<header id="carousel-projects" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < Model.Count(); ++i)
+        {
+            var classParam = i == 0 ? "active" : "";
+            <li data-target="#carousel-projects" data-slide-to="@i" class="@classParam"></li>
+        }
+    </ol>
+
+    <div class="carousel-inner" role="listbox">
+        @for (int i = 0; i < Model.Count(); ++i)
+        {
+            var classParam = i == 0 ? "item active" : "item";
+            var fileName = Model[i].ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
+            <div class="@classParam">
+                <div class="fill"
+                     style="background-image:url('@Url.Action("Render", "Image", new { file = fileName })/');"></div>
+                <div class="carousel-caption">
+                    <h3>@Model[i].CurrentTitleText()</h3>
+                </div>
+            </div>
+        }
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+    <a class="left carousel-control" href="#carousel-projects" role="button" data-slide="prev">
+        @*<span class="glyphicon icon-prev" aria-hidden="true"></span>*@
+        <i class="fa fa-angle-left carousel-arrow"></i>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-projects" role="button" data-slide="next">
+        @*<span class="glyphicon icon-next" aria-hidden="true"></span>*@
+        <i class="fa fa-angle-right carousel-arrow"></i>
+        <span class="sr-only">Next</span>
+    </a>
+</header>
+
+<!-- About Section -->
+<section id="about" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>About Grayscale</h2>
+            <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
+            <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
+            <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+        </div>
     </div>
-</div>
+</section>
+
+ <!-- Contact Section -->
+<section id="contact" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h2>Contact Start Bootstrap</h2>
+            <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new templates and themes, or to just say hello!</p>
+            <p>
+                <a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
+            </p>
+            <ul class="list-inline banner-social-buttons">
+                <li>
+                    <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                </li>
+                <li>
+                    <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                </li>
+                <li>
+                    <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

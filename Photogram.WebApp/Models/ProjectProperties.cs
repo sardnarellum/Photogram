@@ -36,7 +36,7 @@ namespace Photogram.WebApp.Models
         [Display(Name = "Visibility", ResourceType = typeof(Localization))]
         public bool Visible { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Cover", ResourceType = typeof(Localization))]
         public string CoverId { get; set; }
 

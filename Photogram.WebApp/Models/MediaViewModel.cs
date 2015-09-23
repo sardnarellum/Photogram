@@ -10,5 +10,7 @@ namespace Photogram.WebApp.Models
         public IList<Media> Medias { get; set; }
 
         public IList<Project> Projects { get; set; }
+
+        public MediaInformation MediaViewModel { get; set; }
     }
 }

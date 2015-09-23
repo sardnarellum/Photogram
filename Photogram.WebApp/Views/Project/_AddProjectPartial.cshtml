@@ -17,7 +17,7 @@
     };
 }
 
-@using (Ajax.BeginForm("Add", "Project", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Add", "Project", new { }, ajaxOptions, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-header">

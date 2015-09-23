@@ -110,6 +110,7 @@ namespace Photogram.WebApp.Controllers
             var currLang = _db.Language.CurrentOrDefaultLanguage();
             var coverInclude = project.ProjectInclude.Where(x => x.Cover)
                 .FirstOrDefault();
+
             var properties = new ProjectProperties
             {
                 Id = project.Id,
@@ -261,6 +262,9 @@ namespace Photogram.WebApp.Controllers
         {
             try
             {
+                model.Languages = _db.Language
+                    .SelectList(_db.Language.CurrentOrDefaultLanguage());
+
                 if (ModelState.IsValid)
                 {
                     var language = _db.Language.AsEnumerable()

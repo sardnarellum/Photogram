@@ -22,11 +22,18 @@ namespace Photogram.WebApp.Controllers
 
         public ActionResult Index()
         {
+            var mediaVM = new MediaInformation
+            {
+                Languages = _db.Language
+                    .SelectList(_db.Language.CurrentOrDefaultLanguage())
+            };
+
             var model = new ContentMgmtViewModel
             {
                 Medias = _db.Media.ToList(),
                 Projects = _db.Project.OrderByDescending(x => x.Position)
-                    .Where(x => x.Type == ProjectType.Portfolio).ToList()
+                    .Where(x => x.Type == ProjectType.Portfolio).ToList(),
+                MediaViewModel = mediaVM
             };
 
             return View("Index", model);
@@ -160,6 +167,9 @@ namespace Photogram.WebApp.Controllers
                 .FirstOrDefault();
 
             model.FileName = media.FileName;
+
+            model.Languages = _db.Language
+                    .SelectList(_db.Language.CurrentOrDefaultLanguage());
 
             if (null == media)
             {

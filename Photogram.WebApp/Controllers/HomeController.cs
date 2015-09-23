@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Resources;
+using Photogram.WebApp.Models;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -13,7 +14,9 @@ namespace Photogram.WebApp.Controllers
         {
             ViewBag.Title = Localization.Portfolio;
 
-            return /*Redirect("http://www.facebook.com/MullerAndrasPhotography");*/ View();
+            return View(_db.Project.Include("ProjectInclude")
+                .Where(x => x.Visible && x.ProjectInclude.Count() > 0)
+                .ToArray());
         }
 
         public ActionResult About()
