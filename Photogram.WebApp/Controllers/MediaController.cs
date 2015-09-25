@@ -25,7 +25,7 @@ namespace Photogram.WebApp.Controllers
             var mediaVM = new MediaInformation
             {
                 Languages = _db.Language
-                    .SelectList(_db.Language.CurrentOrDefaultLanguage())
+                    .SelectList(_db.Language.CurrentOrDefault())
             };
 
             var model = new ContentMgmtViewModel
@@ -145,7 +145,7 @@ namespace Photogram.WebApp.Controllers
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
-                LCID = currLang.LCID,
+                LCID = currLang.LCID.ToString(),
                 Title = media.CurrentTitleText(),
                 Description = media.CurrentDescriptionText()
             };
@@ -169,7 +169,7 @@ namespace Photogram.WebApp.Controllers
             model.FileName = media.FileName;
 
             model.Languages = _db.Language
-                    .SelectList(_db.Language.CurrentOrDefaultLanguage());
+                    .SelectList(_db.Language.CurrentOrDefault());
 
             if (null == media)
             {
@@ -183,7 +183,8 @@ namespace Photogram.WebApp.Controllers
                     if (ModelState.IsValid)
                     {
                         var language = _db.Language
-                            .Where(x => x.LCID == model.LCID).FirstOrDefault();
+                            .Where(x => x.LCID == int.Parse(model.LCID))
+                            .FirstOrDefault();
 
                         if (!string.IsNullOrEmpty(model.Title))
                         {

@@ -76,7 +76,7 @@ namespace Photogram.WebApp.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Details(Int32? projectId)
+        public ActionResult Details(int? projectId)
         {
             if (null == projectId)
                 return RedirectToAction("Index", "Home");
@@ -107,7 +107,7 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
-            var currLang = _db.Language.CurrentOrDefaultLanguage();
+            var currLang = _db.Language.CurrentOrDefault();
             var coverInclude = project.ProjectInclude.Where(x => x.Cover)
                 .FirstOrDefault();
 
@@ -164,6 +164,11 @@ namespace Photogram.WebApp.Controllers
             {
                 var language = _db.Language.AsEnumerable()
                     .Where(x => x.LCID == int.Parse(viewModel.LCID)).FirstOrDefault();
+
+                if (null == language)
+                {
+                    language = _db.Language.CurrentOrDefault();
+                }
 
                 var title = project.Title.Where(x => x.Language == language)
                     .FirstOrDefault();
@@ -227,7 +232,7 @@ namespace Photogram.WebApp.Controllers
             viewModel.SelectableCovers = project.ProjectInclude
                 .OrderBy(x => x.Position).SelectList();
 
-            var currLang = _db.Language.CurrentOrDefaultLanguage();
+            var currLang = _db.Language.CurrentOrDefault();
 
             viewModel.Languages = _db.Language.SelectList(currLang);
 
@@ -241,11 +246,11 @@ namespace Photogram.WebApp.Controllers
         [ChildActionOnly]
         public ActionResult Add()
         {
-            var currlang = _db.Language.CurrentOrDefaultLanguage();
+            var currlang = _db.Language.CurrentOrDefault();
             var viewModel = new ProjectProperties
-                {
-                    Languages = _db.Language.SelectList(currlang)
-                };
+            {
+                Languages = _db.Language.SelectList(currlang)
+            };
 
             return PartialView("_AddProjectPartial", viewModel);
         }
@@ -263,7 +268,7 @@ namespace Photogram.WebApp.Controllers
             try
             {
                 model.Languages = _db.Language
-                    .SelectList(_db.Language.CurrentOrDefaultLanguage());
+                    .SelectList(_db.Language.CurrentOrDefault());
 
                 if (ModelState.IsValid)
                 {

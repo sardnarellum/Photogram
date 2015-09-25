@@ -70,6 +70,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About Body.
+        /// </summary>
+        public static string AboutBody {
+            get {
+                return ResourceManager.GetString("AboutBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About Lead.
+        /// </summary>
+        public static string AboutLead {
+            get {
+                return ResourceManager.GetString("AboutLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activities.
         /// </summary>
         public static string Activities {
@@ -138,6 +156,15 @@ namespace Resources {
         public static string Contact {
             get {
                 return ResourceManager.GetString("Contact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact Lead.
+        /// </summary>
+        public static string ContactLead {
+            get {
+                return ResourceManager.GetString("ContactLead", resourceCulture);
             }
         }
         
@@ -385,6 +412,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Footer.
+        /// </summary>
+        public static string Footer {
+            get {
+                return ResourceManager.GetString("Footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Footer Text.
+        /// </summary>
+        public static string FooterText {
+            get {
+                return ResourceManager.GetString("FooterText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Galleries.
         /// </summary>
         public static string Galleries {
@@ -466,6 +511,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Header Title.
+        /// </summary>
+        public static string MainTitle {
+            get {
+                return ResourceManager.GetString("MainTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string Manage {
@@ -534,6 +588,15 @@ namespace Resources {
         public static string PersonalData {
             get {
                 return ResourceManager.GetString("PersonalData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone No..
+        /// </summary>
+        public static string PhoneNo {
+            get {
+                return ResourceManager.GetString("PhoneNo", resourceCulture);
             }
         }
         

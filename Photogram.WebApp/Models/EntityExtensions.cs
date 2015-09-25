@@ -22,23 +22,23 @@ namespace Photogram.WebApp.Models
         public static T Current<T>(this ICollection<T> collection) where T : Translation
         {
             var db = new PhotogramEntities();
-            var language = db.Language.CurrentOrDefaultLanguage();
+            var language = db.Language.CurrentOrDefault();
 
             db.Dispose();
 
-            var title = collection
+            var currTranslation = collection
                     .Where(x => x.Language == language)
                     .FirstOrDefault();
 
-            if (null != title)
+            if (null != currTranslation)
             {
-                return title;
+                return currTranslation;
             }
 
             // If title does not exists with current lang or english or 1033 is deleted from db.
-            title = collection.FirstOrDefault();
+            currTranslation = collection.FirstOrDefault();
 
-            return title;
+            return currTranslation;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Photogram.WebApp.Models
             });
         }
 
-        public static Language CurrentOrDefaultLanguage(this DbSet<Language> languages)
+        public static Language CurrentOrDefault(this DbSet<Language> languages)
         {
             var currLang = languages
                 .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
@@ -245,6 +245,27 @@ namespace Photogram.WebApp.Models
             var footer = Footer.Current();
 
             return null != footer ? footer.Text : "";
+        }
+
+        public string CurrentAboutLeadText()
+        {
+            var aboutLead = AboutLead.Current();
+
+            return null != aboutLead ? aboutLead.Text : "";
+        }
+
+        public string CurrentAboutBodyText()
+        {
+            var aboutBody = AboutBody.Current();
+
+            return null != aboutBody ? aboutBody.Text : "";
+        }
+
+        public string CurrentContactLeadText()
+        {
+            var contactLead = ContactLead.Current();
+
+            return null != contactLead ? contactLead.Text : "";
         }
     }
 }

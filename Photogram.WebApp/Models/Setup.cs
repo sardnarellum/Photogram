@@ -19,13 +19,24 @@ namespace Photogram.WebApp.Models
             this.Published = false;
             this.MainTitle = new HashSet<SetupMainTitle>();
             this.Footer = new HashSet<SetupFooter>();
+            this.AboutLead = new HashSet<SetupAboutLead>();
+            this.AboutBody = new HashSet<SetupAboutBody>();
+            this.ContactLead = new HashSet<SetupContactLead>();
         }
     
         public int Id { get; set; }
-        public string Email { get; set; }
         public bool Published { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string FacebookURL { get; set; }
+        public string InstagramURL { get; set; }
+        public string GitHubURL { get; set; }
+        public string LinkedInURL { get; set; }
     
         public virtual ICollection<SetupMainTitle> MainTitle { get; set; }
         public virtual ICollection<SetupFooter> Footer { get; set; }
+        public virtual ICollection<SetupAboutLead> AboutLead { get; set; }
+        public virtual ICollection<SetupAboutBody> AboutBody { get; set; }
+        public virtual ICollection<SetupContactLead> ContactLead { get; set; }
     }
 }

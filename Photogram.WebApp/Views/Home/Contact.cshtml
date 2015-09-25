@@ -1,17 +1,44 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿@using Resources
+@using Photogram.WebApp.Models
+
+@model ContactModel
+
+@{
+    ViewBag.Title = "Contact Start Bootstrap";
+    ViewBag.SectionId = "contact";
+    Layout = "~/Views/Shared/_LayoutHomeContent.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<h2>@Localization.Contact</h2>
+<p>@Model.Lead</p>
+<p>
+    <a href="mailto:@Model.Email">@Model.Email</a>
+</p>
+<p>
+    <abbr title="Phone">P:</abbr> @Model.Phone
+</p>
+<ul class="list-inline banner-social-buttons">
+    @if (!string.IsNullOrEmpty(Model.FacebookURL))
+    {
+        <li>
+            <a href="@Model.FacebookURL" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook</span></a>
+        </li>
+    }
+    @if (!string.IsNullOrEmpty(Model.GitHubURL))
+    {
+        <li>
+            <a href="@Model.GitHubURL" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+        </li>
+    }
+    @if (!string.IsNullOrEmpty(Model.InstagramURL))
+    {
+        <li>
+            <a href="@Model.InstagramURL" class="btn btn-default btn-lg"><i class="fa fa-instagram fa-fw"></i> <span class="network-name">Instagram</span></a>
+        </li>
+    }
+    @if (!string.IsNullOrEmpty(Model.LinkedInURL))
+    {
+        <li>
+            <a href="@Model.LinkedInURL" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">LinkedIn</span></a>
+        </li>
+    }    
+</ul>

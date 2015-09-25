@@ -21,10 +21,6 @@ namespace Photogram.WebApp.Models
         [Required]
         public int MediaId { get; set; }
 
-        [Required]
-        [Display(Name = "Language", ResourceType = typeof(Localization))]
-        public int LCID { get; set; }
-
         /// <summary>
         /// Title of Media item.
         /// </summary>

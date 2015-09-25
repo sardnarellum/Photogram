@@ -18,6 +18,9 @@
     <EntitySet Name="Translation_MediaDescription" EntityType="PhotogramModel.Store.Translation_MediaDescription" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_SetupMainTitle" EntityType="PhotogramModel.Store.Translation_SetupMainTitle" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_SetupFooter" EntityType="PhotogramModel.Store.Translation_SetupFooter" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Translation_SetupAboutBody" EntityType="PhotogramModel.Store.Translation_SetupAboutBody" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Translation_SetupContactLead" EntityType="PhotogramModel.Store.Translation_SetupContactLead" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Translation_SetupAboutLead" EntityType="PhotogramModel.Store.Translation_SetupAboutLead" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.Store.ProjectProjectTitle">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectTitle" EntitySet="Translation_ProjectTitle" />
@@ -54,6 +57,18 @@
       <End Role="Media" EntitySet="Media" />
       <End Role="ProjectInclude" EntitySet="ProjectInclude" />
     </AssociationSet>
+    <AssociationSet Name="SetupSetupAbout" Association="PhotogramModel.Store.SetupSetupAbout">
+      <End Role="Setup" EntitySet="Setup" />
+      <End Role="SetupAbout" EntitySet="Translation_SetupAboutBody" />
+    </AssociationSet>
+    <AssociationSet Name="SetupSetupContactText" Association="PhotogramModel.Store.SetupSetupContactText">
+      <End Role="Setup" EntitySet="Setup" />
+      <End Role="SetupContactText" EntitySet="Translation_SetupContactLead" />
+    </AssociationSet>
+    <AssociationSet Name="SetupSetupAboutLead" Association="PhotogramModel.Store.SetupSetupAboutLead">
+      <End Role="Setup" EntitySet="Setup" />
+      <End Role="SetupAboutLead" EntitySet="Translation_SetupAboutLead" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectTitle_inherits_Translation" Association="PhotogramModel.Store.FK_ProjectTitle_inherits_Translation">
       <End Role="Translation" EntitySet="Translation" />
       <End Role="ProjectTitle" EntitySet="Translation_ProjectTitle" />
@@ -78,14 +93,31 @@
       <End Role="Translation" EntitySet="Translation" />
       <End Role="SetupFooter" EntitySet="Translation_SetupFooter" />
     </AssociationSet>
+    <AssociationSet Name="FK_SetupAboutBody_inherits_Translation" Association="PhotogramModel.Store.FK_SetupAboutBody_inherits_Translation">
+      <End Role="Translation" EntitySet="Translation" />
+      <End Role="SetupAboutBody" EntitySet="Translation_SetupAboutBody" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SetupContactLead_inherits_Translation" Association="PhotogramModel.Store.FK_SetupContactLead_inherits_Translation">
+      <End Role="Translation" EntitySet="Translation" />
+      <End Role="SetupContactLead" EntitySet="Translation_SetupContactLead" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SetupAboutLead_inherits_Translation" Association="PhotogramModel.Store.FK_SetupAboutLead_inherits_Translation">
+      <End Role="Translation" EntitySet="Translation" />
+      <End Role="SetupAboutLead" EntitySet="Translation_SetupAboutLead" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Setup">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="254" />
     <Property Name="Published" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="254" />
+    <Property Name="Phone" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="FacebookURL" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="InstagramURL" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="GitHubURL" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="LinkedInURL" Type="nvarchar" Nullable="true" MaxLength="500" />
   </EntityType>
   <EntityType Name="Project">
     <Key>
@@ -166,6 +198,27 @@
     <Property Name="Setup_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Translation_SetupFooter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Setup_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Translation_SetupAboutBody">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Setup_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Translation_SetupContactLead">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Setup_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Translation_SetupAboutLead">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -298,6 +351,48 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SetupSetupAbout">
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupAbout" Type="PhotogramModel.Store.Translation_SetupAboutBody" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupAbout">
+        <PropertyRef Name="Setup_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SetupSetupContactText">
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupContactText" Type="PhotogramModel.Store.Translation_SetupContactLead" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupContactText">
+        <PropertyRef Name="Setup_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SetupSetupAboutLead">
+    <End Role="Setup" Type="PhotogramModel.Store.Setup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupAboutLead" Type="PhotogramModel.Store.Translation_SetupAboutLead" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Setup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupAboutLead">
+        <PropertyRef Name="Setup_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProjectTitle_inherits_Translation">
     <End Role="Translation" Type="PhotogramModel.Store.Translation" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -382,6 +477,48 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SetupAboutBody_inherits_Translation">
+    <End Role="Translation" Type="PhotogramModel.Store.Translation" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupAboutBody" Type="PhotogramModel.Store.Translation_SetupAboutBody" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Translation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupAboutBody">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SetupContactLead_inherits_Translation">
+    <End Role="Translation" Type="PhotogramModel.Store.Translation" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupContactLead" Type="PhotogramModel.Store.Translation_SetupContactLead" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Translation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupContactLead">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SetupAboutLead_inherits_Translation">
+    <End Role="Translation" Type="PhotogramModel.Store.Translation" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SetupAboutLead" Type="PhotogramModel.Store.Translation_SetupAboutLead" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Translation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SetupAboutLead">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -429,16 +566,36 @@
             <End Role="Media" EntitySet="Media" />
             <End Role="ProjectInclude" EntitySet="ProjectInclude" />
           </AssociationSet>
+          <AssociationSet Name="SetupSetupAbout" Association="PhotogramModel.SetupSetupAbout">
+            <End Role="Setup" EntitySet="Setup" />
+            <End Role="SetupAbout" EntitySet="Translation" />
+          </AssociationSet>
+          <AssociationSet Name="SetupSetupContactText" Association="PhotogramModel.SetupSetupContactText">
+            <End Role="Setup" EntitySet="Setup" />
+            <End Role="SetupContactText" EntitySet="Translation" />
+          </AssociationSet>
+          <AssociationSet Name="SetupSetupAboutLead" Association="PhotogramModel.SetupSetupAboutLead">
+            <End Role="Setup" EntitySet="Setup" />
+            <End Role="SetupAboutLead" EntitySet="Translation" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Setup">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="254" Unicode="true" />
           <Property Name="Published" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="254" Unicode="true" />
           <NavigationProperty Name="MainTitle" Relationship="PhotogramModel.SetupSetupMainTitle" FromRole="Setup" ToRole="SetupMainTitle" />
           <NavigationProperty Name="Footer" Relationship="PhotogramModel.SetupSetupFooter" FromRole="Setup" ToRole="SetupFooter" />
+          <Property Name="Phone" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="FacebookURL" Type="String" Nullable="true" MaxLength="500" />
+          <Property Name="InstagramURL" Type="String" Nullable="true" MaxLength="500" />
+          <Property Name="GitHubURL" Type="String" Nullable="true" MaxLength="500" />
+          <NavigationProperty Name="AboutLead" Relationship="PhotogramModel.SetupSetupAboutLead" FromRole="Setup" ToRole="SetupAboutLead" />
+          <NavigationProperty Name="AboutBody" Relationship="PhotogramModel.SetupSetupAbout" FromRole="Setup" ToRole="SetupAbout" />
+          <NavigationProperty Name="ContactLead" Relationship="PhotogramModel.SetupSetupContactText" FromRole="Setup" ToRole="SetupContactText" />
+          <Property Name="LinkedInURL" Type="String" Nullable="true" MaxLength="500" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -584,6 +741,33 @@
           </End>
           <End Type="PhotogramModel.ProjectInclude" Role="ProjectInclude" Multiplicity="0..1" />
         </Association>
+        <EntityType Name="SetupAboutBody" BaseType="PhotogramModel.Translation" >
+          <NavigationProperty Name="Setup" Relationship="PhotogramModel.SetupSetupAbout" FromRole="SetupAbout" ToRole="Setup" />
+        </EntityType>
+        <Association Name="SetupSetupAbout">
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.SetupAboutBody" Role="SetupAbout" Multiplicity="*" />
+        </Association>
+        <EntityType Name="SetupContactLead" BaseType="PhotogramModel.Translation" >
+          <NavigationProperty Name="Setup" Relationship="PhotogramModel.SetupSetupContactText" FromRole="SetupContactText" ToRole="Setup" />
+        </EntityType>
+        <Association Name="SetupSetupContactText">
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.SetupContactLead" Role="SetupContactText" Multiplicity="*" />
+        </Association>
+        <EntityType Name="SetupAboutLead" BaseType="PhotogramModel.Translation" >
+          <NavigationProperty Name="Setup" Relationship="PhotogramModel.SetupSetupAboutLead" FromRole="SetupAboutLead" ToRole="Setup" />
+        </EntityType>
+        <Association Name="SetupSetupAboutLead">
+          <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PhotogramModel.SetupAboutLead" Role="SetupAboutLead" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -594,8 +778,13 @@
       <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Setup)">
         <MappingFragment StoreEntitySet="Setup">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Published" ColumnName="Published" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="FacebookURL" ColumnName="FacebookURL" />
+          <ScalarProperty Name="InstagramURL" ColumnName="InstagramURL" />
+          <ScalarProperty Name="GitHubURL" ColumnName="GitHubURL" />
+          <ScalarProperty Name="LinkedInURL" ColumnName="LinkedInURL" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -661,6 +850,21 @@
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.SetupFooter)">
         <MappingFragment StoreEntitySet="Translation_SetupFooter">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.SetupAboutBody)">
+        <MappingFragment StoreEntitySet="Translation_SetupAboutBody">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.SetupContactLead)">
+        <MappingFragment StoreEntitySet="Translation_SetupContactLead">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.SetupAboutLead)">
+        <MappingFragment StoreEntitySet="Translation_SetupAboutLead">
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -743,6 +947,30 @@
         <ScalarProperty Name="Id" ColumnName="Media_Id" />
       </EndProperty>
       <EndProperty Name="ProjectInclude">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SetupSetupAbout" TypeName="PhotogramModel.SetupSetupAbout" StoreEntitySet="Translation_SetupAboutBody">
+      <EndProperty Name="Setup">
+        <ScalarProperty Name="Id" ColumnName="Setup_Id" />
+      </EndProperty>
+      <EndProperty Name="SetupAbout">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SetupSetupContactText" TypeName="PhotogramModel.SetupSetupContactText" StoreEntitySet="Translation_SetupContactLead">
+      <EndProperty Name="Setup">
+        <ScalarProperty Name="Id" ColumnName="Setup_Id" />
+      </EndProperty>
+      <EndProperty Name="SetupContactText">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SetupSetupAboutLead" TypeName="PhotogramModel.SetupSetupAboutLead" StoreEntitySet="Translation_SetupAboutLead">
+      <EndProperty Name="Setup">
+        <ScalarProperty Name="Id" ColumnName="Setup_Id" />
+      </EndProperty>
+      <EndProperty Name="SetupAboutLead">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -167,6 +167,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AboutContactModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AjaxHelperExtensions.cs" />
     <Compile Include="Models\DynamicImageResult.cs" />
@@ -240,6 +242,15 @@
       <DependentUpon>PhotogramModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Setup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SetupAboutBody.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SetupAboutLead.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SetupContactLead.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SetupFooter.cs">
@@ -317,6 +328,7 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -346,6 +358,11 @@
       <DependentUpon>PhotogramModel.edmx</DependentUpon>
     </Content>
     <Content Include="Content\grayscale.min.css" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\asphostpage.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\grayscale.js" />
@@ -409,9 +426,11 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\_EditPropertiesPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutHomeContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>

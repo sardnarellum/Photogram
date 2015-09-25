@@ -1,7 +1,13 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@using Resources
+@using Photogram.WebApp.Models
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewBag.SectionId = "about";
+    Layout = "~/Views/Shared/_LayoutHomeContent.cshtml";
+}
+
+@model AboutModel
+
+<h2>@Localization.About</h2>
+<h3>@Model.Lead</h3>
+@Model.Body

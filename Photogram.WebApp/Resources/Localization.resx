@@ -369,4 +369,25 @@
   <data name="IncludeTableCaption" xml:space="preserve">
     <value>Drag &amp; drop elements, to sort them.</value>
   </data>
+  <data name="PhoneNo" xml:space="preserve">
+    <value>Phone No.</value>
+  </data>
+  <data name="AboutBody" xml:space="preserve">
+    <value>About Body</value>
+  </data>
+  <data name="AboutLead" xml:space="preserve">
+    <value>About Lead</value>
+  </data>
+  <data name="ContactLead" xml:space="preserve">
+    <value>Contact Lead</value>
+  </data>
+  <data name="FooterText" xml:space="preserve">
+    <value>Footer Text</value>
+  </data>
+  <data name="MainTitle" xml:space="preserve">
+    <value>Header Title</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Footer</value>
+  </data>
 </root>

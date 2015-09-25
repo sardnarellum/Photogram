@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Információ</value>
+    <value>Info</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Mégse</value>
@@ -365,5 +365,26 @@
   </data>
   <data name="IncludeTableCaption" xml:space="preserve">
     <value>Drag &amp; drop módszerrel rendezheted az elemeket.</value>
+  </data>
+  <data name="PhoneNo" xml:space="preserve">
+    <value>Telefonszám</value>
+  </data>
+  <data name="AboutBody" xml:space="preserve">
+    <value>"Info" szövegtörzs</value>
+  </data>
+  <data name="AboutLead" xml:space="preserve">
+    <value>"Info" bevezető</value>
+  </data>
+  <data name="ContactLead" xml:space="preserve">
+    <value>Kontakt bevezető</value>
+  </data>
+  <data name="FooterText" xml:space="preserve">
+    <value>Lábléc szöveg</value>
+  </data>
+  <data name="MainTitle" xml:space="preserve">
+    <value>Fejléc megnevezés</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Lábléc</value>
   </data>
 </root>
