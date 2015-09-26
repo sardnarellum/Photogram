@@ -47,6 +47,16 @@
             </div>
             <hr />
             <div class="form-group">
+                @Html.LabelFor(x => x.MainTitle)
+                @Html.TextBoxFor(x => x.MainTitle,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.MainTitle
+                    })
+                @Html.ValidationMessageFor(x => x.MainTitle)
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(x => x.Email)
                 @Html.TextBoxFor(x => x.Email,
                     new

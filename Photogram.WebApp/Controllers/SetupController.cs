@@ -84,6 +84,8 @@ namespace Photogram.WebApp.Controllers
                             Language = currLang,
                             Setup = setup
                         };
+
+                        setup.MainTitle.Add(mainTitle);
                     }
 
                     mainTitle.Text = viewModel.MainTitle;
@@ -106,6 +108,8 @@ namespace Photogram.WebApp.Controllers
                             Language = currLang,
                             Setup = setup
                         };
+
+                        setup.AboutLead.Add(aboutLead);
                     }
 
                     aboutLead.Text = viewModel.AboutLead;
@@ -128,6 +132,8 @@ namespace Photogram.WebApp.Controllers
                             Language = currLang,
                             Setup = setup
                         };
+
+                        setup.AboutBody.Add(aboutBody);
                     }
 
                     aboutBody.Text = viewModel.AboutBody;
@@ -150,6 +156,8 @@ namespace Photogram.WebApp.Controllers
                             Language = currLang,
                             Setup = setup
                         };
+
+                        setup.ContactLead.Add(contactLead);
                     }
 
                     contactLead.Text = viewModel.ContactLead;
@@ -172,6 +180,8 @@ namespace Photogram.WebApp.Controllers
                             Language = currLang,
                             Setup = setup
                         };
+
+                        setup.Footer.Add(footer);
                     }
 
                     footer.Text = viewModel.Footer;
