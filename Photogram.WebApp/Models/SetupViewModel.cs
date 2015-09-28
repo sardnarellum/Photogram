@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Resources;
+using System.Web.Mvc;
 
 namespace Photogram.WebApp.Models
 {
@@ -49,7 +50,8 @@ namespace Photogram.WebApp.Models
         [Display(Name = "AboutLead", ResourceType = typeof(Localization))]
         public string AboutLead { get; set; }
 
-        [DataType(DataType.Text)]
+        [AllowHtml]
+        [DataType(DataType.Html)]
         [Display(Name = "AboutBody", ResourceType = typeof(Localization))]
         public string AboutBody { get; set; }
 
