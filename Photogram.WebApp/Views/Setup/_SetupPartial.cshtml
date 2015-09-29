@@ -110,6 +110,17 @@
                 @Html.ValidationMessageFor(x => x.AboutBody)
             </div>
             <div class="form-group">
+                @Html.LabelFor(x => x.Footer)
+                @Html.TextAreaFor(x => x.Footer,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.Footer,
+                        rows = 2
+                    })
+                @Html.ValidationMessageFor(x => x.Footer)
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(x => x.FacebookURL)
                 @Html.TextBoxFor(x => x.FacebookURL,
                     new

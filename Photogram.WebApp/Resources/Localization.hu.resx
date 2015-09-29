@@ -387,4 +387,7 @@
   <data name="Footer" xml:space="preserve">
     <value>Lábléc</value>
   </data>
+  <data name="More" xml:space="preserve">
+    <value>Tovább</value>
+  </data>
 </root>

@@ -69,6 +69,25 @@ namespace Photogram.WebApp.Controllers
 
         }
 
+        //[AllowAnonymous]
+        //[HttpGet]
+        //public ActionResult PrettyDetails(string slug)
+        //{
+        //    if (string.IsNullOrEmpty(slug))
+        //    {
+        //        RedirectToAction("Index", "Home");
+        //    }
+
+        //    var project = _db.Project.Where(x => x.Slug == slug).FirstOrDefault();
+
+        //    if (null == project)
+        //    {
+        //        RedirectToAction("Index", "Home");
+        //    }
+
+        //    return Details(project.Id);
+        //}
+
         /// <summary>
         /// 
         /// </summary>

@@ -41,7 +41,7 @@ namespace Photogram.WebApp.Models
         public string MainTitle { get; set; }
 
         [DataType(DataType.Text)]
-        [MaxLength(100)]
+        [MaxLength(200)]
         [Display(Name = "Footer", ResourceType = typeof(Localization))]
         public string Footer { get; set; }
 
