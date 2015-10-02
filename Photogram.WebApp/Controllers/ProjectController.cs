@@ -1,5 +1,4 @@
-﻿using PagedList;
-using Photogram.WebApp.Models;
+﻿using Photogram.WebApp.Models;
 using Resources;
 using System;
 using System.Linq;
@@ -96,7 +95,7 @@ namespace Photogram.WebApp.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Details(int? projectId, int? page)
+        public ActionResult Details(int? projectId)
         {
             if (null == projectId)
                 return RedirectToAction("Index", "Home");
@@ -109,18 +108,9 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
-            var model = new ProjectDetailsModel
-            {
-                Id = project.Id,
-                Title = project.CurrentTitleText(),
-                Description = project.CurrentDescriptionText(),
-                IncludedMedia = project.ProjectInclude.Select(x => x.Media)
-                    .ToPagedList(page ?? 1, 1)
-            };
-
             ViewBag.Title = project.CurrentTitleText();
 
-            return View("Details", model);
+            return View("Details", project);
         }
 
         [HttpGet]
