@@ -165,5 +165,6 @@ $RECYCLE.BIN/
 /SQLQuery2.sql
 
 
+# Project elements
 Photogram.WebApp/node_modules/
-/packages
+
