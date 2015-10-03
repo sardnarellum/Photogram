@@ -164,8 +164,6 @@ $RECYCLE.BIN/
 /SQLQuery1.sql
 /SQLQuery2.sql
 
-bootstrap-filestyle.js
-bootstrap-filestyle.min.js
-bootstrapValidator.min.js
-Chart.js
-Chart.min.js
+
+Photogram.WebApp/node_modules/
+/packages

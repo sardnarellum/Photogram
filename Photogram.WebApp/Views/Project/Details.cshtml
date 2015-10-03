@@ -7,9 +7,58 @@
 
 @model Project
 
-<div class="page-header">
-    <h1>@Model.CurrentTitleText()</h1>
-</div>
-<div class="page-description">
-    <p>@Model.CurrentDescriptionText()</p>
-</div>
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="@Url.Action("Index", "Home")">
+                <span class="brand">Müller</span> <span class="light">András</span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>
+                        @Html.ActionLink(Localization.Administration, "Index", "Admin")
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<section class="container project-section">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <h1>@Model.CurrentTitleText()</h1>
+            <p>@Model.CurrentDescriptionText()</p>
+        </div>
+    </div>
+    <div class="project-itemlist row">
+        @foreach (var elem in Model.ProjectInclude)
+        {
+            <div class="project-item-container fit-container col-lg-10 col-lg-offset-1">
+                <img class="fit-container" src="@Url.Action("Render", "Image", new { file = elem.Media.FileName })/" />
+                @if (!string.IsNullOrEmpty(elem.Media.CurrentTitleText()))
+                {
+                    <h6>@elem.Media.CurrentTitleText()</h6>
+                }
+                @if (!string.IsNullOrEmpty(elem.Media.CurrentDescriptionText()))
+                {
+                    <p>@elem.Media.CurrentDescriptionText()</p>
+                }
+            </div>
+        }
+    </div>
+</section>
