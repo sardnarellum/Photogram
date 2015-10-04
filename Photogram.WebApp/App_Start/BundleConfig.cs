@@ -37,7 +37,7 @@ namespace Photogram.WebApp
                       "~/Content/font-awesome.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/grayscale").Include(
-                      "~/Content/grayscale.min.css"));
+                      "~/Content/grayscale.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

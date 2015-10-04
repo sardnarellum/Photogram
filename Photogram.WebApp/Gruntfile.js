@@ -5,13 +5,18 @@ module.exports = function(grunt) {
   grunt.initConfig({
     less: {
       development: {
+        files: {
+          "Content/grayscale.css": "Less/grayscale.less" // destination file and source file
+        }
+      },
+      production: {
         options: {
-          compress: true,
-          yuicompress: true,
-          optimization: 2
+            compress: true,
+            yuicompress: true,
+            optimization: 2
         },
         files: {
-          "Content/grayscale.min.css": "Less/grayscale.less" // destination file and source file
+            "Content/grayscale.min.css": "Less/grayscale.less" // destination file and source file
         }
       }
     },

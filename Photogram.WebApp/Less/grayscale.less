@@ -1,6 +1,7 @@
 @import "variables.less";
 @import "mixins.less";
 
+
 body {
     width: 100%;
     height: 100%;
@@ -150,30 +151,6 @@ a {
     }
 }
 
-// Carousel +
-
-.carousel,
-.item,
-.active {
-    height: 100%;
-}
-
-.carousel-inner {
-    height: 100%;
-}
-
-.carousel-caption {
-    text-shadow: none;
-}
-
-.fill {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    background-size: cover;
-}
-
-// Carousel -
 
 .intro {
     display: table;
@@ -316,18 +293,60 @@ a {
     }
 }
 
-.content-section {
-    padding-top: 100px;
+// Carousel +
+
+.carousel,
+.item,
+.active {
+    height: 100%;
 }
 
-.project-section {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    max-height: 100%;
+.carousel-inner {
+    height: 100%;
+}
 
-    .row {
-        max-height: 100%;
-    }
+.carousel-caption {
+    text-shadow: none;
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+// Carousel -
+
+.content-section {
+    min-height: 100%;
+    display: table;
+}
+
+.content-row {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* GALLERY */
+
+.project-section {
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+
+.project-item {
+    height: 100%;
+    display: table;
+}
+
+.project-sidebar {
+    position: fixed;
+}
+
+.fit-container {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .download-section {
@@ -346,14 +365,6 @@ a {
 }
 
 @media(min-width:767px) {
-    .content-section {
-        padding-top: 250px;
-    }
-
-    .download-section {
-        padding: 100px 0;
-    }
-
     #map {
         height: 400px;
         margin-top: 250px;
@@ -405,25 +416,6 @@ ul.banner-social-buttons {
         }
     }
 }
-
-
-/* GALLERY */
-
-.fit-container {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.project-itemlist {
-    max-height: 100%;
-}
-
-.project-item-container {
-}
-
-// .list-inline li {
-//     display: inline;
-// }
 
 footer {
     padding: 50px 0;

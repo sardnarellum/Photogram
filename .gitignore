@@ -167,4 +167,5 @@ $RECYCLE.BIN/
 
 # Project elements
 Photogram.WebApp/node_modules/
+node_modules/
 
