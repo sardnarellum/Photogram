@@ -134,18 +134,13 @@ namespace Photogram.WebApp.Controllers
                     mediaId.ToString() + " does not exists in Media.",
                     "mediaId");
 
-            var currLang = _db.Language
-                .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
-                .FirstOrDefault();
-
-            if (null != currLang)
-                currLang = _db.Language.Where(x => x.LCID == 1033)
-                    .FirstOrDefault();
+            var currLang = _db.Language.CurrentOrDefault();
 
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
                 LCID = currLang.LCID.ToString(),
+                Languages = _db.Language.SelectList(currLang),
                 Title = media.CurrentTitleText(),
                 Description = media.CurrentDescriptionText()
             };
@@ -167,7 +162,6 @@ namespace Photogram.WebApp.Controllers
                 .FirstOrDefault();
 
             model.FileName = media.FileName;
-
             model.Languages = _db.Language
                     .SelectList(_db.Language.CurrentOrDefault());
 
@@ -182,7 +176,7 @@ namespace Photogram.WebApp.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        var language = _db.Language
+                        var language = _db.Language.AsEnumerable()
                             .Where(x => x.LCID == int.Parse(model.LCID))
                             .FirstOrDefault();
 

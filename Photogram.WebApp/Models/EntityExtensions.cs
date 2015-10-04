@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Photogram.WebApp.Models
@@ -167,6 +170,7 @@ namespace Photogram.WebApp.Models
 
     public partial class Media
     {
+
         /// <summary>
         /// Title at first on current language and on english if not exists.
         /// If english version not exists returns the default.
@@ -185,6 +189,31 @@ namespace Photogram.WebApp.Models
             var description = Description.Current();
 
             return null != description ? description.Text : "";
+        }
+
+        public double AspectRatio()
+        {
+            var dirInfo = new DirectoryInfo(
+                Path.Combine(
+                    HttpRuntime.AppDomainAppPath, Common.UploadPathImg));
+            var fileInfo = dirInfo.GetFiles().Where(x => x.Name == FileName)
+                .FirstOrDefault();
+            var aspectRatio = 0.0;
+
+            if (null != fileInfo)
+            {
+                using (var file = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    using (var image = Image.FromStream(file))
+                    {
+                        file.Close();
+
+                        aspectRatio = Math.Round(image.Width / (double)image.Height, 1);
+                    }
+                }
+            }
+
+            return aspectRatio;
         }
     }
 

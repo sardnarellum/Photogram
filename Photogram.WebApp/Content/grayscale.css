@@ -127,11 +127,10 @@ a:focus {
 .intro {
   display: table;
   width: 100%;
-  height: auto;
+  height: 100%;
   padding: 100px 0;
   text-align: center;
   color: white;
-  background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
   background-color: black;
   background-size: cover;
 }
@@ -273,7 +272,7 @@ a:focus {
   min-height: 100%;
   display: table;
 }
-.content-row {
+.content-section .content-row {
   display: table-cell;
   vertical-align: middle;
 }
