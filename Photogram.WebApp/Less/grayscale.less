@@ -3,7 +3,7 @@
 
 
 body {
-    width: 100%;
+    max-width: 100%;
     height: 100%;
     font-family: "Courier New", Courier, monospace;
     color: white;
@@ -67,6 +67,67 @@ a {
 .colored {
     color: @primary;
 }
+
+.nav-project-details {
+    top: 0;
+    height: 100%;
+    margin-right: 3px;
+    border-left: 1px solid fade(white, 30%);
+    position: fixed;
+
+    > li {
+        + li{
+            margin-top: 0;
+        }
+    }
+
+    li {
+        padding: 0;
+        a {
+            padding: 0 0 0 3px;
+            margin-bottom: 3px;
+            border: none;
+            border-radius: 0;
+            background-color: transparent;
+            -webkit-transition: background .3s ease-in-out;
+            -moz-transition: background .3s ease-in-out;
+            -o-transition: background .3s ease-in-out;
+            transition: background .3s ease-in-out;
+
+            &:hover {
+                background-color: @primary;
+                outline: none;
+            }
+
+            &:focus,
+            &:active {
+                outline: none;
+                background-color: transparent;
+            }
+        }
+
+        &.active {
+            outline: none;
+            padding: 0;
+            margin: 0;
+
+            a {
+                background-color: fade(white, 30%);
+
+                &:hover {
+                    background-color: @primary;
+                }
+            }
+        }        
+
+        &:last-of-type {
+            a {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
 
 .navbar-custom {
     margin-bottom: 0;
@@ -186,6 +247,32 @@ a {
     }
 }
 
+
+.intro-project {
+    text-align: right;
+    .intro-body {
+        .brand-project-heading {
+            font-size: 70px;
+        }
+    }
+
+    @media(min-width: 768px){
+        .intro-body {
+            .brand-project-heading {
+                font-size: 60px;
+            }
+        }
+    }
+        
+    @media(min-width: 1200px) {
+        .intro-body {
+            .brand-project-heading {
+                font-size: 100px;
+            }
+        }
+    }
+}
+
 .btn-circle {
     width: 70px;
     height: 70px;
@@ -295,36 +382,49 @@ a {
 
 // Carousel +
 
-.carousel,
-.item,
-.active {
-    height: 100%;
-}
+.carousel {
+    height: 100%;    
 
-.carousel-inner {
-    height: 100%;
-}
+    .carousel-inner {
+        height: 100%;
 
-.carousel-caption {
-    text-shadow: none;
-}
+        .item {
+            height: 100%;
 
-.fill {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    background-size: cover;
+            .carousel-caption {
+                text-shadow: none;
+            }
+
+            .fill {
+                width: 100%;
+                height: 100%;
+                background-position: center;
+                background-size: cover;
+            }
+        }
+    }
 }
 
 // Carousel -
 
 .content-section {
-    min-height: 100%;
+    height: 100%; // uggly Firefox
+    width: 100%;
     display: table;
 
     .content-row {
         display: table-cell;
         vertical-align: middle;
+
+        .content-image-container {
+            position: relative;
+            zoom: 1;
+            display: block;
+
+            img {
+                width: 100%; // uggly Firefox
+            }
+        }
     }
 }
 
@@ -339,10 +439,6 @@ a {
 .project-item {
     height: 100%;
     display: table;
-}
-
-.project-sidebar {
-    position: fixed;
 }
 
 .fit-container {
@@ -401,7 +497,7 @@ header .btn-default {
     color: white;
 }
 
-ul.banner-social-buttons {
+ul.banner-buttons {
     margin-top: 0;
     @media(max-width:1199px) {
         margin-top: 15px;

@@ -390,4 +390,7 @@
   <data name="More" xml:space="preserve">
     <value>Tovább</value>
   </data>
+  <data name="PageTop" xml:space="preserve">
+    <value>Oldal tetejére</value>
+  </data>
 </root>

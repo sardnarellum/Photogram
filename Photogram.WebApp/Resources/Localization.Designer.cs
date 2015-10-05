@@ -592,6 +592,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page Top.
+        /// </summary>
+        public static string PageTop {
+            get {
+                return ResourceManager.GetString("PageTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Personal information.
         /// </summary>
         public static string PersonalData {

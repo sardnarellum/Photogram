@@ -13,7 +13,9 @@ namespace Photogram.WebApp.Controllers
         public ActionResult Index()
         {
             var setup = _db.Setup.FirstOrDefault();
-            ViewBag.MainTitle = setup != null ? setup.CurrentMainTitleText() : Localization.PhotogramNet;
+            ViewBag.MainTitle = setup != null
+                ? setup.CurrentMainTitleText()
+                : Localization.PhotogramNet;
             ViewBag.Footer = setup != null ? setup.CurrentFooterText() : "";
             ViewBag.Title = Localization.Portfolio;
 

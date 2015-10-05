@@ -3,50 +3,20 @@
 @using System.Drawing
 
 
-@{
-    Layout = "~/Views/Shared/_LayoutHome.cshtml";
-}
-
 @model Project
 
-@*<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand page-scroll" href="@Url.Action("Index", "Home")">
-                <span class="brand">Müller</span> <span class="light">András</span>
-            </a>
-        </div>
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var bgUrl = Model.ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
+}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-            <ul class="nav navbar-nav">
-                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                @if (Request.IsAuthenticated)
-                {
-                    <li>
-                        @Html.ActionLink(Localization.Administration, "Index", "Admin")
-                    </li>
-                }
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>*@
-
-<header class="intro">
+<header class="intro intro-project" style="background-image:url('@Url.Action("Render", "Image", new { file = bgUrl })/');">
     <div class="intro-body">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="brand-heading">@Model.CurrentTitleText()</h1>
-                    <p class="lead">@Model.CurrentDescriptionText()</p>
+                <div class="col-sm-8 col-lg-offset-1">
+                    <h1 class="brand-heading brand-project-heading" role="heading">@Model.CurrentTitleText()</h1>
+                    <p class="lead" role="contentinfo">@Model.CurrentDescriptionText()</p>
                 </div>
             </div>
         </div>
@@ -57,28 +27,31 @@
 {
     var isTitleExists = !string.IsNullOrEmpty(elem.Media.CurrentTitleText());
     var isDescExists = !string.IsNullOrEmpty(elem.Media.CurrentDescriptionText());
-    var imgContainerClass = "col-lg-9";
-    var dataContainerClass = "col-sm-4 col-lg-2";
+    var imgContainerClass = "col-sm-9";
+    var dataContainerClass = "col-sm-2";
     var aspectRatio = elem.Media.AspectRatio();
 
     if (1 < aspectRatio && 1.5 >= aspectRatio)
     {
         imgContainerClass = "col-sm-8 col-lg-offset-1";
+        dataContainerClass = "col-sm-4 col-md-3 col-lg-2";
     }
     else if (1 == aspectRatio)
     {
         imgContainerClass = "col-sm-6 col-sm-offset-2 col-lg-offset-3";
+        dataContainerClass = "col-sm-4 col-md-3 col-lg-2";
     }
     else if (1 > aspectRatio)
     {
-        imgContainerClass = "col-sm-4 col-sm-offset-4 col-md-offset-5";
+        imgContainerClass = "col-sm-4 col-sm-offset-4 col-lg-offset-5";
+        dataContainerClass = "col-sm-4 col-md-3 col-lg-2";
     }
 
 
-    <section class="container-fluid content-section">
+    <section id="@elem.Id" class="container-fluid content-section">
         <div class="row content-row">
-            <div class="@imgContainerClass">
-                <img class="fit-container" src="@Url.Action("Render", "Image", new { file = elem.Media.FileName })/" />
+            <div class="@imgContainerClass content-image-container">
+                <img class="img-responsive" src="@Url.Action("Render", "Image", new { file = elem.Media.FileName })/" />
             </div>
             @if (isTitleExists || isDescExists)
             {
@@ -97,9 +70,33 @@
     </section>
 }
 
-<section class="content-section text-center">
-    @Html.ActionLink(Localization.Back, "Index", "Home", new { }, new { @class = "btn btn-default btn-lg" })
+<section class="container text-center">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="list-inline banner-buttons">
+                <li>
+                    @Html.ActionLink(Localization.Back, "Index", "Home", new { }, new { @class = "btn btn-default btn-lg" })
+                </li>
+                <li>
+                    <a href="#page-top" class="btn btn-default btn-lg page-scroll" aria-label="@Localization.PageTop"><i class="fa fa-arrow-up"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>
-<nav class="hidden-print hidden-sm hidden-xs">
-    <ul class="nav nav-pills nav-stacked project-sidebar"></ul>
+<nav class="container-fluid nav-spytarget">
+    <div class="row">
+        <div class="col-md-1 col-md-offset-11 hidden-xs hidden-sm hidden-print" style="display: table;">
+            <ul class="nav nav-project-details nav-stacked">
+                @foreach (var elem in Model.ProjectInclude)
+                {
+                    <li>
+                        <a class="page-scroll" href="#@elem.Id">
+                            <img src="@Url.Action("RenderResized", "Image", new { width = 100, height = 300, file = elem.Media.FileName })/" />
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </nav>

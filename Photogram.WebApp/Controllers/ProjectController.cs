@@ -97,6 +97,12 @@ namespace Photogram.WebApp.Controllers
         [HttpGet]
         public ActionResult Details(int? projectId)
         {
+            var setup = _db.Setup.FirstOrDefault();
+            ViewBag.MainTitle = setup != null
+                ? setup.CurrentMainTitleText()
+                : Localization.PhotogramNet;
+            ViewBag.Footer = setup != null ? setup.CurrentFooterText() : "";
+
             if (null == projectId)
                 return RedirectToAction("Index", "Home");
 

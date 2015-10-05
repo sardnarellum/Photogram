@@ -393,4 +393,7 @@
   <data name="More" xml:space="preserve">
     <value>More</value>
   </data>
+  <data name="PageTop" xml:space="preserve">
+    <value>Page Top</value>
+  </data>
 </root>
