@@ -14,7 +14,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand page-scroll" href="#page-top">
+            <a class="navbar-brand page-scroll wide-spacing" href="#page-top">
                 <span class="brand">Müller</span> <span class="light">András</span>
             </a>
         </div>
@@ -67,7 +67,7 @@
                     <div class="fill"
                          style="background-image:url('@Url.Action("Render", "Image", new { file = fileName })/');"></div>
                     <div class="carousel-caption">
-                        <h2>@Model[i].CurrentTitleText()</h2>
+                        <h2 class="wide-spacing">@Model[i].CurrentTitleText()</h2>
                         @if (0 < description.Length)
                         {
                             <p>@description</p>
