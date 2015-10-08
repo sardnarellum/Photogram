@@ -403,60 +403,84 @@ a {
     }
 }
 
-// Carousel +
 
-.carousel {
-    height: 100%;    
+/* PHOTOGRAM + */
+.container-fullpage {
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
 
-    .carousel-inner {
-        height: 100%;
+    
+    // Carousel +
 
-        .item {
+    .carousel {
+        height: 100%;    
+
+        .carousel-inner {
             height: 100%;
 
-            .carousel-caption {
-                text-shadow: none;
+            .item {
+                height: 100%;
 
-                h2 {
-                    font-size: xx-large;
-                    margin-bottom: 15px;
-                }
+                .carousel-caption {
+                    text-shadow: none;
 
-                p {
-                    font-size: large;
-                }
-
-                @media(max-width:767px) {                    
                     h2 {
-                        font-size: large;
+                        font-size: xx-large;
+                        margin-bottom: 15px;
                     }
 
                     p {
-                        font-size: medium;
+                        font-size: large;
+                    }
+
+                    @media(max-width:767px) {                    
+                        h2 {
+                            font-size: large;
+                        }
+
+                        p {
+                            font-size: medium;
+                        }
                     }
                 }
-            }
 
-            .fill {
-                width: 100%;
-                height: 100%;
-                background-position: center;
-                background-size: cover;
+                .fill {
+                    width: 100%;
+                    height: 100%;
+                    background-position: center;
+                    background-size: cover;
+                }
             }
         }
     }
-}
 
-// Carousel -
+    // Carousel -
+    
+    header.row-fullpage {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
-.content-section {
-    height: 100%; // uggly Firefox
-    width: 100%;
-    display: table;
+    nav.nav-slider-right {
+        display: block;
+        margin: 0;
+    }
 
-    .content-row {
-        display: table-cell;
-        vertical-align: middle;
+    .row-fullpage {
+        height: 100%; // uggly Firefox
+        display: table;
+
+        .row-middle-content {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+
+    .row {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
 
         .content-data {
             h2 {
@@ -480,24 +504,8 @@ a {
         }
     }
 }
+/* PHOTOGRAM - */
 
-
-/* GALLERY */
-
-.project-section {
-    margin-top: 50px;
-    padding-bottom: 50px;
-}
-
-.project-item {
-    height: 100%;
-    display: table;
-}
-
-.fit-container {
-    max-width: 100%;
-    max-height: 100%;
-}
 
 .download-section {
     width: 100%;

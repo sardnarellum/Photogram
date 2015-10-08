@@ -16,13 +16,14 @@
 </head>
 <body id="page-top" data-spy="scroll" data-target=".nav-spytarget">
 
-    @RenderBody()
-
-    <footer>
-        <div class="container text-center">
-            <p>@ViewBag.Footer @DateTime.Now.Year</p>
-        </div>
-    </footer>
+    <div class="container-fluid container-fullpage">
+        @RenderBody()
+        <footer>
+            <div class="container text-center">
+                <p>@ViewBag.Footer @DateTime.Now.Year</p>
+            </div>
+        </footer>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery-ui")
