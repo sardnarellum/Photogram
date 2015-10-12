@@ -363,7 +363,6 @@
     <Content Include="Models\PhotogramModel.edmx.diagram">
       <DependentUpon>PhotogramModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Scripts\bootstrapValidator.min.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
