@@ -38,5 +38,7 @@ namespace Photogram.WebApp.Models
         public virtual ICollection<SetupAboutLead> AboutLead { get; set; }
         public virtual ICollection<SetupAboutBody> AboutBody { get; set; }
         public virtual ICollection<SetupContactLead> ContactLead { get; set; }
+        public virtual Media ContactBackground { get; set; }
+        public virtual Media AboutBackground { get; set; }
     }
 }

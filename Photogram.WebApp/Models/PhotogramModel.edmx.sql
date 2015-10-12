@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/24/2015 18:20:36
+-- Date Created: 10/12/2015 08:30:04
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -52,6 +52,9 @@ IF OBJECT_ID(N'[dbo].[FK_SetupSetupContactText]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SetupSetupAboutLead]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_SetupAboutLead] DROP CONSTRAINT [FK_SetupSetupAboutLead];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupContactBg]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Setup] DROP CONSTRAINT [FK_SetupContactBg];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectTitle_inherits_Translation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectTitle_inherits_Translation];
@@ -144,7 +147,9 @@ CREATE TABLE [dbo].[Setup] (
     [FacebookURL] nvarchar(500)  NULL,
     [InstagramURL] nvarchar(500)  NULL,
     [GitHubURL] nvarchar(500)  NULL,
-    [LinkedInURL] nvarchar(500)  NULL
+    [LinkedInURL] nvarchar(500)  NULL,
+    [ContactBackground_Id] int  NULL,
+    [AboutBackground_Id] int  NULL
 );
 GO
 
@@ -530,6 +535,36 @@ GO
 CREATE INDEX [IX_FK_SetupSetupAboutLead]
 ON [dbo].[Translation_SetupAboutLead]
     ([Setup_Id]);
+GO
+
+-- Creating foreign key on [ContactBackground_Id] in table 'Setup'
+ALTER TABLE [dbo].[Setup]
+ADD CONSTRAINT [FK_SetupContactBg]
+    FOREIGN KEY ([ContactBackground_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupContactBg'
+CREATE INDEX [IX_FK_SetupContactBg]
+ON [dbo].[Setup]
+    ([ContactBackground_Id]);
+GO
+
+-- Creating foreign key on [AboutBackground_Id] in table 'Setup'
+ALTER TABLE [dbo].[Setup]
+ADD CONSTRAINT [FK_SetupAboutBg]
+    FOREIGN KEY ([AboutBackground_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupAboutBg'
+CREATE INDEX [IX_FK_SetupAboutBg]
+ON [dbo].[Setup]
+    ([AboutBackground_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Translation_ProjectTitle'
