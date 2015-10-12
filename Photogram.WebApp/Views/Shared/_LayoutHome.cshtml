@@ -19,8 +19,11 @@
     <div class="container-fluid container-fullpage">
         @RenderBody()
         <footer class="row">
-            <div class="text-center col-xs-10 col-xs-push-1">
+            <div class="text-center col-sm-8 col-sm-offset-2">
                 <p>@ViewBag.Footer @DateTime.Now.Year</p>
+            </div>
+            <div class="text-center col-sm-2">
+                <a href="https://github.com/sardnarellum/Photogram" target="_blank" class="photogram-credit">Photogram @typeof(MvcApplication).Assembly.GetName().Version</a>
             </div>
         </footer>
     </div>

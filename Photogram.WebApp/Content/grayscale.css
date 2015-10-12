@@ -493,6 +493,16 @@ footer p {
   margin: 0;
   font-size: 14px;
 }
+footer a.photogram-credit {
+  font-size: xx-small;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+footer a.photogram-credit:hover,
+footer a.photogram-credit:focus {
+  color: #47da91;
+}
 ::-moz-selection {
   text-shadow: none;
   background: #fcfcfc;
