@@ -139,7 +139,7 @@ namespace Photogram.WebApp.Controllers
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
-                LCID = currLang.LCID.ToString(),
+                LCID = currLang.LCID,
                 Languages = _db.Language.SelectList(currLang),
                 Title = media.CurrentTitleText(),
                 Description = media.CurrentDescriptionText()
@@ -177,7 +177,7 @@ namespace Photogram.WebApp.Controllers
                     if (ModelState.IsValid)
                     {
                         var language = _db.Language.AsEnumerable()
-                            .Where(x => x.LCID == int.Parse(model.LCID))
+                            .Where(x => x.LCID == model.LCID)
                             .FirstOrDefault();
 
                         if (!string.IsNullOrEmpty(model.Title))

@@ -17,7 +17,7 @@ namespace Photogram.WebApp.Controllers
             var currLang = _db.Language.CurrentOrDefault();
             var model = new SetupViewModel
             {
-                LCID = currLang.LCID.ToString(),
+                LCID = currLang.LCID,
                 Languages = _db.Language.SelectList(currLang),
                 ContactBackgroundList =
                     _db.Media.SelectList(Localization.NoBackground),
@@ -79,7 +79,7 @@ namespace Photogram.WebApp.Controllers
         public ActionResult Index(SetupViewModel model)
         {
             var currLang = _db.Language.AsEnumerable()
-                .Where(x => x.LCID == int.Parse(model.LCID)).FirstOrDefault();
+                .Where(x => x.LCID == model.LCID).FirstOrDefault();
 
             if (null == currLang)
             {

@@ -12,7 +12,7 @@ namespace Photogram.WebApp.Models
     {
         [Required]
         [Display(Name = "Language", ResourceType = typeof(Localization))]
-        public string LCID { get; set; }
+        public int LCID { get; set; }
 
         /// <summary>
         /// Creates SelectList with LCID keys and DisplayName values of supperted Cultures.
