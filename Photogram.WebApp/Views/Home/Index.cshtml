@@ -8,13 +8,13 @@
 
 @model Project[]
 
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-custom navbar-fixed-top nav-spytarget" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand page-scroll" href="#page-top">
+            <a class="navbar-brand page-scroll wide-spacing" href="#page-top">
                 <span class="brand">Müller</span> <span class="light">András</span>
             </a>
         </div>
@@ -48,15 +48,7 @@
 <!-- Header Carousel -->
 @if (Model.Count() > 0)
 {
-    <header id="carousel-projects" class="carousel slide" data-ride="carousel">
-        @*<ol class="carousel-indicators">
-            @for (int i = 0; i < Model.Count(); ++i)
-            {
-                var classParam = i == 0 ? "active" : "";
-                <li data-target="#carousel-projects" data-slide-to="@i" class="@classParam"></li>
-            }
-        </ol>*@
-
+    <header id="carousel-projects" class="carousel slide row row-fullpage" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
             @for (int i = 0; i < Model.Count(); ++i)
             {
@@ -75,7 +67,7 @@
                     <div class="fill"
                          style="background-image:url('@Url.Action("Render", "Image", new { file = fileName })/');"></div>
                     <div class="carousel-caption">
-                        <h2>@Model[i].CurrentTitleText()</h2>
+                        <h2 class="wide-spacing">@Model[i].CurrentTitleText()</h2>
                         @if (0 < description.Length)
                         {
                             <p>@description</p>

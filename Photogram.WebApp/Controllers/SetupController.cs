@@ -1,4 +1,5 @@
 ﻿using Photogram.WebApp.Models;
+using Resources;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,8 +17,12 @@ namespace Photogram.WebApp.Controllers
             var currLang = _db.Language.CurrentOrDefault();
             var model = new SetupViewModel
             {
-                LCID = currLang.LCID.ToString(),
-                Languages = _db.Language.SelectList(currLang)
+                LCID = currLang.LCID,
+                Languages = _db.Language.SelectList(currLang),
+                ContactBackgroundList =
+                    _db.Media.SelectList(Localization.NoBackground),
+                AboutBackgroundList =
+                    _db.Media.SelectList(Localization.NoBackground)
             };
 
             if (null == setup)
@@ -38,15 +43,43 @@ namespace Photogram.WebApp.Controllers
             model.InstagramURL = setup.InstagramURL;
             model.LinkedInURL = setup.LinkedInURL;
 
+            if (null != setup.AboutBackground)
+            {
+                model.AboutBackgroundId = setup.AboutBackground.Id;
+                model.AboutBackgroundList =
+                    _db.Media.SelectList(Localization.NoBackground,
+                        setup.AboutBackground);
+            }
+            else
+            {
+                model.AboutBackgroundId = -1;
+                model.AboutBackgroundList =
+                    _db.Media.SelectList(Localization.NoBackground);
+            }
+
+            if (null != setup.ContactBackground)
+            {
+                model.ContactBackgroundId = setup.ContactBackground.Id;
+                model.ContactBackgroundList =
+                    _db.Media.SelectList(Localization.NoBackground,
+                        setup.ContactBackground);
+            }
+            else
+            {
+                model.ContactBackgroundId = -1;
+                model.ContactBackgroundList =
+                    _db.Media.SelectList(Localization.NoBackground);
+            }            
+
             return PartialView("_SetupPartial", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(SetupViewModel viewModel)
+        public ActionResult Index(SetupViewModel model)
         {
             var currLang = _db.Language.AsEnumerable()
-                .Where(x => x.LCID == int.Parse(viewModel.LCID)).FirstOrDefault();
+                .Where(x => x.LCID == model.LCID).FirstOrDefault();
 
             if (null == currLang)
             {
@@ -55,7 +88,8 @@ namespace Photogram.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                var setup = _db.Setup.FirstOrDefault();
+                var setup = _db.Setup.Include("AboutBackground")
+                    .Include("ContactBackground").FirstOrDefault();
 
                 if (null == setup)
                 {
@@ -63,19 +97,26 @@ namespace Photogram.WebApp.Controllers
                     _db.Setup.Add(setup);
                 }
 
-                setup.Published = viewModel.Published;
-                setup.Email = viewModel.Email;
-                setup.Phone = viewModel.Phone;
-                setup.FacebookURL = viewModel.FacebookURL;
-                setup.GitHubURL = viewModel.GitHubURL;
-                setup.InstagramURL = viewModel.InstagramURL;
-                setup.LinkedInURL = viewModel.LinkedInURL;
+                setup.Published = model.Published;
+                setup.Email = model.Email;
+                setup.Phone = model.Phone;
+                setup.FacebookURL = model.FacebookURL;
+                setup.GitHubURL = model.GitHubURL;
+                setup.InstagramURL = model.InstagramURL;
+                setup.LinkedInURL = model.LinkedInURL;
+                setup.AboutBackground =
+                    _db.Media.Where(x => x.Id == model.AboutBackgroundId)
+                       .FirstOrDefault();
+                setup.ContactBackground =
+                    _db.Media.Where(x => x.Id == model.ContactBackgroundId)
+                       .FirstOrDefault();
+
 
                 var mainTitle = setup.MainTitle
                     .Where(x => x.Language.LCID == currLang.LCID)
                     .FirstOrDefault();
 
-                if (!string.IsNullOrEmpty(viewModel.MainTitle))
+                if (!string.IsNullOrEmpty(model.MainTitle))
                 {
                     if (null == mainTitle)
                     {
@@ -88,7 +129,7 @@ namespace Photogram.WebApp.Controllers
                         setup.MainTitle.Add(mainTitle);
                     }
 
-                    mainTitle.Text = viewModel.MainTitle;
+                    mainTitle.Text = model.MainTitle;
                 }
                 else if (null != mainTitle)
                 {
@@ -99,7 +140,7 @@ namespace Photogram.WebApp.Controllers
                     .Where(x => x.Language.LCID == currLang.LCID)
                     .FirstOrDefault();
 
-                if (!string.IsNullOrEmpty(viewModel.AboutLead))
+                if (!string.IsNullOrEmpty(model.AboutLead))
                 {
                     if (null == aboutLead)
                     {
@@ -112,7 +153,7 @@ namespace Photogram.WebApp.Controllers
                         setup.AboutLead.Add(aboutLead);
                     }
 
-                    aboutLead.Text = viewModel.AboutLead;
+                    aboutLead.Text = model.AboutLead;
                 }
                 else if (null != aboutLead)
                 {
@@ -123,7 +164,7 @@ namespace Photogram.WebApp.Controllers
                     .Where(x => x.Language.LCID == currLang.LCID)
                     .FirstOrDefault();
 
-                if (!string.IsNullOrEmpty(viewModel.AboutBody))
+                if (!string.IsNullOrEmpty(model.AboutBody))
                 {
                     if (null == aboutBody)
                     {
@@ -136,7 +177,7 @@ namespace Photogram.WebApp.Controllers
                         setup.AboutBody.Add(aboutBody);
                     }
 
-                    aboutBody.Text = viewModel.AboutBody;
+                    aboutBody.Text = model.AboutBody;
                 }
                 else if (null != aboutBody)
                 {
@@ -147,7 +188,7 @@ namespace Photogram.WebApp.Controllers
                     .Where(x => x.Language.LCID == currLang.LCID)
                     .FirstOrDefault();
 
-                if (!string.IsNullOrEmpty(viewModel.ContactLead))
+                if (!string.IsNullOrEmpty(model.ContactLead))
                 {
                     if (null == contactLead)
                     {
@@ -160,7 +201,7 @@ namespace Photogram.WebApp.Controllers
                         setup.ContactLead.Add(contactLead);
                     }
 
-                    contactLead.Text = viewModel.ContactLead;
+                    contactLead.Text = model.ContactLead;
                 }
                 else if (null != contactLead)
                 {
@@ -171,7 +212,7 @@ namespace Photogram.WebApp.Controllers
                     .Where(x => x.Language.LCID == currLang.LCID)
                     .FirstOrDefault();
 
-                if (!string.IsNullOrEmpty(viewModel.Footer))
+                if (!string.IsNullOrEmpty(model.Footer))
                 {
                     if (null == footer)
                     {
@@ -184,7 +225,7 @@ namespace Photogram.WebApp.Controllers
                         setup.Footer.Add(footer);
                     }
 
-                    footer.Text = viewModel.Footer;
+                    footer.Text = model.Footer;
                 }
                 else if (null != footer)
                 {
@@ -192,12 +233,40 @@ namespace Photogram.WebApp.Controllers
                 }
 
                 _db.SaveChanges();
+
+                if (null != setup.AboutBackground)
+                {
+                    model.AboutBackgroundId = setup.AboutBackground.Id;
+                    model.AboutBackgroundList =
+                        _db.Media.SelectList(Localization.NoBackground,
+                            setup.AboutBackground);
+                }
+                else
+                {
+                    model.AboutBackgroundId = -1;
+                    model.AboutBackgroundList =
+                        _db.Media.SelectList(Localization.NoBackground);
+                }
+
+                if (null != setup.ContactBackground)
+                {
+                    model.ContactBackgroundId = setup.ContactBackground.Id;
+                    model.ContactBackgroundList =
+                        _db.Media.SelectList(Localization.NoBackground,
+                            setup.ContactBackground);
+                }
+                else
+                {
+                    model.ContactBackgroundId = -1;
+                    model.ContactBackgroundList =
+                        _db.Media.SelectList(Localization.NoBackground);
+                }
             }
 
-            viewModel.Languages = _db.Language.SelectList(currLang);
+            model.Languages = _db.Language.SelectList(currLang);
 
 
-            return PartialView("_SetupPartial", viewModel);
+            return PartialView("_SetupPartial", model);
         }
     }
 }

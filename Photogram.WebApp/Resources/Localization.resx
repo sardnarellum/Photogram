@@ -393,4 +393,16 @@
   <data name="More" xml:space="preserve">
     <value>More</value>
   </data>
+  <data name="PageTop" xml:space="preserve">
+    <value>Page Top</value>
+  </data>
+  <data name="AboutPageBg" xml:space="preserve">
+    <value>About section's background</value>
+  </data>
+  <data name="ContactPageBg" xml:space="preserve">
+    <value>Contact section's background</value>
+  </data>
+  <data name="NoBackground" xml:space="preserve">
+    <value>No background</value>
+  </data>
 </root>

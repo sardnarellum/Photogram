@@ -35,12 +35,20 @@
         <EntityTypeShape EntityType="PhotogramModel.SetupAboutBody" Width="1.5" PointX="9.5" PointY="1.75" FillColor="255, 255, 128" />
         <InheritanceConnector EntityType="PhotogramModel.SetupAboutBody" />
         <AssociationConnector Association="PhotogramModel.SetupSetupAbout" />
-        <EntityTypeShape EntityType="PhotogramModel.SetupContactLead" Width="1.5" PointX="1.5" PointY="1.5" FillColor="255, 255, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.SetupContactLead" Width="1.5" PointX="1.5" PointY="1.875" FillColor="255, 255, 128" />
         <InheritanceConnector EntityType="PhotogramModel.SetupContactLead" />
         <AssociationConnector Association="PhotogramModel.SetupSetupContactText" />
         <EntityTypeShape EntityType="PhotogramModel.SetupAboutLead" Width="1.5" PointX="11.375" PointY="0.75" FillColor="255, 255, 128" />
         <InheritanceConnector EntityType="PhotogramModel.SetupAboutLead" />
         <AssociationConnector Association="PhotogramModel.SetupSetupAboutLead" />
+        <AssociationConnector Association="PhotogramModel.SetupContactBg" />
+        <AssociationConnector Association="PhotogramModel.SetupAboutBg" ManuallyRouted="true" >
+          <ConnectorPoint PointX="1.5989912408802471" PointY="4.625" />
+          <ConnectorPoint PointX="1.5989912408802471" PointY="3.6566520965666869" />
+          <ConnectorPoint PointX="1.2654007107459908" PointY="3.6566520965666869" />
+          <ConnectorPoint PointX="1.2654007107459908" PointY="1.6906124138384451" />
+          <ConnectorPoint PointX="5.75" PointY="1.6906124138384451" />
+        </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

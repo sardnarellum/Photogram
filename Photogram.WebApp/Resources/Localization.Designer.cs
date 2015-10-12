@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About section&apos;s background.
+        /// </summary>
+        public static string AboutPageBg {
+            get {
+                return ResourceManager.GetString("AboutPageBg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activities.
         /// </summary>
         public static string Activities {
@@ -165,6 +174,15 @@ namespace Resources {
         public static string ContactLead {
             get {
                 return ResourceManager.GetString("ContactLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact section&apos;s background.
+        /// </summary>
+        public static string ContactPageBg {
+            get {
+                return ResourceManager.GetString("ContactPageBg", resourceCulture);
             }
         }
         
@@ -547,6 +565,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No background.
+        /// </summary>
+        public static string NoBackground {
+            get {
+                return ResourceManager.GetString("NoBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There isn&apos;t any content..
         /// </summary>
         public static string NoData {
@@ -588,6 +615,15 @@ namespace Resources {
         public static string Oops {
             get {
                 return ResourceManager.GetString("Oops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page Top.
+        /// </summary>
+        public static string PageTop {
+            get {
+                return ResourceManager.GetString("PageTop", resourceCulture);
             }
         }
         

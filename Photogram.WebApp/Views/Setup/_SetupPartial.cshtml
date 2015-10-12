@@ -170,6 +170,24 @@
                     })
                 @Html.ValidationMessageFor(x => x.LCID)
             </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.AboutBackgroundId)
+                @Html.DropDownListFor(x => x.AboutBackgroundId, Model.AboutBackgroundList,
+                    new
+                    {
+                        @class = "form-control input-sm"
+                    })
+                @Html.ValidationMessageFor(x => x.AboutBackgroundId)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.ContactBackgroundId)
+                @Html.DropDownListFor(x => x.ContactBackgroundId, Model.ContactBackgroundList,
+                    new
+                    {
+                        @class = "form-control input-sm"
+                    })
+                @Html.ValidationMessageFor(x => x.ContactBackgroundId)
+            </div>
         </div>
     </div>
     <div class="modal-footer">

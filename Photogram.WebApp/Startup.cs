@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Photogram.WebApp.Startup))]
+[assembly: OwinStartup(typeof(Photogram.WebApp.Startup))]
 namespace Photogram.WebApp
 {
     public partial class Startup

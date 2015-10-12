@@ -1,15 +1,99 @@
 ﻿@using Photogram.WebApp.Models
 @using Resources
+@using System.Drawing
 
-@{
-    Layout = "~/Views/Shared/_LayoutHome.cshtml";
-}
 
 @model Project
 
-<div class="page-header">
-    <h1>@Model.CurrentTitleText()</h1>
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var bgUrl = Model.ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
+}
+
+<header class="intro intro-project row row-fullpage" style="background-image:url('@Url.Action("Render", "Image", new { file = bgUrl })/');">
+    <div class="intro-body">
+        <div class="col-sm-8 col-lg-offset-1">
+            <h1 class="brand-heading brand-project-heading wide-spacing" role="heading">@Model.CurrentTitleText()</h1>
+            <p class="lead" role="contentinfo">@Model.CurrentDescriptionText()</p>
+        </div>
+    </div>
+</header>
+
+
+<div class="row row-details-list">
+    <div class="col-md-11 col-xs-12 col-fullpage">
+
+        @foreach (var elem in Model.ProjectInclude)
+        {
+            var isTitleExists = !string.IsNullOrEmpty(elem.Media.CurrentTitleText());
+            var isDescExists = !string.IsNullOrEmpty(elem.Media.CurrentDescriptionText());
+            var imgContainerClass = "col-sm-12";
+            var dataContainerClass = "col-sm-2";
+            var aspectRatio = elem.Media.AspectRatio();
+
+            if (1 < aspectRatio && 1.5 >= aspectRatio)
+            {
+                imgContainerClass = "col-sm-9 col-lg-offset-1";
+                dataContainerClass = "col-sm-3 col-lg-2";
+            }
+            else if (1 == aspectRatio)
+            {
+                imgContainerClass = "col-sm-6 col-sm-offset-3 col-lg-offset-4";
+                dataContainerClass = "col-sm-3 col-lg-2";
+            }
+            else if (1 > aspectRatio)
+            {
+                imgContainerClass = "col-sm-4 col-sm-offset-5 col-lg-offset-6";
+                dataContainerClass = "col-sm-3 col-lg-2";
+            }
+
+
+            <section id="@elem.Id" class="row row-fullpage">
+                <div class="row-middle-content">
+                    <div class="@imgContainerClass content-image-container">
+                        <img class="img-responsive" src="@Url.Action("Render", "Image", new { file = elem.Media.FileName })/" />
+                    </div>
+                    <div class="row row-spacer hidden-sm hidden-md hidden-lg"></div>
+                    @if (isTitleExists || isDescExists)
+                    {
+                        <div class="@dataContainerClass content-data form-group">
+                            @if (isTitleExists)
+                            {
+                                <h2>@elem.Media.CurrentTitleText()</h2>
+                            }
+                            @if (isDescExists)
+                            {
+                                <p>@elem.Media.CurrentDescriptionText()</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </section>
+        }
+        
+    </div>
+    @*<nav id="details-slider" class="nav-slider nav-spytarget col-md-1 col-fullpage hidden-xs hidden-sm hidden-print">
+        <ul class="nav nav-project-details nav-stacked">
+            @foreach (var elem in Model.ProjectInclude)
+            {
+                <li>
+                    <a class="page-scroll" href="#@elem.Id">
+                        <img class="img-responsive" src="@Url.Action("RenderResized", "Image", new { width = 150, height = 300, file = elem.Media.FileName })/" />
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>*@
 </div>
-<div class="page-description">
-    <p>@Model.CurrentDescriptionText()</p>
-</div>
+<nav id="details-after" class="text-center row">
+    <div class="col-xs-12">
+        <ul class="list-inline banner-buttons">
+            <li>
+                @Html.ActionLink(Localization.Back, "Index", "Home", new { }, new { @class = "btn btn-default btn-lg" })
+            </li>
+            <li>
+                <a href="#page-top" class="btn btn-default btn-lg page-scroll" aria-label="@Localization.PageTop"><i class="fa fa-arrow-up"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>

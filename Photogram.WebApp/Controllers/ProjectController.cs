@@ -97,6 +97,12 @@ namespace Photogram.WebApp.Controllers
         [HttpGet]
         public ActionResult Details(int? projectId)
         {
+            var setup = _db.Setup.FirstOrDefault();
+            ViewBag.MainTitle = setup != null
+                ? setup.CurrentMainTitleText()
+                : Localization.PhotogramNet;
+            ViewBag.Footer = setup != null ? setup.CurrentFooterText() : "";
+
             if (null == projectId)
                 return RedirectToAction("Index", "Home");
 
@@ -136,7 +142,7 @@ namespace Photogram.WebApp.Controllers
                 Title = project.CurrentTitleText(),
                 Description = project.CurrentDescriptionText(),
                 Languages = _db.Language.SelectList(currLang),
-                LCID = currLang.LCID.ToString(),
+                LCID = currLang.LCID,
                 Year = project.Year.ToString(),
                 Visible = project.Visible,
                 Slug = project.Slug,
@@ -182,7 +188,7 @@ namespace Photogram.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var language = _db.Language.AsEnumerable()
-                    .Where(x => x.LCID == int.Parse(viewModel.LCID)).FirstOrDefault();
+                    .Where(x => x.LCID == viewModel.LCID).FirstOrDefault();
 
                 if (null == language)
                 {
@@ -292,7 +298,7 @@ namespace Photogram.WebApp.Controllers
                 if (ModelState.IsValid)
                 {
                     var language = _db.Language.AsEnumerable()
-                        .Where(x => x.LCID == int.Parse(model.LCID)).FirstOrDefault();
+                        .Where(x => x.LCID == model.LCID).FirstOrDefault();
 
                     if (null == language)
                     {

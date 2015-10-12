@@ -18,6 +18,8 @@ namespace Photogram.WebApp.Models
         {
             this.Title = new HashSet<MediaTitle>();
             this.Description = new HashSet<MediaDescription>();
+            this.SetupContactBg = new HashSet<Setup>();
+            this.SetupAboutBg = new HashSet<Setup>();
         }
     
         public int Id { get; set; }
@@ -27,5 +29,7 @@ namespace Photogram.WebApp.Models
         public virtual ICollection<MediaTitle> Title { get; set; }
         public virtual ICollection<MediaDescription> Description { get; set; }
         public virtual ProjectInclude ProjectInclude { get; set; }
+        public virtual ICollection<Setup> SetupContactBg { get; set; }
+        public virtual ICollection<Setup> SetupAboutBg { get; set; }
     }
 }

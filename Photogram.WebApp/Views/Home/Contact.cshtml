@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_LayoutHomeContent.cshtml";
 }
 
-<h2>@Localization.Contact</h2>
+<h2 class="wide-spacing">@Localization.Contact</h2>
 <p>@Model.Lead</p>
 <p>
     <a href="mailto:@Model.Email">@Model.Email</a>
@@ -20,7 +20,7 @@
     <abbr title="Phone">P:</abbr> @Model.Phone
 </p>
 }
-<ul class="list-inline banner-social-buttons">
+<ul class="list-inline banner-buttons">
     @if (!string.IsNullOrEmpty(Model.FacebookURL))
     {
         <li>
