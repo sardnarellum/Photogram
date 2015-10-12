@@ -8,6 +8,20 @@
 $(window).scroll(function () {
     var $navbar = $(".navbar");
 
+    //var $detailslist = $(".row-details-list");
+    //var $detailsafter = $("#details-after");
+    //var topBreakPoint = $(this).scrollTop() - $detailslist.offset().top;
+    //var bottomBreakPoint = $(this).scrollTop() - $(this).height();//$detailsafter.offset().top;// + $detailsafter.height();
+
+    //if (topBreakPoint >= 0) {
+    //    $("#details-slider").css("position", "fixed");
+    //}
+    //else {
+    //    $("#details-slider").css("position", "relative");
+    //}
+
+    console.log(topBreakPoint + " " + bottomBreakPoint);
+
     if (null != $navbar.offset()) {
         if ($navbar.offset().top > 50) {
             $(".navbar-fixed-top").addClass("top-nav-collapse");

@@ -17,7 +17,7 @@ body {
 
 html {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
 }
 
 h1,
@@ -78,66 +78,69 @@ a {
     color: @primary;
 }
 
-
-.nav-project-details {
-    top: 0;
+nav.nav-slider {
     height: 100%;
-    margin-right: 3px;
     border-left: 1px solid fade(white, 30%);
-    position: fixed;
 
-    > li {
-        + li{
-            margin-top: 0;
-        }
-    }
+    .nav-project-details {
+        top: 0;
+        height: 100%;
+        margin-right: 3px;
+        //position: fixed;
 
-    li {
-        padding: 0;
-        a {
-            padding: 0 0 0 3px;
-            margin-bottom: 3px;
-            border: none;
-            border-radius: 0;
-            background-color: transparent;
-            -webkit-transition: background .3s ease-in-out;
-            -moz-transition: background .3s ease-in-out;
-            -o-transition: background .3s ease-in-out;
-            transition: background .3s ease-in-out;
-
-            img {
-                width: 100%;
-            }
-
-            &:hover {
-                background-color: @primary;
-                outline: none;
-            }
-
-            &:focus,
-            &:active {
-                outline: none;
-                background-color: transparent;
+        > li {
+            + li{
+                margin-top: 0;
             }
         }
 
-        &.active {
-            outline: none;
+        li {
             padding: 0;
-            margin: 0;
-
             a {
-                background-color: fade(white, 30%);
+                padding: 0 0 0 3px;
+                margin-bottom: 3px;
+                border: none;
+                border-radius: 0;
+                background-color: transparent;
+                -webkit-transition: background .3s ease-in-out;
+                -moz-transition: background .3s ease-in-out;
+                -o-transition: background .3s ease-in-out;
+                transition: background .3s ease-in-out;
+
+                img {
+                    width: 100%;
+                }
 
                 &:hover {
                     background-color: @primary;
+                    outline: none;
+                }
+
+                &:focus,
+                &:active {
+                    outline: none;
+                    background-color: transparent;
                 }
             }
-        }        
 
-        &:last-of-type {
-            a {
-                margin-bottom: 0;
+            &.active {
+                outline: none;
+                padding: 0;
+                margin: 0;
+
+                a {
+                    background-color: fade(white, 30%);
+
+                    &:hover {
+                        background-color: @primary;
+                    }
+                }
+            }        
+
+            &:last-of-type {
+                a {
+                    margin-bottom: 0;
+                }
             }
         }
     }
@@ -405,6 +408,12 @@ a {
 
 
 /* PHOTOGRAM + */
+
+
+.row-spacer {
+    height: 15px;
+}
+
 .container-fullpage {
     min-height: 100%;
     padding-left: 0;
@@ -458,35 +467,41 @@ a {
     // Carousel -
     
     header.row-fullpage {
+        margin-top: 0;
         margin-left: 0;
         margin-right: 0;
     }
 
-    nav.nav-slider-right {
-        display: block;
-        margin: 0;
-    }
-
     .row-fullpage {
         height: 100vh;
-        display: table;
+        max-height: 100vh;
+        display: table;                   
+        margin-top: 15px;
 
         .row-middle-content {
             display: table-cell;
             vertical-align: middle;
+            max-height: 100%;            
+
+            .content-image-container {
+                padding: 0;
+                max-height: 100%;
+
+                img {
+                    max-height: 100%;
+                    //width: 100%; // uggly Firefox
+                }
+            }
         }
     }
 
     .row-details-list {
         min-height: 100%;    
+        margin-bottom: 15px;
 
         .col-fullpage {
             padding: 0;
             height: 100%;
-
-            .row-spacer {
-                height: 15px;
-            }
         }
     }
 
@@ -508,18 +523,6 @@ a {
 
             p {
                 font-size: small;
-            }
-        }
-
-        .content-image-container {
-            padding: 0;
-            position: relative;
-            zoom: 1;
-            display: block;
-            margin-bottom: 0;
-
-            img {
-                width: 100%; // uggly Firefox
             }
         }
     }
