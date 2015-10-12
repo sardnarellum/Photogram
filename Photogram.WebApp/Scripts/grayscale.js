@@ -20,7 +20,7 @@ $(window).scroll(function () {
     //    $("#details-slider").css("position", "relative");
     //}
 
-    console.log(topBreakPoint + " " + bottomBreakPoint);
+    //console.log(topBreakPoint + " " + bottomBreakPoint);
 
     if (null != $navbar.offset()) {
         if ($navbar.offset().top > 50) {
