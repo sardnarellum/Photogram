@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Resources;
 using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace Photogram.WebApp.Models
 {
@@ -59,5 +60,21 @@ namespace Photogram.WebApp.Models
         [MaxLength(300)]
         [Display(Name = "ContactLead", ResourceType = typeof(Localization))]
         public string ContactLead { get; set; }
+
+        public IEnumerable<SelectListItem> AboutBackgroundList { get; set; }
+
+        public IEnumerable<SelectListItem> ContactBackgroundList { get; set; }
+
+        /// <summary>
+        /// MediaId of the About section's background image.
+        /// </summary>
+        [Display(Name = "AboutPageBg", ResourceType = typeof(Localization))]
+        public int AboutBackgroundId { get; set; }
+
+        /// <summary>
+        /// MediaId of the Contact section's background image.
+        /// </summary>
+        [Display(Name = "ContactPageBg", ResourceType = typeof(Localization))]
+        public int ContactBackgroundId { get; set; }
     }
 }

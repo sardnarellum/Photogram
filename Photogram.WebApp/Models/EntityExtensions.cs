@@ -44,6 +44,50 @@ namespace Photogram.WebApp.Models
             return currTranslation;
         }
 
+        public static IEnumerable<SelectListItem> SelectList(this DbSet<Media> mediaSet, string unselectText)
+        {
+            var selectList = new SelectListItem[] {
+                new SelectListItem
+                {
+                    Value = "-1",
+                    Text = unselectText,
+                    Selected = true
+                }
+            };
+
+            return selectList.Concat(
+                mediaSet.AsEnumerable().Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = !string.IsNullOrEmpty(x.CurrentTitleText())
+                        ? x.CurrentTitleText()
+                        : x.FileName
+                })
+            ); 
+        }
+
+        public static IEnumerable<SelectListItem> SelectList(this DbSet<Media> mediaSet, string unselectText, Media selected)
+        {
+            var selectList = new SelectListItem[] {
+                new SelectListItem
+                {
+                    Value = "-1",
+                    Text = unselectText
+                }
+            };            
+
+            return selectList.Concat(
+                mediaSet.AsEnumerable().Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = !string.IsNullOrEmpty(x.CurrentTitleText())
+                            ? x.CurrentTitleText()
+                            : x.FileName,
+                    Selected = x.Id == selected.Id
+                })
+            );
+        }
+
         /// <summary>
         /// SelectList of Languages with LCID keys, and DisplayName Texts.
         /// </summary>

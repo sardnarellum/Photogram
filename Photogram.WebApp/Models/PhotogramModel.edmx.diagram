@@ -43,11 +43,11 @@
         <AssociationConnector Association="PhotogramModel.SetupSetupAboutLead" />
         <AssociationConnector Association="PhotogramModel.SetupContactBg" />
         <AssociationConnector Association="PhotogramModel.SetupAboutBg" ManuallyRouted="true" >
-          <ConnectorPoint PointX="1.8097203143088989" PointY="4.625" />
-          <ConnectorPoint PointX="1.8097203143088989" PointY="3.6482813555910862" />
-          <ConnectorPoint PointX="1.1914142627818383" PointY="3.6482813555910862" />
-          <ConnectorPoint PointX="1.1914142627818383" PointY="1.6652465320942016" />
-          <ConnectorPoint PointX="5.75" PointY="1.6652465320942016" />
+          <ConnectorPoint PointX="1.5989912408802471" PointY="4.625" />
+          <ConnectorPoint PointX="1.5989912408802471" PointY="3.6566520965666869" />
+          <ConnectorPoint PointX="1.2654007107459908" PointY="3.6566520965666869" />
+          <ConnectorPoint PointX="1.2654007107459908" PointY="1.6906124138384451" />
+          <ConnectorPoint PointX="5.75" PointY="1.6906124138384451" />
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>
