@@ -163,3 +163,9 @@ $RECYCLE.BIN/
 /logos-and-badges_f-logo_online.zip
 /SQLQuery1.sql
 /SQLQuery2.sql
+
+
+# Project elements
+Photogram.WebApp/node_modules/
+node_modules/
+

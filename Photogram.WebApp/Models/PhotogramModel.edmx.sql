@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/28/2015 17:09:31
+-- Date Created: 10/12/2015 08:30:04
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -44,6 +44,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MediaProjectInclude]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProjectInclude] DROP CONSTRAINT [FK_MediaProjectInclude];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SetupSetupAbout]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupAboutBody] DROP CONSTRAINT [FK_SetupSetupAbout];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupSetupContactText]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupContactLead] DROP CONSTRAINT [FK_SetupSetupContactText];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupSetupAboutLead]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupAboutLead] DROP CONSTRAINT [FK_SetupSetupAboutLead];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupContactBg]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Setup] DROP CONSTRAINT [FK_SetupContactBg];
+GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectTitle_inherits_Translation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectTitle_inherits_Translation];
 GO
@@ -61,6 +73,15 @@ IF OBJECT_ID(N'[dbo].[FK_SetupMainTitle_inherits_Translation]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SetupFooter_inherits_Translation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_SetupFooter] DROP CONSTRAINT [FK_SetupFooter_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupAboutBody_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupAboutBody] DROP CONSTRAINT [FK_SetupAboutBody_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupContactLead_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupContactLead] DROP CONSTRAINT [FK_SetupContactLead_inherits_Translation];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SetupAboutLead_inherits_Translation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Translation_SetupAboutLead] DROP CONSTRAINT [FK_SetupAboutLead_inherits_Translation];
 GO
 
 -- --------------------------------------------------
@@ -103,6 +124,15 @@ GO
 IF OBJECT_ID(N'[dbo].[Translation_SetupFooter]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Translation_SetupFooter];
 GO
+IF OBJECT_ID(N'[dbo].[Translation_SetupAboutBody]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_SetupAboutBody];
+GO
+IF OBJECT_ID(N'[dbo].[Translation_SetupContactLead]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_SetupContactLead];
+GO
+IF OBJECT_ID(N'[dbo].[Translation_SetupAboutLead]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Translation_SetupAboutLead];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -111,8 +141,15 @@ GO
 -- Creating table 'Setup'
 CREATE TABLE [dbo].[Setup] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [Published] bit  NOT NULL,
     [Email] nvarchar(254)  NOT NULL,
-    [Published] bit  NOT NULL
+    [Phone] nvarchar(30)  NULL,
+    [FacebookURL] nvarchar(500)  NULL,
+    [InstagramURL] nvarchar(500)  NULL,
+    [GitHubURL] nvarchar(500)  NULL,
+    [LinkedInURL] nvarchar(500)  NULL,
+    [ContactBackground_Id] int  NULL,
+    [AboutBackground_Id] int  NULL
 );
 GO
 
@@ -122,7 +159,8 @@ CREATE TABLE [dbo].[Project] (
     [Visible] bit  NOT NULL,
     [Type] int  NOT NULL,
     [Year] smallint  NOT NULL,
-    [Position] int  NOT NULL
+    [Position] int  NOT NULL,
+    [Slug] nvarchar(2000)  NOT NULL
 );
 GO
 
@@ -195,6 +233,27 @@ GO
 
 -- Creating table 'Translation_SetupFooter'
 CREATE TABLE [dbo].[Translation_SetupFooter] (
+    [Id] int  NOT NULL,
+    [Setup_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Translation_SetupAboutBody'
+CREATE TABLE [dbo].[Translation_SetupAboutBody] (
+    [Id] int  NOT NULL,
+    [Setup_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Translation_SetupContactLead'
+CREATE TABLE [dbo].[Translation_SetupContactLead] (
+    [Id] int  NOT NULL,
+    [Setup_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Translation_SetupAboutLead'
+CREATE TABLE [dbo].[Translation_SetupAboutLead] (
     [Id] int  NOT NULL,
     [Setup_Id] int  NOT NULL
 );
@@ -273,6 +332,24 @@ GO
 -- Creating primary key on [Id] in table 'Translation_SetupFooter'
 ALTER TABLE [dbo].[Translation_SetupFooter]
 ADD CONSTRAINT [PK_Translation_SetupFooter]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Translation_SetupAboutBody'
+ALTER TABLE [dbo].[Translation_SetupAboutBody]
+ADD CONSTRAINT [PK_Translation_SetupAboutBody]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Translation_SetupContactLead'
+ALTER TABLE [dbo].[Translation_SetupContactLead]
+ADD CONSTRAINT [PK_Translation_SetupContactLead]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Translation_SetupAboutLead'
+ALTER TABLE [dbo].[Translation_SetupAboutLead]
+ADD CONSTRAINT [PK_Translation_SetupAboutLead]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -415,6 +492,81 @@ ON [dbo].[ProjectInclude]
     ([Media_Id]);
 GO
 
+-- Creating foreign key on [Setup_Id] in table 'Translation_SetupAboutBody'
+ALTER TABLE [dbo].[Translation_SetupAboutBody]
+ADD CONSTRAINT [FK_SetupSetupAbout]
+    FOREIGN KEY ([Setup_Id])
+    REFERENCES [dbo].[Setup]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupSetupAbout'
+CREATE INDEX [IX_FK_SetupSetupAbout]
+ON [dbo].[Translation_SetupAboutBody]
+    ([Setup_Id]);
+GO
+
+-- Creating foreign key on [Setup_Id] in table 'Translation_SetupContactLead'
+ALTER TABLE [dbo].[Translation_SetupContactLead]
+ADD CONSTRAINT [FK_SetupSetupContactText]
+    FOREIGN KEY ([Setup_Id])
+    REFERENCES [dbo].[Setup]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupSetupContactText'
+CREATE INDEX [IX_FK_SetupSetupContactText]
+ON [dbo].[Translation_SetupContactLead]
+    ([Setup_Id]);
+GO
+
+-- Creating foreign key on [Setup_Id] in table 'Translation_SetupAboutLead'
+ALTER TABLE [dbo].[Translation_SetupAboutLead]
+ADD CONSTRAINT [FK_SetupSetupAboutLead]
+    FOREIGN KEY ([Setup_Id])
+    REFERENCES [dbo].[Setup]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupSetupAboutLead'
+CREATE INDEX [IX_FK_SetupSetupAboutLead]
+ON [dbo].[Translation_SetupAboutLead]
+    ([Setup_Id]);
+GO
+
+-- Creating foreign key on [ContactBackground_Id] in table 'Setup'
+ALTER TABLE [dbo].[Setup]
+ADD CONSTRAINT [FK_SetupContactBg]
+    FOREIGN KEY ([ContactBackground_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupContactBg'
+CREATE INDEX [IX_FK_SetupContactBg]
+ON [dbo].[Setup]
+    ([ContactBackground_Id]);
+GO
+
+-- Creating foreign key on [AboutBackground_Id] in table 'Setup'
+ALTER TABLE [dbo].[Setup]
+ADD CONSTRAINT [FK_SetupAboutBg]
+    FOREIGN KEY ([AboutBackground_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SetupAboutBg'
+CREATE INDEX [IX_FK_SetupAboutBg]
+ON [dbo].[Setup]
+    ([AboutBackground_Id]);
+GO
+
 -- Creating foreign key on [Id] in table 'Translation_ProjectTitle'
 ALTER TABLE [dbo].[Translation_ProjectTitle]
 ADD CONSTRAINT [FK_ProjectTitle_inherits_Translation]
@@ -463,6 +615,33 @@ GO
 -- Creating foreign key on [Id] in table 'Translation_SetupFooter'
 ALTER TABLE [dbo].[Translation_SetupFooter]
 ADD CONSTRAINT [FK_SetupFooter_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_SetupAboutBody'
+ALTER TABLE [dbo].[Translation_SetupAboutBody]
+ADD CONSTRAINT [FK_SetupAboutBody_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_SetupContactLead'
+ALTER TABLE [dbo].[Translation_SetupContactLead]
+ADD CONSTRAINT [FK_SetupContactLead_inherits_Translation]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[Translation]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'Translation_SetupAboutLead'
+ALTER TABLE [dbo].[Translation_SetupAboutLead]
+ADD CONSTRAINT [FK_SetupAboutLead_inherits_Translation]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Translation]
         ([Id])

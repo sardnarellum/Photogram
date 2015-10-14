@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO;
 using System.Net;
-using System.Globalization;
+using Resources;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -21,7 +21,7 @@ namespace Photogram.WebApp.Controllers
         {
             _db = new PhotogramEntities();
 
-            if (_db.Setup.Count() == 0)
+            if (_db.Language.Count() == 0)
             {
                 var hun = new Language
                 {
@@ -33,33 +33,14 @@ namespace Photogram.WebApp.Controllers
                     LCID = 1033
                 };
 
-                var setup = new Setup
-                {
-                    Email = "info@andrasmuller.com",
-                    MainTitle = new SetupMainTitle[]
-                {
-                    new SetupMainTitle
-                    {
-                        Text = "MÜLLER ANDRÁS FOTOGRÁFUS",
-                        Language = hun
-                    },
-
-                    new SetupMainTitle
-                    {
-                        Text = "ANDRÁS MÜLLER PHOTOGRAPHER",
-                        Language = eng
-                    },
-
-                }
-                };
-
-                _db.Setup.Add(setup);
+                _db.Language.Add(hun);
+                _db.Language.Add(eng);
 
 
                 _db.SaveChanges();
             }
 
-            ViewBag.MainTitle = _db.Setup.First().CurrentMainTitleText();
+            var setup = _db.Setup.FirstOrDefault();
 
             ViewBag.Years = new SelectList(
                     Enumerable.Range(DateTime.Now.Year - 50, DateTime.Now.Year)
@@ -151,10 +132,10 @@ namespace Photogram.WebApp.Controllers
                 filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 filterContext.Result = new JsonResult
                 {
-                    Data = new { success = false, error = filterContext.Exception.Message.ToString() },
+                    Data = new { Success = false, Error = filterContext.Exception.Message.ToString() },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }
         }
-    }
+    }    
 }

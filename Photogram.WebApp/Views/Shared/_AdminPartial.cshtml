@@ -10,20 +10,22 @@
             <ul class="dropdown-menu" role="menu">
                 <li>
                     <a href="#" data-toggle="modal" data-target="#setupModal" title="@Localization.MainSettingsDesc">
-                        <span class="glyphicon glyphicon-wrench"></span>
-                        @Localization.MainSettings
+                        <span class="glyphicon glyphicon-wrench"></span> @Localization.MainSettings
                     </a>
                 </li>
                 <li>
                     <a href="@Url.Action("Index", "Media")" title="@Localization.ContentMgmtDesc">
-                        <span class="glyphicon glyphicon-folder-open"></span>
-                        @Localization.ContentMgmt
+                        <span class="glyphicon glyphicon-picture"></span> @Localization.ContentMgmt
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Project")" title="@Localization.Projects">
+                        <span class="glyphicon glyphicon-folder-open"></span> @Localization.Projects
                     </a>
                 </li>
                 <li class="disabled">
                     <a href="@Url.Action("Index", "Statistics")" title="@Localization.StatisticsDesc">
-                        <span class="glyphicon glyphicon-stats"></span>
-                        @Localization.Statistics
+                        <span class="glyphicon glyphicon-stats"></span> @Localization.Statistics
                     </a>
                 </li>
                 @*<li>

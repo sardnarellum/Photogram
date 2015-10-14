@@ -1,7 +1,7 @@
 ﻿@using Photogram.WebApp.Models
 @using Resources
 
-@model AddProjectViewModel
+@model ProjectProperties
 
 
 @{
@@ -17,7 +17,7 @@
     };
 }
 
-@using (Ajax.BeginForm("Add", "Project", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Add", "Project", new { }, ajaxOptions, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-header">
@@ -54,7 +54,7 @@
                 @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 6, placeholder = Localization.Description })
                 @Html.ValidationMessageFor(x => x.Description)
             </div>
-            <div>
+            <div class="form-group">
                 @Html.LabelFor(x => x.LCID)
                 @Html.DropDownListFor(x => x.LCID, Model.Languages,
                             new { @class = "form-control", placeholder = Localization.Language })

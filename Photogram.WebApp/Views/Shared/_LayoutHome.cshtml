@@ -1,0 +1,39 @@
+﻿@using Resources
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.MainTitle - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/grayscale")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/font-awesome")
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Vollkorn:400italic,700,700italic,400' rel='stylesheet' type='text/css'>
+
+</head>
+<body id="page-top" data-spy="scroll" data-target=".nav-spytarget">
+
+    <div class="container-fluid container-fullpage">
+        @RenderBody()
+        <footer class="row">
+            <div class="text-center col-sm-8 col-sm-offset-2">
+                <p>@ViewBag.Footer @DateTime.Now.Year</p>
+            </div>
+            <div class="text-center col-sm-2">
+                <a href="https://github.com/sardnarellum/Photogram" target="_blank" class="photogram-credit">Photogram @typeof(MvcApplication).Assembly.GetName().Version</a>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery-ui")
+    @Scripts.Render("~/bundles/grayscale")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/unobtrusive-ajax")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Resources;
+using Photogram.WebApp.Models;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -11,23 +12,61 @@ namespace Photogram.WebApp.Controllers
     {
         public ActionResult Index()
         {
+            var setup = _db.Setup.FirstOrDefault();
+            ViewBag.MainTitle = setup != null
+                ? setup.CurrentMainTitleText()
+                : Localization.PhotogramNet;
+            ViewBag.Footer = setup != null ? setup.CurrentFooterText() : "";
             ViewBag.Title = Localization.Portfolio;
 
-            return /*Redirect("http://www.facebook.com/MullerAndrasPhotography");*/ View();
+            return View(_db.Project.Include("ProjectInclude")
+                .OrderBy(x => x.Position)
+                .Where(x => x.Visible && x.ProjectInclude.Count() > 0)
+                .ToArray());
         }
 
+        [ChildActionOnly]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            var setup = _db.Setup.FirstOrDefault();
 
-            return View();
+            if (null == setup)
+            {
+                return View(new AboutModel());
+            }
+
+
+            var model = new AboutModel
+            {
+                Lead = setup.CurrentAboutLeadText(),
+                Body = setup.CurrentAboutBodyText()
+            };
+
+            return View(model);
         }
 
+        [ChildActionOnly]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            var setup = _db.Setup.FirstOrDefault();
 
-            return View();
+            if (null == setup)
+            {
+                return View(new ContactModel());
+            }
+
+            var model = new ContactModel
+            {
+                Lead = setup.CurrentContactLeadText(),
+                Email = setup.Email,
+                Phone = setup.Phone,
+                FacebookURL = setup.FacebookURL,
+                GitHubURL = setup.GitHubURL,
+                InstagramURL = setup.InstagramURL,
+                LinkedInURL = setup.LinkedInURL
+            };
+
+            return View(model);
         }
 
         public ActionResult Redirects()

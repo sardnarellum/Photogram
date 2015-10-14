@@ -10,7 +10,7 @@
 <div id="editMediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editMediaModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            @Html.Partial("_EditMediaPartial", new MediaInformation())
+            @Html.Partial("_EditMediaPartial", Model.MediaViewModel)
         </div>
     </div>
 </div>
@@ -46,9 +46,7 @@
             </button>
         </div>
         <div class="btn-group">
-            <div class="btn btn-default" disabled>
-                @Localization.Manage
-            </div>
+            @Html.ActionLink(Localization.Projects, "Index", "Project", new { }, new { @class = "btn btn-default" })
             @if (Model.Projects.Count > 0)
             {
                 <div class="btn-group">
@@ -104,13 +102,14 @@
     </div>
 </div>
 
-<div id="contmgmt-container" class="container container-fluid">
+<div id="contmgmt-container">
     <div id="nodata-info" class="alert alert-info" role="alert">
         <strong>@Localization.Oops</strong> @Localization.NoData
     </div>
     <noscript>
         <div class="alert alert-warning">@Localization.WarnNoScript</div>
     </noscript>
+<<<<<<< HEAD
     <div id="collections" class="packery-list">
         <h2>@Localization.NoProject <span class="badge">@Model.Medias.Where(x => x.ProjectInclude == null).Count()</span></h2>
         <div id="-1" class="js-packery" data-packery-options='{ "gutter": 5 }'>
@@ -125,10 +124,14 @@
     </div>
     @*<div id="pckry-container">
         @foreach (var elem in Model.Medias)
+=======
+    <div id="pckry-container">
+        @*@foreach (var elem in Model.Medias)
+>>>>>>> master
             {
                 Html.RenderAction("Thumbnail", new { mediaId = elem.Id });
-            }
-    </div>*@
+            }*@
+    </div>
 </div>
 
 <div id="contmgmt-footer">
@@ -194,19 +197,19 @@
 
     docReady(function () {
 
-        $('.js-packery').each(function (index, value) {
-            var pckry = Packery.data(value);
-
-            pckry.on('removeComplete', function (event, removedItems) {
-                setWarningVisibility();
-            });
-        });
-
         $.ajax({
             url: '@Url.Action("GetFileData", "Media")',
             type: 'GET',
             success:
                 function (data, status, xhr) {
+                    var pckry = new Packery('#pckry-container', {
+                        gutter: 5,
+                        rowHeight: 208
+                    });
+
+                    pckry.on('removeComplete', function (event, removedItems) {
+                        setWarningVisibility();
+                    });
 
                     var dataList = data.DataList;
 
@@ -319,8 +322,12 @@
         magnifier.href = 'javascript:lightView(\'Image/' + fileName + '/\')';
         $(magnifier).append('<span class="glyphicon glyphicon-fullscreen"></span>');
 
+        var label = document.createElement('div');
+        var labelType = projectId != -1 ? 'info' : 'warning';
+        label.className = 'label label-' + labelType + ' thumb-project-title';
+
         var edit = document.createElement('button');
-        edit.className = ' btn btn-default btn-xs thumb-edit noselect';
+        edit.className = 'btn btn-default btn-xs thumb-edit noselect';
         edit.onclick = function () {
             $.ajax({
                 url: '@Url.Content("~/Media/InitEdit")',
@@ -349,11 +356,31 @@
         $thumb.append($(img));
         $thumb.append(edit);
 
+<<<<<<< HEAD
         var $container = $('#' + projectId + '.js-packery');
         $container.append($thumb);
         $container.packery('appended', $thumb);
 
         $(img).attr('src', '@Url.Content("~/Image/2000/200/")' + fileName + '/').load(function () {
+=======
+            var $thumb = $(thumb);
+            $thumb.empty();
+            $thumb.append(magnifier);
+            $thumb.append($(img));
+            $thumb.append(label);
+            $thumb.append(edit);
+            renderProjectName(projectId, label);
+
+            var fragment = document.createDocumentFragment();
+            fragment.appendChild(thumb);
+
+            var container = document.querySelector('#pckry-container');
+            container.appendChild(fragment);
+
+            var pckry = Packery.data(container);
+            pckry.appended(thumb);
+            pckry.layout();
+>>>>>>> master
 
             if (progress != null)
                 progress.inc();
@@ -410,9 +437,16 @@
                 },
                 success:
                     function (data, status, xhr) {
+<<<<<<< HEAD
                         var $container = $('#' + data.ProjectId + '.js-packery');
                         $container.packery('remove', element);
                         $container.packery();
+=======
+                        var container = document.querySelector('#pckry-container');
+                        var pckry = Packery.data(container);
+                        pckry.remove(element);
+                        pckry.layout();
+>>>>>>> master
                         progress.inc();
 
                         setWarningVisibility();
@@ -426,6 +460,25 @@
         $('.btn-operation').prop('disabled', true);
     });
 
+    function renderProjectName(projId, renderElem) {
+        $.ajax({
+            url: '@Url.Content("~/Project/ProjectName")',
+            type: 'POST',
+            data: {
+                projectId: projId
+            },
+            success:
+                function (rdata, status, xhr) {
+                    $(renderElem).html(rdata.ProjectTitle);
+                    //console.log('project title rendered received: ' + rdata.ProjectTitle);
+                },
+            error:
+                function () {
+                    console.log(projId + ' project name rendering failed.');
+                }
+        });
+    }
+
     function setProject(id) {
         $('.ui-selected').each(function (index, element) {
             $.ajax({
@@ -437,6 +490,7 @@
                 },
                 success:
                     function (rdata, status, xhr) {
+<<<<<<< HEAD
                         var $item = $('#' + element.id + '.pckry-item');
                         var $oldCont = $item.parent().packery();
 
@@ -451,6 +505,20 @@
                         var $container = $('#' + id + '.js-packery');
                         $container.append(element);
                         $container.packery('appended', element);
+=======
+                        var label = $(element).children('.label');
+                        label.hide();
+                        label.html(rdata.ProjectTitle);
+
+                        if (!rdata.InProject) {
+                            label.switchClass('label-info', 'label-warning');
+                        }
+                        else {
+                            label.switchClass('label-warning', 'label-info');
+                        }
+
+                        label.fadeIn(animOptions);
+>>>>>>> master
                     },
                 error:
                     function () {

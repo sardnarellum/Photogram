@@ -1,0 +1,103 @@
+﻿@using Photogram.WebApp.Models
+@using Resources
+
+@model ProjectProperties
+
+@{ 
+    var ajaxOptions = new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "project-properties-form",
+        InsertionMode = InsertionMode.Replace,
+        OnBegin = "$('#edit-properties-submit').button('loading');",
+        OnComplete = "$('#edit-properties-submit').button('reset');"
+    };
+}
+
+@if (!Html.ViewData.ModelState.IsValid)
+{
+    foreach (ModelState modelState in ViewData.ModelState.Values)
+    {
+        foreach (ModelError error in modelState.Errors)
+        {
+            <div class="alert alert-danger" role="alert">
+                @error.ErrorMessage
+            </div>
+        }
+    }
+}
+
+@using (Ajax.BeginForm("Edit", "Project", new { }, ajaxOptions, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="btn-group" data-toggle="buttons" title="@Localization.Visibility">
+        <label class="btn btn-default @Html.LabelIsActive(Model.Visible)">
+            @Html.RadioButtonFor(x => x.Visible, true)<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </label>
+        <label class="btn btn-default @Html.LabelIsActive(!Model.Visible)">
+            @Html.RadioButtonFor(x => x.Visible, false)<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+        </label>
+    </div>
+    <hr />
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group">
+        @Html.LabelFor(x => x.Title)
+        @Html.TextBoxFor(x => x.Title,
+         new { @class = "form-control input-lg", placeholder = Localization.NoTitle })
+        @Html.ValidationMessageFor(x => x.Title)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Slug)
+        @Html.TextBoxFor(x => x.Slug,
+         new { @class = "form-control input-sm", placeholder = Localization.NoTitle })
+        @Html.ValidationMessageFor(x => x.Slug)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Description)
+        @Html.TextAreaFor(x => x.Description,
+         new { @class = "form-control input-sm", placeholder = Localization.NoDesc, rows = 5 })
+        @Html.ValidationMessageFor(x => x.Description)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.CoverId)
+        @(Model.SelectableCovers.Count() > 0
+            ? Html.DropDownListFor(x => x.CoverId, Model.SelectableCovers,
+                new
+                {
+                    @class = "form-control input-sm",
+                    placeholder = Localization.Cover
+                })
+            : Html.DropDownListFor(x => x.CoverId, Model.SelectableCovers,
+                new
+                {
+                    @class = "form-control input-sm",
+                    @disabled = "disabled",
+                    placeholder = Localization.Cover
+                }))
+        @Html.ValidationMessageFor(x => x.CoverId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Year)
+        @Html.DropDownListFor(x => x.Year, Model.Years,
+            new { @class = "form-control input-sm", placeholder = Localization.Year })
+        @Html.ValidationMessageFor(x => x.Year)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.LCID)
+        @Html.DropDownListFor(x => x.LCID, Model.Languages,
+            new { @class = "form-control input-sm", placeholder = Localization.Language })
+        @Html.ValidationMessageFor(x => x.LCID)
+    </div>
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group">
+            <button type="submit"
+                    id="edit-properties-submit"
+                    class="btn btn-primary"
+                    data-loading-text="@Localization.Save...">@Localization.Save</button>
+        </div>
+        <div class="btn-group" role="group">
+            @Html.ActionLink(Localization.Delete, "Delete", "Project",
+                new { projectId = Model.Id }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+}

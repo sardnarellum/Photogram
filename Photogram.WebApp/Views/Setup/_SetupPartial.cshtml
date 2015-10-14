@@ -8,47 +8,15 @@
 
     AjaxOptions ajaxOptions = new AjaxOptions
     {
-        OnBegin = "SPonBegin(xhr)",
-        OnSuccess = "SPonSuccess(data, status, xhr)",
-        //OnFailure = "SPonFailure(xhr, status, error)",
-        //UpdateTargetId = "galleryModel",
-        OnComplete = "SPonComplete(xhr, status)"
+        OnBegin = "$('#setupSubmit').button('loading');",
+        UpdateTargetId = "setupModel",
+        InsertionMode = InsertionMode.Replace,
+        OnComplete = "$('#setupSubmit').button('reset');",
+        HttpMethod = "POST"
     };
 }
 
-@section scripts{
-    <script type="text/javascript">
-
-        function SPonBegin(xhr) {
-            $('#setupSubmit').button('loading');
-        }
-
-        function SPonSuccess(data, status, xhr) {
-
-            $("#setupModel").html(data.View1);
-
-            if (data.Success) {
-                $('#setupModal').modal('hide');
-            }
-            else {
-                //Do something extra here with validation errors if needed.
-            }
-
-        }
-
-        function SPonFailure(xhr, status, error) {
-            response = xhr.responseJSON;
-            window.location.href = response.RedirectUrl;
-        }
-
-        function SPonComplete(xhr, status) {
-            $('#setupSubmit').button('reset');
-        }
-
-    </script>
-}
-
-@using (Ajax.BeginForm("Save", "Setup", ajaxOptions, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Index", "Setup", new { }, ajaxOptions, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-header">
@@ -57,22 +25,168 @@
     </div>
     <div class="modal-body">
         <div class="container-fluid">
-        @if (!Html.ViewData.ModelState.IsValid)
-        {
-            foreach (ModelState modelState in ViewData.ModelState.Values)
+            @if (!Html.ViewData.ModelState.IsValid)
             {
-                foreach (ModelError error in modelState.Errors)
+                foreach (ModelState modelState in ViewData.ModelState.Values)
                 {
-                <div class="alert alert-danger" role="alert">
-                    @error.ErrorMessage
-                </div>
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                    <div class="alert alert-danger" role="alert">
+                        @error.ErrorMessage
+                    </div>
+                    }
                 }
             }
-        }
+            <div class="btn-group" data-toggle="buttons" title="@Localization.Visibility">
+                <label class="btn btn-danger @Html.LabelIsActive(Model.Published)">
+                    @Html.RadioButtonFor(x => x.Published, true)<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                </label>
+                <label class="btn btn-danger @Html.LabelIsActive(!Model.Published)">
+                    @Html.RadioButtonFor(x => x.Published, false)<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                </label>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(x => x.MainTitle)
+                @Html.TextBoxFor(x => x.MainTitle,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.MainTitle
+                    })
+                @Html.ValidationMessageFor(x => x.MainTitle)
+            </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.Email)
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = Localization.Email })
+                @Html.TextBoxFor(x => x.Email,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.Email
+                    })
                 @Html.ValidationMessageFor(x => x.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Phone)
+                @Html.TextBoxFor(x => x.Phone,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.PhoneNo
+                    })
+                @Html.ValidationMessageFor(x => x.Phone)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.ContactLead)
+                @Html.TextAreaFor(x => x.ContactLead,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.ContactLead,
+                        rows = 5
+                    })
+                @Html.ValidationMessageFor(x => x.ContactLead)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.AboutLead)
+                @Html.TextAreaFor(x => x.AboutLead,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.AboutLead,
+                        rows = 5
+                    })
+                @Html.ValidationMessageFor(x => x.AboutLead)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.AboutBody)
+                @Html.TextAreaFor(x => x.AboutBody,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.AboutBody,
+                        rows = 5
+                    })
+                @Html.ValidationMessageFor(x => x.AboutBody)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Footer)
+                @Html.TextAreaFor(x => x.Footer,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = Localization.Footer,
+                        rows = 2
+                    })
+                @Html.ValidationMessageFor(x => x.Footer)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.FacebookURL)
+                @Html.TextBoxFor(x => x.FacebookURL,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = "Facebook URL"
+                    })
+                @Html.ValidationMessageFor(x => x.FacebookURL)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.GitHubURL)
+                @Html.TextBoxFor(x => x.GitHubURL,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = "Github URL"
+                    })
+                @Html.ValidationMessageFor(x => x.GitHubURL)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.InstagramURL)
+                @Html.TextBoxFor(x => x.InstagramURL,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = "Instagram URL"
+                    })
+                @Html.ValidationMessageFor(x => x.InstagramURL)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.LinkedInURL)
+                @Html.TextBoxFor(x => x.LinkedInURL,
+                    new
+                    {
+                        @class = "form-control",
+                        placeholder = "LinkedIn URL"
+                    })
+                @Html.ValidationMessageFor(x => x.LinkedInURL)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.LCID)
+                @Html.DropDownListFor(x => x.LCID, Model.Languages,
+                    new
+                    {
+                        @class = "form-control input-sm",
+                        placeholder = Localization.Language
+                    })
+                @Html.ValidationMessageFor(x => x.LCID)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.AboutBackgroundId)
+                @Html.DropDownListFor(x => x.AboutBackgroundId, Model.AboutBackgroundList,
+                    new
+                    {
+                        @class = "form-control input-sm"
+                    })
+                @Html.ValidationMessageFor(x => x.AboutBackgroundId)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.ContactBackgroundId)
+                @Html.DropDownListFor(x => x.ContactBackgroundId, Model.ContactBackgroundList,
+                    new
+                    {
+                        @class = "form-control input-sm"
+                    })
+                @Html.ValidationMessageFor(x => x.ContactBackgroundId)
             </div>
         </div>
     </div>

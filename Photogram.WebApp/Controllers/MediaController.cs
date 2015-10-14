@@ -22,11 +22,18 @@ namespace Photogram.WebApp.Controllers
 
         public ActionResult Index()
         {
+            var mediaVM = new MediaInformation
+            {
+                Languages = _db.Language
+                    .SelectList(_db.Language.CurrentOrDefault())
+            };
+
             var model = new ContentMgmtViewModel
             {
                 Medias = _db.Media.ToList(),
                 Projects = _db.Project.OrderByDescending(x => x.Position)
-                    .Where(x => x.Type == ProjectType.Portfolio).ToList()
+                    .Where(x => x.Type == ProjectType.Portfolio).ToList(),
+                MediaViewModel = mediaVM
             };
 
             return View("Index", model);
@@ -55,15 +62,12 @@ namespace Photogram.WebApp.Controllers
                 throw new ArgumentNullException("mediaId",
                     Localization.ErrArgNull);
 
-            var item = _db.Media.Include("ProjectInclude").Include("Title")
-                .Include("Description")
-                .Where(x => x.Id == mediaId).FirstOrDefault();
-
-            if (null == item)
+            if (!Delete((int)mediaId))
                 throw new ArgumentException(
                     mediaId.ToString() + " does not exists in Media.",
                     "mediaId");
 
+<<<<<<< HEAD
             var fullPath = Request.MapPath(
                 string.Concat(Common.UploadPathImgRel, item.FileName));
 
@@ -93,6 +97,9 @@ namespace Photogram.WebApp.Controllers
                     Success = true,
                     ProjectId = projectId
                 }, JsonRequestBehavior.AllowGet);
+=======
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+>>>>>>> master
         }
 
         [HttpPost]
@@ -159,18 +166,13 @@ namespace Photogram.WebApp.Controllers
                     mediaId.ToString() + " does not exists in Media.",
                     "mediaId");
 
-            var currLang = _db.Language
-                .Where(x => x.LCID == CultureInfo.CurrentCulture.LCID)
-                .FirstOrDefault();
-
-            if (null != currLang)
-                currLang = _db.Language.Where(x => x.LCID == 1033)
-                    .FirstOrDefault();
+            var currLang = _db.Language.CurrentOrDefault();
 
             var model = new MediaInformation {
                 FileName = media.FileName,
                 MediaId = media.Id,
                 LCID = currLang.LCID,
+                Languages = _db.Language.SelectList(currLang),
                 Title = media.CurrentTitleText(),
                 Description = media.CurrentDescriptionText()
             };
@@ -185,12 +187,15 @@ namespace Photogram.WebApp.Controllers
         /// <param name="model">New data from view.</param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Edit(MediaInformation model)
         {
             var media = _db.Media.Where(x => x.Id == model.MediaId)
                 .FirstOrDefault();
 
             model.FileName = media.FileName;
+            model.Languages = _db.Language
+                    .SelectList(_db.Language.CurrentOrDefault());
 
             if (null == media)
             {
@@ -203,8 +208,9 @@ namespace Photogram.WebApp.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        var language = _db.Language
-                            .Where(x => x.LCID == model.LCID).FirstOrDefault();
+                        var language = _db.Language.AsEnumerable()
+                            .Where(x => x.LCID == model.LCID)
+                            .FirstOrDefault();
 
                         if (!string.IsNullOrEmpty(model.Title))
                         {
@@ -328,7 +334,18 @@ namespace Photogram.WebApp.Controllers
 
             if (media.ProjectInclude != null)
             {
-                _db.ProjectInclude.Remove(media.ProjectInclude);
+                var include = media.ProjectInclude;
+
+                var sortables = _db.ProjectInclude.Include("Project").Where(
+                    x => x.Project.Id == include.Project.Id
+                        && x.Position > include.Position).ToList();
+
+                foreach (var elem in sortables)
+                {
+                    --elem.Position;
+                }
+
+                _db.ProjectInclude.Remove(include);
             }
 
             if (-1 != projectId)
@@ -452,6 +469,31 @@ namespace Photogram.WebApp.Controllers
                     Title = localTitle != null ? localTitle.Text : "",
                     Description = localDescription != null ? localDescription.Text : ""
                 }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Delete media item from database.
+        /// </summary>
+        /// <param name="mediaId">Id of the item.</param>
+        /// <returns>True if item exists in database.</returns>
+        private bool Delete(int mediaId)
+        {
+            var item = _db.Media.Include("ProjectInclude").Include("Title").Include("Description")
+                .Where(x => x.Id == mediaId).FirstOrDefault();
+
+            if (null == item)
+                return false;
+
+            var fullPath = Request.MapPath(
+                string.Concat(Common.UploadPathImgRel, item.FileName));
+
+            _db.Media.Remove(item);
+            _db.SaveChanges();
+
+            if (System.IO.File.Exists(fullPath))
+                System.IO.File.Delete(fullPath);
+
+            return true;
         }
 
         private DirectoryInfo ServerDirectory(string p)

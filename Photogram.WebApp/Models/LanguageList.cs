@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using Resources;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace Photogram.WebApp.Models
@@ -10,43 +10,13 @@ namespace Photogram.WebApp.Models
     /// </summary>
     public class LanguageList
     {
+        [Required]
+        [Display(Name = "Language", ResourceType = typeof(Localization))]
+        public int LCID { get; set; }
+
         /// <summary>
         /// Creates SelectList with LCID keys and DisplayName values of supperted Cultures.
         /// </summary>
-        public IEnumerable<SelectListItem> Languages
-        {
-            get
-            {
-                var db = new PhotogramEntities();
-
-                var selectListItems = new List<SelectListItem>();
-
-                foreach (var elem in db.Language)
-                {
-                    var item = new SelectListItem
-                    {
-                        Value = elem.LCID.ToString(),
-                        Text = LanguageName(elem.LCID)
-                    };
-
-                    selectListItems.Add(item);
-                }
-
-                var selectList = new SelectList(
-                    selectListItems, "Value", "Text");
-
-                return selectList;
-            }
-        }
-
-        /// <summary>
-        /// Returns DisplayName for the given LCID.
-        /// </summary>
-        /// <param name="lcid"></param>
-        /// <returns></returns>
-        private string LanguageName(int lcid)
-        {
-            return CultureInfo.GetCultureInfo(lcid).DisplayName;
-        }
+        public IEnumerable<SelectListItem> Languages {  get; set; }
     }
 }

@@ -28,11 +28,24 @@ namespace Photogram.WebApp
 
             bundles.Add(new ScriptBundle("~/bundles/unobtrusive-ajax").Include(
                         "~/Scripts/jquery.unobtrusive-ajax.min.js"));
-            
+
+            bundles.Add(new StyleBundle("~/Content/cover").Include(
+                      "~/Content/cover.css"));
+
+            bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
+                      "~/Content/font-awesome.css",
+                      "~/Content/font-awesome.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/grayscale").Include(
+                      "~/Content/grayscale.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/misc.css"));
-            
+
+            bundles.Add(new ScriptBundle("~/bundles/grayscale").Include(
+                      "~/Scripts/grayscale.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/filestyle").Include(
                     "~/Scripts/bootstrap-filestyle.js"));
 
