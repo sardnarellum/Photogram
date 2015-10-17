@@ -15,3 +15,4 @@ An ASP.NET based portal system for photographers, artists.
 - Audio/video uploading
 - YouTube, Vimeo, tumblr content linking to projects
 - Manual language selection
+- Customer accounts with galleries. The contents can be selected and reviewed before purchase.
