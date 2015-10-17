@@ -114,6 +114,11 @@ namespace Photogram.WebApp.Controllers
             if (null == project)
                 return RedirectToAction("Index", "Home");
 
+            if (!project.Visible && !Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Title = project.CurrentTitleText();
 
             return View("Details", project);
