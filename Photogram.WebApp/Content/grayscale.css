@@ -350,10 +350,10 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   padding-right: 0;
 }
 .container-fullpage .carousel {
-  height: 100%;
+  height: 100vh;
 }
 .container-fullpage .carousel .carousel-inner {
-  height: 100%;
+  height: 100vh;
 }
 .container-fullpage .carousel .carousel-inner .item {
   height: 100%;
@@ -404,6 +404,7 @@ nav.nav-slider .nav-project-details li:last-of-type a {
 }
 .container-fullpage .row-fullpage .row-middle-content .content-image-container img {
   max-height: 100%;
+  width: 100%;
 }
 .container-fullpage .row-details-list {
   min-height: 100%;
