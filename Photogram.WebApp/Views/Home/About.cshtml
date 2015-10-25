@@ -1,13 +1,27 @@
 ﻿@using Resources
 @using Photogram.WebApp.Models
 
-@{
-    ViewBag.SectionId = "about";
-    Layout = "~/Views/Shared/_LayoutHomeContent.cshtml";
+@{ 
+    Layout = null;
+    var contStyle = null != Model.Background
+        ? "background-image:url(\'"
+            + Url.Action("Render", "Image", new { file = Model.Background.FileName })
+            + "/\');"
+        : "";
 }
 
 @model AboutModel
 
-<h2 class="wide-spacing">@Localization.About</h2>
-<h3>@Model.Lead</h3>
-@Html.Raw(Model.Body)
+<section id="about" class="row row-fullpage text-center">
+    <div class="row-middle-content">
+        <div class="col-xs-12 info-container" style="@contStyle">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 info-container">
+                    <h2 class="wide-spacing">@Localization.About</h2>
+                    <h3>@Model.Lead</h3>
+                    @Html.Raw(Model.Body)
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

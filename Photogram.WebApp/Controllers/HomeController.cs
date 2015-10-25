@@ -39,7 +39,8 @@ namespace Photogram.WebApp.Controllers
             var model = new AboutModel
             {
                 Lead = setup.CurrentAboutLeadText(),
-                Body = setup.CurrentAboutBodyText()
+                Body = setup.CurrentAboutBodyText(),
+                Background = setup.AboutBackground
             };
 
             return View(model);
@@ -63,7 +64,8 @@ namespace Photogram.WebApp.Controllers
                 FacebookURL = setup.FacebookURL,
                 GitHubURL = setup.GitHubURL,
                 InstagramURL = setup.InstagramURL,
-                LinkedInURL = setup.LinkedInURL
+                LinkedInURL = setup.LinkedInURL,
+                Background = setup.ContactBackground
             };
 
             return View(model);

@@ -5,18 +5,19 @@ using System.Web;
 
 namespace Photogram.WebApp.Models
 {
-    public class LeadModel
+    public class InfoModel
     {
         public string Lead { get; set; }
+
+        public Media Background { get; set; }
     }
 
-    public class AboutModel : LeadModel
+    public class AboutModel : InfoModel
     {
-
         public string Body { get; set; }
     }
 
-    public class ContactModel : LeadModel
+    public class ContactModel : InfoModel
     {
         public string Email { get; set; }
 

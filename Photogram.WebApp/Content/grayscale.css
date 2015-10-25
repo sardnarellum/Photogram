@@ -238,6 +238,13 @@ nav.nav-slider .nav-project-details li:last-of-type a {
     font-size: 80px;
   }
 }
+.info-container {
+  padding: 50px 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: scroll;
+  background-size: 100% auto;
+}
 .btn-circle {
   width: 70px;
   height: 70px;

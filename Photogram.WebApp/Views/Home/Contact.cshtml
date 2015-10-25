@@ -4,45 +4,57 @@
 @model ContactModel
 
 @{
-    ViewBag.Title = "Contact Start Bootstrap";
-    ViewBag.SectionId = "contact";
-    Layout = "~/Views/Shared/_LayoutHomeContent.cshtml";
+    Layout = null;
+    var contStyle = null != Model.Background
+        ? "background-image:url(\'"
+            + Url.Action("Render", "Image", new { file = Model.Background.FileName })
+            + "/\');"
+        : "";
 }
-
-<h2 class="wide-spacing">@Localization.Contact</h2>
-<p>@Model.Lead</p>
-<p>
-    <a href="mailto:@Model.Email">@Model.Email</a>
-</p>
-@if (!string.IsNullOrEmpty(Model.Phone))
-{
-<p>
-    <abbr title="Phone">P:</abbr> @Model.Phone
-</p>
-}
-<ul class="list-inline banner-buttons">
-    @if (!string.IsNullOrEmpty(Model.FacebookURL))
-    {
-        <li>
-            <a href="@Model.FacebookURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook</span></a>
-        </li>
-    }
-    @if (!string.IsNullOrEmpty(Model.GitHubURL))
-    {
-        <li>
-            <a href="@Model.GitHubURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-        </li>
-    }
-    @if (!string.IsNullOrEmpty(Model.InstagramURL))
-    {
-        <li>
-            <a href="@Model.InstagramURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-instagram fa-fw"></i> <span class="network-name">Instagram</span></a>
-        </li>
-    }
-    @if (!string.IsNullOrEmpty(Model.LinkedInURL))
-    {
-        <li>
-            <a href="@Model.LinkedInURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">LinkedIn</span></a>
-        </li>
-    }    
-</ul>
+<section id="contact" class="row row-fullpage text-center">
+    <div class="row-middle-content">
+        <div class="col-xs-12 info-container" style="@contStyle">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2 class="wide-spacing">@Localization.Contact</h2>
+                    <p>@Model.Lead</p>
+                    <p>
+                        <a href="mailto:@Model.Email">@Model.Email</a>
+                    </p>
+                    @if (!string.IsNullOrEmpty(Model.Phone))
+                    {
+                        <p>
+                            <abbr title="Phone">P:</abbr> @Model.Phone
+                        </p>
+                    }
+                    <ul class="list-inline banner-buttons">
+                        @if (!string.IsNullOrEmpty(Model.FacebookURL))
+                        {
+                            <li>
+                                <a href="@Model.FacebookURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook</span></a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.GitHubURL))
+                        {
+                            <li>
+                                <a href="@Model.GitHubURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.InstagramURL))
+                        {
+                            <li>
+                                <a href="@Model.InstagramURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-instagram fa-fw"></i> <span class="network-name">Instagram</span></a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.LinkedInURL))
+                        {
+                            <li>
+                                <a href="@Model.LinkedInURL" target="_blank" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">LinkedIn</span></a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
