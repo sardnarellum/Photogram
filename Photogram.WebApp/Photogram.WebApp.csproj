@@ -311,6 +311,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\grayscale.css" />
+    <Content Include="Content\icon.png" />
     <Content Include="Content\misc.css" />
     <Content Include="Content\miscOld.css" />
     <Content Include="Content\themes\base\accordion.css" />

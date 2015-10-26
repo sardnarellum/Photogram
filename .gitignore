@@ -168,4 +168,7 @@ $RECYCLE.BIN/
 # Project elements
 Photogram.WebApp/node_modules/
 node_modules/
+Photogram.WebApp/Web.config
+Photogram.WebApp/Web.Debug.config
+Photogram.WebApp/Web.Release.config
 
