@@ -160,11 +160,15 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   background-color: transparent;
 }
 .navbar-custom .nav li.open a {
-  color: rgba(255, 255, 255, 0.8);
   background-color: transparent;
+}
+.navbar-custom .nav li.open a.dropdown-toggle {
+  color: rgba(255, 255, 255, 0.8);
 }
 .navbar-custom .nav li ul {
   background-color: transparent;
+  border: none;
+  border-radius: 0;
 }
 .navbar-custom .nav li ul li a {
   color: white;

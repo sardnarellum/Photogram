@@ -200,13 +200,17 @@ nav.nav-slider {
 
             &.open {
                 a {
-                    color: fade(white, 80%);
+                    &.dropdown-toggle {
+                        color: fade(white, 80%);
+                    }
                     background-color: transparent;
                 }
             }
 
             ul {
                 background-color: transparent;
+                border: none;
+                border-radius: 0;
 
                 li {
                     a {
