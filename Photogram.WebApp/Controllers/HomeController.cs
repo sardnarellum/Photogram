@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Resources;
 using Photogram.WebApp.Models;
+using System.Globalization;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -87,7 +88,7 @@ namespace Photogram.WebApp.Controllers
             var lang = _db.Language.Where(x => x.LCID == lcid)
                 .FirstOrDefault();
 
-            if (null != lang)
+            if (null != lang && lang.LCID != CultureInfo.CurrentCulture.LCID)
             {
                 CultureManagement.SetCulture(lang);
                 HttpCookie langCookie = new HttpCookie("culture", lang.LCID.ToString());

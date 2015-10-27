@@ -39,15 +39,22 @@
                         @CultureInfo.CurrentCulture.ThreeLetterISOLanguageName <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                @foreach (var elem in Model.Languages)
-                {
-                    <li>
-                        @{
-                            var lang = CultureInfo.GetCultureInfo(elem.LCID).ThreeLetterISOLanguageName;
-                        }
-                        @Html.ActionLink(lang, "SetLanguage", "Home", new { lcid = elem.LCID }, new { })
-                    </li>
-                }
+                        @foreach (var elem in Model.Languages)
+                        {
+                            <li>
+                                @{
+                                    var culture = CultureInfo.GetCultureInfo(elem.LCID);
+
+                                    if (culture.LCID == CultureInfo.CurrentCulture.LCID)
+                                    {
+                                        continue;
+                                    }
+
+                                    var lang = culture.ThreeLetterISOLanguageName;
+                                }
+                                @Html.ActionLink(lang, "SetLanguage", "Home", new { lcid = elem.LCID }, new { })
+                            </li>
+                                    }
                     </ul>
                 </li>
                 @if (Request.IsAuthenticated)
