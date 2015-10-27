@@ -24,9 +24,7 @@ namespace Photogram.WebApp.Models
         /// <summary>
         /// Title of Media item.
         /// </summary>
-        [StringLength(20,
-            ErrorMessageResourceName = "ErrTitleLength",
-            ErrorMessageResourceType = typeof(Localization))]
+        [MaxLength(80)]
         [DataType(DataType.Text)]
         [Display(Name = "Title", ResourceType = typeof(Localization))]
         public string Title { get; set; }
