@@ -71,6 +71,32 @@ namespace Photogram.WebApp.Controllers
             return View(model);
         }
 
+        [ChildActionOnly]
+        public ActionResult SetLanguage(int? lcid, string returnUrl)
+        {
+            if (null == lcid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var lang = _db.Language.Where(x => x.LCID == lcid)
+                .FirstOrDefault();
+
+            if (null != lang)
+            {
+                LanguageManagement.SetLanguage(lang);
+                HttpCookie langCookie = new HttpCookie("culture", lang.LCID.ToString());
+                langCookie.Expires = DateTime.Now.AddYears(1);
+                HttpContext.Response.Cookies.Add(langCookie);
+            }
+
+            if (!string.IsNullOrEmpty(returnUrl)) {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Redirects()
         {
             return View();

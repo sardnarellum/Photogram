@@ -209,7 +209,7 @@
     <Compile Include="Models\Language.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LanguageList.cs" />
+    <Compile Include="Models\LanguageMgmt.cs" />
     <Compile Include="Models\LogType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

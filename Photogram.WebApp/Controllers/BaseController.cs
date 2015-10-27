@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.IO;
 using System.Net;
 using Resources;
+using System.Web;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -57,6 +58,35 @@ namespace Photogram.WebApp.Controllers
         {
             _db.Dispose();
             base.Dispose(disposing);
+        }
+
+        #endregion
+
+        #region Override
+
+        protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
+        {
+            int lcid = 1033;
+            HttpCookie langCookie = Request.Cookies["culture"];
+
+            if (langCookie != null)
+            {
+                lcid = int.Parse(langCookie.Value);
+            }
+            else
+            {
+                var userLanguage = Request.UserLanguages;
+                var userLang = userLanguage != null ? userLanguage[0] : "";
+                if (userLang != "")
+                {
+                    LanguageManagement.SetLanguage(userLang);
+                    return base.BeginExecuteCore(callback, state);
+                }
+            }
+
+            LanguageManagement.SetLanguage(lcid);
+
+            return base.BeginExecuteCore(callback, state);
         }
 
         #endregion
