@@ -180,11 +180,11 @@ namespace Photogram.WebApp.Controllers
                             .Where(x => x.LCID == model.LCID)
                             .FirstOrDefault();
 
+                        var title = media.Title
+                            .Where(x => x.Language == language).FirstOrDefault();
+
                         if (!string.IsNullOrEmpty(model.Title))
                         {
-                            var title = media.Title
-                                .Where(x => x.Language == language).FirstOrDefault();
-
                             if (null == title)
                             {
                                 title = new MediaTitle
@@ -197,12 +197,17 @@ namespace Photogram.WebApp.Controllers
 
                             title.Text = model.Title;
                         }
+                        else if (null != title)
+                        {
+                            _db.Translation.Remove(title);
+                        }
+
+
+                        var description = media.Description
+                            .Where(x => x.Language == language).FirstOrDefault();
 
                         if (!string.IsNullOrEmpty(model.Description))
                         {
-
-                            var description = media.Description
-                                .Where(x => x.Language == language).FirstOrDefault();
 
                             if (null == description)
                             {
@@ -215,6 +220,10 @@ namespace Photogram.WebApp.Controllers
                             }
 
                             description.Text = model.Description;
+                        }
+                        else if (null != description)
+                        {
+                            _db.Translation.Remove(description);
                         }
 
                         _db.SaveChanges();
