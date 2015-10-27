@@ -159,6 +159,16 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   outline: none;
   background-color: transparent;
 }
+.navbar-custom .nav li.open a {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: transparent;
+}
+.navbar-custom .nav li ul {
+  background-color: transparent;
+}
+.navbar-custom .nav li ul li a {
+  color: white;
+}
 .navbar-custom .nav li.active {
   outline: none;
 }
