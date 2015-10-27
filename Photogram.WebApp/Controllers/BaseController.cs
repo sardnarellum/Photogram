@@ -79,12 +79,13 @@ namespace Photogram.WebApp.Controllers
                 var userLang = userLanguage != null ? userLanguage[0] : "";
                 if (userLang != "")
                 {
-                    LanguageManagement.SetLanguage(userLang);
+                    CultureManagement.SetCulture(userLang);
+
                     return base.BeginExecuteCore(callback, state);
                 }
             }
 
-            LanguageManagement.SetLanguage(lcid);
+            CultureManagement.SetCulture(lcid);
 
             return base.BeginExecuteCore(callback, state);
         }

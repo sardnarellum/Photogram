@@ -19,10 +19,16 @@ namespace Photogram.WebApp.Controllers
             ViewBag.Footer = setup != null ? setup.CurrentFooterText() : "";
             ViewBag.Title = Localization.Portfolio;
 
-            return View(_db.Project.Include("ProjectInclude")
-                .OrderBy(x => x.Position)
-                .Where(x => x.Visible && x.ProjectInclude.Count() > 0)
-                .ToArray());
+            var model = new HomeModel
+            {
+                Projects = _db.Project.Include("ProjectInclude")
+                    .OrderBy(x => x.Position)
+                    .Where(x => x.Visible && x.ProjectInclude.Count() > 0)
+                    .ToArray(),
+                Languages = _db.Language.ToArray()
+            };
+
+            return View(model);
         }
 
         [ChildActionOnly]
@@ -71,7 +77,6 @@ namespace Photogram.WebApp.Controllers
             return View(model);
         }
 
-        [ChildActionOnly]
         public ActionResult SetLanguage(int? lcid, string returnUrl)
         {
             if (null == lcid)
@@ -84,7 +89,7 @@ namespace Photogram.WebApp.Controllers
 
             if (null != lang)
             {
-                LanguageManagement.SetLanguage(lang);
+                CultureManagement.SetCulture(lang);
                 HttpCookie langCookie = new HttpCookie("culture", lang.LCID.ToString());
                 langCookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Response.Cookies.Add(langCookie);

@@ -1,12 +1,13 @@
 ﻿@using Photogram.WebApp.Models
 @using Resources
+@using System.Globalization
 
 
 @{ 
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 
-@model Project[]
+@model HomeModel
 
 <nav class="navbar navbar-custom navbar-fixed-top nav-spytarget" role="navigation">
     <div class="container">
@@ -32,6 +33,23 @@
                 <li>
                     <a class="page-scroll" href="#contact">@Localization.Contact</a>
                 </li>
+                <li class="btn-group">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true"
+                            aria-expanded="false">
+                        @CultureInfo.CurrentCulture.ThreeLetterISOLanguageName <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                @foreach (var elem in Model.Languages)
+                {
+                    <li>
+                        @{
+                            var lang = CultureInfo.GetCultureInfo(elem.LCID).ThreeLetterISOLanguageName;
+                        }
+                        @Html.ActionLink(lang, "SetLanguage", "Home", new { lcid = elem.LCID }, new { })
+                    </li>
+                }
+                    </ul>
+                </li>
                 @if (Request.IsAuthenticated)
                 {
                     <li>
@@ -46,15 +64,15 @@
 </nav>
 
 <!-- Header Carousel -->
-@if (Model.Count() > 0)
+@if (Model.Projects.Count() > 0)
 {
     <header id="carousel-projects" class="carousel slide row row-fullpage" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            @for (int i = 0; i < Model.Count(); ++i)
+            @for (int i = 0; i < Model.Projects.Count(); ++i)
             {
                 var classParam = i == 0 ? "item active" : "item";
-                var fileName = Model[i].ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
-                var description = Model[i].CurrentDescriptionText();
+                var fileName = Model.Projects[i].ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
+                var description = Model.Projects[i].CurrentDescriptionText();
                 if (description.Length > 0)
                 {
                     var sentenceEnd = description.IndexOf('.');
@@ -67,12 +85,12 @@
                     <div class="fill"
                          style="background-image:url('@Url.Action("Render", "Image", new { file = fileName })/');"></div>
                     <div class="carousel-caption">
-                        <h2 class="wide-spacing">@Model[i].CurrentTitleText()</h2>
+                        <h2 class="wide-spacing">@Model.Projects[i].CurrentTitleText()</h2>
                         @if (0 < description.Length)
                         {
                             <p>@description</p>
                         }
-                        <a href="@Url.Action("Details", "Project", new { projectId = Model[i].Id })" class="btn btn-default btn-sm">
+                        <a href="@Url.Action("Details", "Project", new { projectId = Model.Projects[i].Id })" class="btn btn-default btn-sm">
                             @Localization.More <i class="fa fa-angle-double-right"></i>
                         </a>
                     </div>

@@ -203,6 +203,7 @@
     <Compile Include="Models\EntityExtensions.cs" />
     <Compile Include="Models\FileData.cs" />
     <Compile Include="Models\FilesystemExtensionMethods.cs" />
+    <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\HtmlHelperExtensions.cs" />
     <Compile Include="Models\HttpResponseExtensionMethods.cs" />
     <Compile Include="Models\ImageFileResult.cs" />

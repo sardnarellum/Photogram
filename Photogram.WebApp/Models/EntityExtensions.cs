@@ -30,7 +30,7 @@ namespace Photogram.WebApp.Models
             db.Dispose();
 
             var currTranslation = collection
-                    .Where(x => x.Language == language)
+                    .Where(x => x.Language.LCID == language.LCID)
                     .FirstOrDefault();
 
             if (null != currTranslation)

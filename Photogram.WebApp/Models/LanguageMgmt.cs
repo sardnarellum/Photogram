@@ -23,35 +23,37 @@ namespace Photogram.WebApp.Models
         public IEnumerable<SelectListItem> Languages {  get; set; }
     }
 
-    public static class LanguageManagement
+    public static class CultureManagement
     {
-        public static void SetLanguage(int lcid)
+        public static void SetCulture(int lcid)
         {
             var cultureInfo = new CultureInfo(lcid);
             var db = new PhotogramEntities();
             var language = db.Language.Where(x => x.LCID == cultureInfo.LCID).FirstOrDefault();
 
+            db.Dispose();
+
             if (null != language)
             {
-                SetLanguage(language);
+                SetCulture(language);
             }
         }
 
-        public static void SetLanguage(string lang)
+        public static void SetCulture(string lang)
         {
             var cultureInfo = new CultureInfo(lang);
             var db = new PhotogramEntities();
             var language = db.Language.Where(x => x.LCID == cultureInfo.LCID).FirstOrDefault();
 
+            db.Dispose();
+
             if (null != language)
             {
-                SetLanguage(language);
+                SetCulture(language);
             }
-
-            db.Dispose();
         }
 
-        public static void SetLanguage(Language lang)
+        public static void SetCulture(Language lang)
         {
             var cultureInfo = new CultureInfo(lang.LCID);
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
