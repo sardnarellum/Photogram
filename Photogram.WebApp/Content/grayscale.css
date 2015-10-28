@@ -163,15 +163,35 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   background-color: transparent;
 }
 .navbar-custom .nav li.open a.dropdown-toggle {
-  color: rgba(255, 255, 255, 0.8);
+  color: white;
 }
-.navbar-custom .nav li ul {
-  background-color: transparent;
+.navbar-custom .nav li ul.dropdown-menu-lang {
   border: none;
   border-radius: 0;
 }
-.navbar-custom .nav li ul li a {
+.navbar-custom .nav li ul.dropdown-menu-lang li a {
   color: white;
+}
+.navbar-custom .nav li ul.dropdown-menu-lang li a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+@media (min-width: 768px) {
+  .navbar-custom .nav li.open {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  .navbar-custom .nav li ul.dropdown-menu-lang {
+    padding: 0;
+    min-width: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  .navbar-custom .nav li ul.dropdown-menu-lang li a {
+    padding: 5px 15px;
+  }
+  .navbar-custom .nav li ul.dropdown-menu-lang li a:hover {
+    color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
 }
 .navbar-custom .nav li.active {
   outline: none;

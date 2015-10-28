@@ -38,7 +38,7 @@
                             aria-expanded="false">
                         @CultureInfo.CurrentCulture.ThreeLetterISOLanguageName <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-lang">
                         @foreach (var elem in Model.Languages)
                         {
                             var culture = CultureInfo.GetCultureInfo(elem.LCID);

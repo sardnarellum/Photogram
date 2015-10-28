@@ -178,7 +178,7 @@ nav.nav-slider {
     }
 
     .nav {
-        li {
+        li {            
             a {
                 -webkit-transition: background .3s ease-in-out;
                 -moz-transition: background .3s ease-in-out;
@@ -201,20 +201,47 @@ nav.nav-slider {
             &.open {
                 a {
                     &.dropdown-toggle {
-                        color: fade(white, 80%);
+                        color: white;
                     }
                     background-color: transparent;
                 }
             }
 
-            ul {
-                background-color: transparent;
-                border: none;
-                border-radius: 0;
+            ul.dropdown-menu-lang {
+                    border: none;
+                    border-radius: 0;
 
-                li {
-                    a {
-                        color: white;
+                    li {
+                        a {
+                            color: white;
+
+                            &:hover {
+                                color: fade(white, 80%);
+                            }
+                        }                    
+                    }
+                }
+
+            @media(min-width:768px){
+                &.open {
+                    background-color: fade(white, 30%);
+                }
+                ul.dropdown-menu-lang { 
+                    padding: 0;
+                    min-width: 0;
+                    left: 0;
+                    background-color: fade(white, 30%);
+                    //right: auto;
+
+                    li {
+                        a {
+                            padding: 5px 15px;
+
+                            &:hover {
+                                color: fade(black, 80%);
+                                background-color: fade(white, 80%);
+                            }
+                        }                    
                     }
                 }
             }
