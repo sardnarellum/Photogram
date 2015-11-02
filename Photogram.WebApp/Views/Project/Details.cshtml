@@ -27,8 +27,8 @@
         {
             var isTitleExists = !string.IsNullOrEmpty(elem.Media.CurrentTitleText());
             var isDescExists = !string.IsNullOrEmpty(elem.Media.CurrentDescriptionText());
-            var imgContainerClass = "col-sm-12";
-            var dataContainerClass = "col-sm-2";
+            var imgContainerClass = "col-sm-9 col-lg-10";
+            var dataContainerClass = "col-sm-3 col-lg-2";
             var aspectRatio = elem.Media.AspectRatio();
 
             if (1 < aspectRatio && 1.5 >= aspectRatio)
