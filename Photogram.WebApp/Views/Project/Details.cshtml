@@ -51,7 +51,50 @@
             <section id="@elem.Id" class="row row-fullpage">
                 <div class="row-middle-content">
                     <div class="@imgContainerClass content-image-container">
-                        <img class="img-responsive" src="@Url.Action("Render", "Image", new { file = elem.Media.FileName })/" />
+                        <picture>
+                            <source srcset="@Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 1200, height = 1200, file = elem.Media.FileName })/,
+                                            @Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 2400, height = 2400, file = elem.Media.FileName })/ 2x"
+                                    media="(min-width: 992px)" />
+
+                            <source srcset="@Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 992, height = 992, file = elem.Media.FileName })/,
+                                            @Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 1984, height = 1984, file = elem.Media.FileName })/ 2x"
+                                    media="(min-width: 768px)" />
+
+                            <source srcset="@Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 768, height = 768, file = elem.Media.FileName })/,
+                                            @Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 1536, height = 1536, file = elem.Media.FileName })/ 2x,
+                                            @Url.Action(
+                                            "RenderResized",
+                                            "Image",
+                                            new { width = 2304, height = 2304, file = elem.Media.FileName })/ 3x" />
+
+                            <img class="img-responsive"
+                                 src="@Url.Action(
+                                "RenderResized",
+                                "Image",
+                                new { width = 1920, height = 1920, file = elem.Media.FileName })/"
+                                 srcset="@Url.Action(
+                                "RenderResized",
+                                "Image",
+                                new { width = 2880, height = 2880, file = elem.Media.FileName })/ 2x" />
+                        </picture>
                     </div>
                     <div class="row row-spacer hidden-sm hidden-md hidden-lg"></div>
                     @if (isTitleExists || isDescExists)
