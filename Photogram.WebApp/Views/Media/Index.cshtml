@@ -332,7 +332,7 @@
         };
         $(edit).append('<span class="glyphicon glyphicon-edit"></span>');
 
-        $(img).attr('src', 'Image/2000/200/' + fileName + '/').load(function () {
+        $(img).attr('src', 'Upload/Image/' + fileName + '?width=2000&height=200&mode=max').load(function () {
 
             var $thumb = $(thumb);
             $thumb.empty();

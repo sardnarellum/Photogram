@@ -50,10 +50,7 @@
                             <td>
                                 <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 sortable-thumbnail">
                                     <div class="thumbnail" style="height: 80px; width: 80px;">
-                                        <img src="@Url.Action("RenderResized", "Image",
-                                new { width = 80,
-                                    height = 69,
-                                    file = elem.Media.FileName })/" />
+                                        <img src="@Url.Content(string.Concat(Common.UploadPathImgRel, elem.Media.FileName, "?width=80&height=80&mode=crop"))" />
                                     </div>
                                 </div>
                             </td>
