@@ -78,6 +78,10 @@
                 var classParam = i == 0 ? "item active" : "item";
                 var fileName = Model.Projects[i].ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
                 var description = Model.Projects[i].CurrentDescriptionText();
+                var bgUrl = Url.Content(string.Concat(Common.UploadPathImgRel, fileName));
+                var headerBg = string.Concat("-webkit-image-set(url(\'",
+                    bgUrl, "?width=1920&mode=max\') 1x, url(\'",
+                    bgUrl, "?width=2880&mode=max\') 2x)");
                 if (description.Length > 0)
                 {
                     var sentenceEnd = description.IndexOf('.');
@@ -88,7 +92,7 @@
                 }
                 <div class="@classParam">
                     <div class="fill"
-                         style="background-image:url('@Url.Action("Render", "Image", new { file = fileName })/');"></div>
+                         style="background-image:url('@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")'); background-image: @headerBg;"></div>
                     <div class="carousel-caption">
                         <h2 class="wide-spacing">@Model.Projects[i].CurrentTitleText()</h2>
                         @if (0 < description.Length)

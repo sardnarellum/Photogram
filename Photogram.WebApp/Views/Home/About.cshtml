@@ -3,11 +3,20 @@
 
 @{ 
     Layout = null;
-    var contStyle = null != Model.Background
-        ? "background-image:url(\'"
-            + Url.Action("Render", "Image", new { file = Model.Background.FileName })
-            + "/\');"
-        : "";
+    var contStyle = "";
+    if (null != Model.Background)
+    {
+        var bgUrl = Url.Content(string.Concat(Common.UploadPathImgRel,
+            Model.Background.FileName));
+        contStyle = "background-image:url(\'" +
+                    bgUrl +
+                    "?width=2500&height=2500&mode=max" +
+                    "/\'); background-image: -webkit-image-set(url(\'" +
+                    bgUrl +
+                    "?width=1920&mode=max\') 1x, url(\'" +
+                    bgUrl +
+                    "?width=2880&mode=max\') 2x);";
+    }
 }
 
 @model AboutModel

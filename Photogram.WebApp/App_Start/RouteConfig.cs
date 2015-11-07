@@ -20,12 +20,6 @@ namespace Photogram.WebApp
             );
 
             routes.MapRoute(
-                name: "RenderResizedImage",
-                url: "Image/{width}/{height}/{file}",
-                defaults: new { controller = "Image", action = "RenderResized", file = ""}
-            );
-
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
