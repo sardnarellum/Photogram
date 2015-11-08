@@ -19,6 +19,9 @@ An ASP.NET based portal system for photographers, artists.
 
 ## Version history
 
+### 0.3.3
+Background styles improved on information sections and on project details cover.
+
 ### 0.3.2
 The items on project details page ordered by include position.
 
