@@ -228,6 +228,7 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   color: white;
   background-color: black;
   background-size: cover;
+  background-position: center;
 }
 .intro .intro-body {
   display: table-cell;
@@ -277,7 +278,7 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: scroll;
-  background-size: 100% auto;
+  background-size: cover;
 }
 .btn-circle {
   width: 70px;
