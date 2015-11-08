@@ -27,7 +27,7 @@
 <div class="row row-details-list">
     <div class="col-md-11 col-xs-12 col-fullpage">
 
-        @foreach (var elem in Model.ProjectInclude)
+        @foreach (var elem in Model.ProjectInclude.OrderBy(x => x.Position))
         {
             var isTitleExists = !string.IsNullOrEmpty(elem.Media.CurrentTitleText());
             var isDescExists = !string.IsNullOrEmpty(elem.Media.CurrentDescriptionText());
