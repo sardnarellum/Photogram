@@ -19,6 +19,9 @@ An ASP.NET based portal system for photographers, artists.
 
 ## Version history
 
+### 0.3.1.1
+Admin pages also modified according to new image resizing mechanism.
+
 ### 0.3.1
 Image resizing redesigned. ImageResizer plugin now used as a HttpModule. Jpg downsizing is working now.
 
