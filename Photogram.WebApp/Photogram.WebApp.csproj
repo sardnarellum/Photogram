@@ -61,6 +61,10 @@
       <HintPath>..\packages\ImageResizer.Plugins.SeamCarving.4.0.4\lib\net45\ImageResizer.Plugins.SeamCarving.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ImageResizer.Plugins.SimpleFilters, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.Plugins.SimpleFilters.4.0.4\lib\net45\ImageResizer.Plugins.SimpleFilters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -405,6 +409,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.waitforimages.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\packery.pkgd.js" />
     <Content Include="Scripts\packery.pkgd.min.js" />
@@ -455,6 +460,7 @@
     <Content Include="Views\Project\_EditPropertiesPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <Content Include="Scripts\jquery.waitforimages.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

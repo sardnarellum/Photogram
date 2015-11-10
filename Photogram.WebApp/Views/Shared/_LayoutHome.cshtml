@@ -9,11 +9,11 @@
     <title>@ViewBag.MainTitle - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/grayscale")
-    @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/font-awesome")
 
     <link rel="icon" type="image/png" href="~/Content/icon.png" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Vollkorn:400italic,700,700italic,400' rel='stylesheet' type='text/css'>
+    @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body id="page-top" data-spy="scroll" data-target=".nav-spytarget">
@@ -34,7 +34,8 @@
     @Scripts.Render("~/bundles/jquery-ui")
     @Scripts.Render("~/bundles/grayscale")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/unobtrusive-ajax")
+    @Scripts.Render("~/bundles/waitforimages")
+    @*@Scripts.Render("~/bundles/unobtrusive-ajax")*@
 
     @RenderSection("scripts", required: false)
     <script>

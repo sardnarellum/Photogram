@@ -91,8 +91,10 @@
                     }
                 }
                 <div class="@classParam">
-                    <div class="fill"
-                         style="background-image:url('@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")'); background-image: @headerBg;"></div>
+                    <div id="@fileName"
+                         class="fill"
+                         style="background-image:url('@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")'); background-image: @headerBg;">
+                    </div>
                     <div class="carousel-caption">
                         <h2 class="wide-spacing">@Model.Projects[i].CurrentTitleText()</h2>
                         @if (0 < description.Length)
@@ -121,8 +123,25 @@
 }
 
 <!-- About Section -->
-@{ Html.RenderAction("About"); }            
-        
+@{ Html.RenderAction("About"); }                    
 
  <!-- Contact Section -->
 @{ Html.RenderAction("Contact"); }
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".fill, .info-container").each(function (index, Element) {
+                //$(Element).css("background-image", "url(\'\')");
+                //$(Element).waitForImages({
+                //    waitForAll: true,
+                //    finished: function () {
+                //        //console.log(index + " image waited.");
+                //        //$(Element).css("bg-black", 400, "linear");
+                //    }
+                //});
+            });
+        });
+    </script>
+}
