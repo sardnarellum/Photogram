@@ -26,6 +26,9 @@ namespace Photogram.WebApp
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/lazyload").Include(
+                        "~/Scripts/blazy.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/waitforimages").Include(
                         "~/Scripts/jquery.waitforimages.js",
                         "~/Scripts/jquery.waitforimages.min.js"));

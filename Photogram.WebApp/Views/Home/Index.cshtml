@@ -75,7 +75,7 @@
         <div class="carousel-inner" role="listbox">
             @for (int i = 0; i < Model.Projects.Count(); ++i)
             {
-                var classParam = i == 0 ? "item active" : "item";
+                var classParam = i == 0 ? "active" : "";
                 var fileName = Model.Projects[i].ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
                 var description = Model.Projects[i].CurrentDescriptionText();
                 var bgUrl = Url.Content(string.Concat(Common.UploadPathImgRel, fileName));
@@ -90,10 +90,10 @@
                         description =  description.Remove(sentenceEnd) + "...";
                     }
                 }
-                <div class="@classParam">
+                <div class="item @classParam">
                     <div id="@fileName"
-                         class="fill"
-                         style="background-image:url('@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")'); background-image: @headerBg;">
+                         class="fill b-lazy"
+                         data-src="@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")">                        
                     </div>
                     <div class="carousel-caption">
                         <h2 class="wide-spacing">@Model.Projects[i].CurrentTitleText()</h2>
@@ -108,17 +108,19 @@
                 </div>
             }
         </div>
-
-        <a class="left carousel-control" href="#carousel-projects" role="button" data-slide="prev">
-            @*<span class="glyphicon icon-prev" aria-hidden="true"></span>*@
-            <i class="fa fa-angle-left carousel-arrow"></i>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-projects" role="button" data-slide="next">
-            @*<span class="glyphicon icon-next" aria-hidden="true"></span>*@
-            <i class="fa fa-angle-right carousel-arrow"></i>
-            <span class="sr-only">Next</span>
-        </a>
+        @if (Model.Projects.Count() > 1)
+        {
+            <a class="left carousel-control" href="#carousel-projects" role="button" data-slide="prev">
+                @*<span class="glyphicon icon-prev" aria-hidden="true"></span>*@
+                <i class="fa fa-angle-left carousel-arrow"></i>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-projects" role="button" data-slide="next">
+                @*<span class="glyphicon icon-next" aria-hidden="true"></span>*@
+                <i class="fa fa-angle-right carousel-arrow"></i>
+                <span class="sr-only">Next</span>
+            </a>
+        }
     </header>
 }
 
@@ -130,18 +132,31 @@
 
 @section scripts
 {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".fill, .info-container").each(function (index, Element) {
-                //$(Element).css("background-image", "url(\'\')");
-                //$(Element).waitForImages({
-                //    waitForAll: true,
-                //    finished: function () {
-                //        //console.log(index + " image waited.");
-                //        //$(Element).css("bg-black", 400, "linear");
-                //    }
-                //});
-            });
-        });
-    </script>
+<script type="text/javascript">
+$(document).ready(function () {
+    var blazy = new Blazy({
+        success: function (ele, msg) {
+            console.log("blazy succ: " + msg);                    
+        },
+        error: function (ele, msg) {
+            console.log("blazy error: " + msg);
+        }
+    });
+
+    $("#carousel-projects").on("slid.bs.carousel", function (event) {
+        blazy.revalidate();
+        //$(event.relatedTarget).child(".b-lazy");
+        //console.log('slided and revalidated');
+    });
+    @*var imgFolder = "@Url.Content(Common.UploadPathImgRel)";
+
+            
+
+    //$('body').hide();
+    $(".fill").each(function (index, Element) {
+        var bgStyle = "url(\'" + imgFolder + Element.id + "?width=" + $(window).width() + "&mode=max\')";
+        $(Element).css("background-image", bgStyle);
+    });*@
+});
+</script>
 }

@@ -39,11 +39,6 @@ h6 {
     margin-right: -0.3em;
 }
 
-.bg-black {
-    background: black;
-    background-image: none;
-}
-
 p {
     margin: 0 0 25px;
     font-size: 14px;
@@ -479,12 +474,9 @@ nav.nav-slider {
     min-height: 100%;
     padding-left: 0;
     padding-right: 0;
-
-    
     // Carousel +
-
     .carousel {
-        height: 100vh;    
+        height: 100vh;
 
         .carousel-inner {
             height: 100vh;
@@ -504,7 +496,7 @@ nav.nav-slider {
                         font-size: large;
                     }
 
-                    @media(max-width:767px) {                    
+                    @media(max-width:767px) {
                         h2 {
                             font-size: large;
                         }
@@ -520,17 +512,15 @@ nav.nav-slider {
                     height: 100%;
                     background-position: center;
                     background-size: cover;
-                    -webkit-transition: all .1s linear;
-                    -moz-transition: all .1s linear;
-                    -o-transition: all .1s linear;
-                    transition: all .1s linear;
+                    -webkit-animation: fillanim 0.4s;
+                    -moz-animation: fillanim 0.4s;
+                    -o-animation: fillanim 0.4s;
+                    animation: fillanim 0.4s;
                 }
             }
         }
     }
-
     // Carousel -
-    
     header.row-fullpage {
         margin-top: 0;
         margin-left: 0;
@@ -540,13 +530,13 @@ nav.nav-slider {
     .row-fullpage {
         height: 100vh;
         max-height: 100vh;
-        display: table;                   
+        display: table;
         margin-top: 15px;
 
         .row-middle-content {
             display: table-cell;
             vertical-align: middle;
-            max-height: 100%;    
+            max-height: 100%;
 
             .content-image-container {
                 padding: 0;
@@ -561,7 +551,7 @@ nav.nav-slider {
     }
 
     .row-details-list {
-        min-height: 100%;    
+        min-height: 100%;
         margin-bottom: 15px;
 
         .col-fullpage {
@@ -592,6 +582,19 @@ nav.nav-slider {
         }
     }
 }
+
+@-webkit-keyframes fillanim {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Standard syntax */
+@keyframes fillanim {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
 /* PHOTOGRAM - */
 
 
@@ -701,4 +704,17 @@ img::selection {
 
 img::-moz-selection {
     background: transparent;
+}
+
+.b-lazy {    
+    -webkit-transition: opacity 500ms ease-in-out;
+       -moz-transition: opacity 500ms ease-in-out;
+         -o-transition: opacity 500ms ease-in-out;
+            transition: opacity 500ms ease-in-out;
+             max-width: 100%;
+               opacity: 0;
+}
+
+ .b-lazy.b-loaded {
+    opacity: 1;
 }

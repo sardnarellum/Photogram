@@ -31,10 +31,6 @@ h6 {
   letter-spacing: 0.3em;
   margin-right: -0.3em;
 }
-.bg-black {
-  background: black;
-  background-image: none;
-}
 p {
   margin: 0 0 25px;
   font-size: 14px;
@@ -420,10 +416,10 @@ nav.nav-slider .nav-project-details li:last-of-type a {
   height: 100%;
   background-position: center;
   background-size: cover;
-  -webkit-transition: all .1s linear;
-  -moz-transition: all .1s linear;
-  -o-transition: all .1s linear;
-  transition: all .1s linear;
+  -webkit-animation: fillanim 0.4s;
+  -moz-animation: fillanim 0.4s;
+  -o-animation: fillanim 0.4s;
+  animation: fillanim 0.4s;
 }
 .container-fullpage header.row-fullpage {
   margin-top: 0;
@@ -472,6 +468,23 @@ nav.nav-slider .nav-project-details li:last-of-type a {
 }
 .container-fullpage .row .content-data p {
   font-size: small;
+}
+@-webkit-keyframes fillanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Standard syntax */
+@keyframes fillanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 /* PHOTOGRAM - */
 .download-section {
@@ -569,4 +582,15 @@ img::selection {
 }
 img::-moz-selection {
   background: transparent;
+}
+.b-lazy {
+  -webkit-transition: opacity 500ms ease-in-out;
+  -moz-transition: opacity 500ms ease-in-out;
+  -o-transition: opacity 500ms ease-in-out;
+  transition: opacity 500ms ease-in-out;
+  max-width: 100%;
+  opacity: 0;
+}
+.b-lazy.b-loaded {
+  opacity: 1;
 }
