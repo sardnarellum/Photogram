@@ -79,9 +79,6 @@
                 var fileName = Model.Projects[i].ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
                 var description = Model.Projects[i].CurrentDescriptionText();
                 var bgUrl = Url.Content(string.Concat(Common.UploadPathImgRel, fileName));
-                var headerBg = string.Concat("-webkit-image-set(url(\'",
-                    bgUrl, "?width=1920&mode=max\') 1x, url(\'",
-                    bgUrl, "?width=2880&mode=max\') 2x)");
                 if (description.Length > 0)
                 {
                     var sentenceEnd = description.IndexOf('.');
@@ -93,7 +90,7 @@
                 <div class="item @classParam">
                     <div id="@fileName"
                          class="fill b-lazy"
-                         data-src="@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")">                        
+                         data-src="@string.Concat(bgUrl, "?width={w}&height={h}&mode=crop")">                        
                     </div>
                     <div class="carousel-caption">
                         <h2 class="wide-spacing">@Model.Projects[i].CurrentTitleText()</h2>
@@ -135,28 +132,14 @@
 <script type="text/javascript">
 $(document).ready(function () {
     var blazy = new Blazy({
-        success: function (ele, msg) {
-            console.log("blazy succ: " + msg);                    
-        },
-        error: function (ele, msg) {
-            console.log("blazy error: " + msg);
-        }
+        dynamic: true,
+        offset: 540,
+        maxSideLength: 3200
     });
 
     $("#carousel-projects").on("slid.bs.carousel", function (event) {
         blazy.revalidate();
-        //$(event.relatedTarget).child(".b-lazy");
-        //console.log('slided and revalidated');
     });
-    @*var imgFolder = "@Url.Content(Common.UploadPathImgRel)";
-
-            
-
-    //$('body').hide();
-    $(".fill").each(function (index, Element) {
-        var bgStyle = "url(\'" + imgFolder + Element.id + "?width=" + $(window).width() + "&mode=max\')";
-        $(Element).css("background-image", bgStyle);
-    });*@
 });
 </script>
 }

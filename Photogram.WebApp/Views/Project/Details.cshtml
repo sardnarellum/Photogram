@@ -9,12 +9,9 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
     var bgFileName = Model.ProjectInclude.Where(x => x.Cover).FirstOrDefault().Media.FileName;
     var bgUrl = Url.Content(string.Concat(Common.UploadPathImgRel, bgFileName));
-    var headerBg = string.Concat("-webkit-image-set(url(\'",
-        bgUrl, "?width=1920&mode=max\') 1x, url(\'",
-        bgUrl, "?width=2880&mode=max\') 2x)");
 }
 
-<header class="intro intro-project row row-fullpage" style="background-image:url('@string.Concat(bgUrl, "?width=2500&height=2500&mode=max")'); background-image: @headerBg;">
+<header class="intro intro-project row row-fullpage b-lazy" data-src="@string.Concat(bgUrl, "?width={w}&height={h}&mode=crop")">
     <div class="intro-body">
         <div class="col-sm-8 col-lg-offset-1">
             <h1 class="brand-heading brand-project-heading wide-spacing" role="heading">@Model.CurrentTitleText()</h1>
@@ -56,23 +53,11 @@
             <section id="@elem.Id" class="row row-fullpage">
                 <div class="row-middle-content">
                     <div class="@imgContainerClass content-image-container">
-                        <picture>
-                            <source srcset="@Url.Content(string.Concat(path, "?width=1200&height=1200&mode=max")),
-                                            @Url.Content(string.Concat(path, "?width=2400&height=2400&mode=max")) 2x"
-                                    media="(min-width: 992px)" />
-
-                            <source srcset="@Url.Content(string.Concat(path, "?width=992&height=992&mode=max")),
-                                            @Url.Content(string.Concat(path, "?width=1984&height=1984&mode=max")) 2x"
-                                    media="(min-width: 768px)" />
-
-                            <source srcset="@Url.Content(string.Concat(path, "?width=768&height=768&mode=max")),
-                                            @Url.Content(string.Concat(path, "?width=1536&height=1536&mode=max")) 2x,
-                                            @Url.Content(string.Concat(path, "?width=2304&height=2304&mode=max")) 3x" />
-
-                            <img class="img-responsive"
-                                 src="@Url.Content(string.Concat(path, "?width=1920&height=1920&mode=max"))"
-                                 srcset="@Url.Content(string.Concat(path, "?width=2880&height=2880&mode=max")) 2x" />
-                        </picture>
+                        <img class="b-lazy"
+                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                             data-src="@Url.Content(string.Concat(path, "?width={w}&height={h}&mode=max"))"
+                             alt="@elem.Media.CurrentTitleText()"
+                        />
                     </div>
                     <div class="row row-spacer hidden-sm hidden-md hidden-lg"></div>
                     @if (isTitleExists || isDescExists)
@@ -118,3 +103,15 @@
         </ul>
     </div>
 </nav>
+
+@section scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+        var blazy = new Blazy({
+            dynamic: true,
+            maxSideLength: 2500
+        });
+    });
+</script>
+}

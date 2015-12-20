@@ -3,27 +3,15 @@
 
 @{ 
     Layout = null;
-    var contStyle = "";
-    if (null != Model.Background)
-    {
-        var bgUrl = Url.Content(string.Concat(Common.UploadPathImgRel,
-            Model.Background.FileName));
-        contStyle = "background-image:url(\'" +
-                    bgUrl +
-                    "?width=2500&height=2500&mode=max&s.brightness=-0.1" +
-                    "/\'); background-image: -webkit-image-set(url(\'" +
-                    bgUrl +
-                    "?width=1920&mode=max&s.brightness=-0.05\') 1x, url(\'" +
-                    bgUrl +
-                    "?width=2880&mode=max&s.brightness=-0.05\') 2x);";
-    }
 }
 
 @model AboutModel
 
 <section id="about" class="row row-fullpage text-center">
     <div class="row-middle-content">
-        <div class="col-xs-12 info-container" style="@contStyle">
+        <div class="col-xs-12 info-container b-lazy"
+             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="         
+             data-src="@Url.Content(string.Concat(Common.UploadPathImgRel, Model.Background.FileName, "?width={w}&mode=max&s.brightness=-0.05"))">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 info-container">
                     <h2 class="wide-spacing">@Localization.About</h2>
