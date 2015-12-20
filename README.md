@@ -17,7 +17,10 @@ An ASP.NET based portal system for photographers, artists.
 - Customer accounts with galleries. The contents can be selected and reviewed before purchase.
 
 
-## Version history
+## Changelog
+
+### 0.4
+Lazy image loading implemented with bLazy.js lib. I modified bLazy to support the server's dynamic image resizing feature.
 
 ### 0.3.2
 The items on project details page ordered by include position.
