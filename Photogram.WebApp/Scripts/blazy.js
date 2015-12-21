@@ -49,6 +49,7 @@
         scope.options.offset = scope.options.offset || 100;
         scope.options.dynamic = scope.options.dynamic || false;
         scope.options.maxSideLength = scope.options.maxSideLength || false;
+        scope.options.crop = scope.options.crop || false;
         scope.options.success = scope.options.success || false;
         scope.options.selector = scope.options.selector || '.b-lazy';
         scope.options.separator = scope.options.separator || '|';
@@ -182,17 +183,25 @@
 
                 if (options.dynamic) {
 
+                    var cropW = isImage || !options.crop || window.screen.width < ele.clientWidth
+                        ? window.screen.width
+                        : ele.clientWidth;
+
+                    var cropH = isImage || !options.crop || window.screen.height < ele.clientHeight
+                        ? window.screen.height
+                        : ele.clientHeight;
+
                     var width = options.maxSideLength
-                        ? (window.screen.width * devicePixelRatio <= options.maxSideLength
-                            ? window.screen.width * devicePixelRatio
+                        ? (cropW * devicePixelRatio <= options.maxSideLength
+                            ? cropW * devicePixelRatio
                             : options.maxSideLength)
-                        : window.screen.width * devicePixelRatio;
+                        : cropW * devicePixelRatio;
 
                     var height = options.maxSideLength
-                        ? (window.screen.height * devicePixelRatio <= options.maxSideLength
-                            ? window.screen.height * devicePixelRatio
+                        ? (cropH * devicePixelRatio <= options.maxSideLength
+                            ? cropH * devicePixelRatio
                             : options.maxSideLength)
-                        : window.screen.height * devicePixelRatio;
+                        : cropH * devicePixelRatio;
 
                     src = src.replace("{w}", width)
                              .replace("{h}", height);
