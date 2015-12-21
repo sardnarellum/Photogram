@@ -19,6 +19,9 @@ An ASP.NET based portal system for photographers, artists.
 
 ## Changelog
 
+### 0.4.1
+Background images are cropped to match their container elements' size on the server to get an image that exactly sized to the visible space.
+
 ### 0.4
 Lazy image loading implemented with bLazy.js lib. I modified bLazy to support the server's dynamic image resizing feature.
 
