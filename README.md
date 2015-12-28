@@ -19,6 +19,9 @@ An ASP.NET based portal system for photographers, artists.
 
 ## Changelog
 
+### 0.5
+Azure App Insights tracking code added to public layout.
+
 ### 0.4.1
 Background images are cropped to match their container elements' size on the server to get an image that exactly sized to the visible space.
 
