@@ -402,6 +402,7 @@ nav.nav-slider .nav-project-details li:last-of-type a {
 }
 .container-fullpage .carousel .carousel-inner .item .carousel-caption p {
   font-size: large;
+  margin-bottom: 15px;
 }
 @media (max-width: 767px) {
   .container-fullpage .carousel .carousel-inner .item .carousel-caption h2 {
@@ -531,6 +532,7 @@ nav.nav-slider .nav-project-details li:last-of-type a {
 header .btn-default {
   border: 1px solid white;
   color: white;
+  margin-bottom: 15px;
 }
 ul.banner-buttons {
   margin-top: 0;
