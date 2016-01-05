@@ -95,10 +95,10 @@
     <div class="col-xs-12">
         <ul class="list-inline banner-buttons">
             <li>
-                @Html.ActionLink(Localization.Back, "Index", "Home", new { }, new { @class = "btn btn-default btn-lg" })
+                @Html.RawActionLink("<i class=\"fa fa-home fa-fw\"></i>", "Index", "Home", new { }, new { @class = "btn btn-default btn-lg" })
             </li>
             <li>
-                <a href="#page-top" class="btn btn-default btn-lg page-scroll" aria-label="@Localization.PageTop"><i class="fa fa-arrow-up"></i></a>
+                <a href="#page-top" class="btn btn-default btn-lg page-scroll" aria-label="@Localization.PageTop"><i class="fa fa- fa-fw"></i></a>
             </li>
         </ul>
     </div>
