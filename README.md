@@ -19,6 +19,11 @@ An ASP.NET based portal system for photographers, artists.
 
 ## Changelog
 
+### 0.6
+- Bugfixes
+- Indicators added to carousel, bigger arrows to better visibility.
+- Minor changes on details page.
+
 ### 0.5
 Azure App Insights tracking code added to public layout.
 
