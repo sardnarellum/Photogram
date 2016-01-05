@@ -91,7 +91,7 @@ namespace Photogram.WebApp.Controllers
 
                 CultureManagement.SetCulture(lcid);
             }
-            catch (CultureNotFoundException) { }
+            catch (CultureNotFoundException) {  } // Exceptions could be logged.
             catch (Exception) {  }
 
             return base.BeginExecuteCore(callback, state);

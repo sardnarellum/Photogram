@@ -45,7 +45,6 @@ namespace Photogram.WebApp.Models
             finally
             {
                 db.Dispose();
-                // It is a hotfix now. Needs better solution.
             }
         }
 
