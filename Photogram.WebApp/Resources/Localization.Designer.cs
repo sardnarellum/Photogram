@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go back to the Homepage.
+        /// </summary>
+        public static string BackToHome {
+            get {
+                return ResourceManager.GetString("BackToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string Browse {
@@ -619,7 +628,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page Top.
+        ///   Looks up a localized string similar to Go to the page top.
         /// </summary>
         public static string PageTop {
             get {

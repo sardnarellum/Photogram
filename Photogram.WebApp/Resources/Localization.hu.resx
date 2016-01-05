@@ -402,4 +402,7 @@
   <data name="NoBackground" xml:space="preserve">
     <value>Nincs háttér</value>
   </data>
+  <data name="BackToHome" xml:space="preserve">
+    <value>Vissza a főoldalra</value>
+  </data>
 </root>
