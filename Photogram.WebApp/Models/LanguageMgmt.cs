@@ -1,4 +1,5 @@
 ﻿using Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -25,40 +26,65 @@ namespace Photogram.WebApp.Models
 
     public static class CultureManagement
     {
+
+        /// <exception cref="CultureNotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void SetCulture(int lcid)
         {
-            var cultureInfo = new CultureInfo(lcid);
             var db = new PhotogramEntities();
-            var language = db.Language.Where(x => x.LCID == cultureInfo.LCID).FirstOrDefault();
-
-            db.Dispose();
-
-            if (null != language)
+            try
             {
-                SetCulture(language);
+                var cultureInfo = new CultureInfo(lcid);
+                var language = db.Language.Where(x => x.LCID == cultureInfo.LCID).FirstOrDefault();
+
+                if (null != language)
+                {
+                    SetCulture(language);
+                }
+            }
+            finally
+            {
+                db.Dispose();
             }
         }
 
+        /// <summary>
+        /// Sets the current thread's culture if the given language is available.
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <exception cref="CultureNotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void SetCulture(string lang)
         {
-            var cultureInfo = new CultureInfo(lang);
             var db = new PhotogramEntities();
-            var language = db.Language.Where(x => x.LCID == cultureInfo.LCID).FirstOrDefault();
-
-            db.Dispose();
-
-            if (null != language)
+            try
             {
-                SetCulture(language);
+                var cultureInfo = new CultureInfo(lang);
+                var language = db.Language.Where(x => x.LCID == cultureInfo.LCID).FirstOrDefault();
+
+                if (null != language)
+                {
+                    SetCulture(language);
+                }
+            }
+            finally
+            {
+                db.Dispose();
             }
         }
 
+        /// <summary>
+        /// Sets the current thread's culture.
+        /// </summary>
+        /// <exception cref="CultureNotFoundException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void SetCulture(Language lang)
         {
             var cultureInfo = new CultureInfo(lang.LCID);
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
             Thread.CurrentThread.CurrentCulture =
-                CultureInfo.CreateSpecificCulture(cultureInfo.Name);
+            CultureInfo.CreateSpecificCulture(cultureInfo.Name);
         }
     }
 }

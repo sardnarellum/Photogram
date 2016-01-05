@@ -6,6 +6,8 @@ using System.IO;
 using System.Net;
 using Resources;
 using System.Web;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace Photogram.WebApp.Controllers
 {
@@ -43,7 +45,7 @@ namespace Photogram.WebApp.Controllers
 
             var setup = _db.Setup.FirstOrDefault();
 
-            ViewBag.Years = new SelectList(
+            ViewBag.Years = new SelectList( // Ez mit keres itt?????
                     Enumerable.Range(DateTime.Now.Year - 50, DateTime.Now.Year)
                     .OrderByDescending(year => year)
                     .Select(year => new SelectListItem
@@ -66,26 +68,31 @@ namespace Photogram.WebApp.Controllers
 
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
-            int lcid = 1033;
-            HttpCookie langCookie = Request.Cookies["culture"];
+            try
+            {
+                int lcid = 1033;
+                HttpCookie langCookie = Request.Cookies["culture"];
 
-            if (langCookie != null)
-            {
-                lcid = int.Parse(langCookie.Value);
-            }
-            else
-            {
-                var userLanguage = Request.UserLanguages;
-                var userLang = userLanguage != null ? userLanguage[0] : "";
-                if (userLang != "")
+                if (langCookie != null)
                 {
-                    CultureManagement.SetCulture(userLang);
-
-                    return base.BeginExecuteCore(callback, state);
+                    lcid = int.Parse(langCookie.Value);
                 }
-            }
+                else
+                {
+                    var userLanguage = Request.UserLanguages;
+                    var userLang = userLanguage != null ? userLanguage[0] : "";
+                    if (userLang != "")
+                    {
+                        CultureManagement.SetCulture(userLang);
 
-            CultureManagement.SetCulture(lcid);
+                        return base.BeginExecuteCore(callback, state);
+                    }
+                }
+
+                CultureManagement.SetCulture(lcid);
+            }
+            catch (CultureNotFoundException) {  } // Exceptions could be logged.
+            catch (Exception) {  }
 
             return base.BeginExecuteCore(callback, state);
         }
