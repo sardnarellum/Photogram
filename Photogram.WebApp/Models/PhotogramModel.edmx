@@ -944,7 +944,7 @@
           <Property Name="Lead" Type="String" Nullable="true" />
           <Property Name="Body" Type="String" Nullable="true" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="Tag" Relationship="PhotogramModel.BlogPostTag" FromRole="BlogPost" ToRole="Tag" />
+          <NavigationProperty Name="Tags" Relationship="PhotogramModel.BlogPostTag" FromRole="BlogPost" ToRole="Tag" />
           <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaBlogPost" FromRole="BlogPost" ToRole="Media" />
           <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
         </EntityType>

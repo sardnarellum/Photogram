@@ -17,7 +17,7 @@ namespace Photogram.WebApp.Models
         public BlogPost()
         {
             this.Visible = false;
-            this.Tag = new HashSet<Tag>();
+            this.Tags = new HashSet<Tag>();
             this.Media = new HashSet<Media>();
         }
     
@@ -28,7 +28,7 @@ namespace Photogram.WebApp.Models
         public System.DateTime Modified { get; set; }
         public bool Visible { get; set; }
     
-        public virtual ICollection<Tag> Tag { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Media> Media { get; set; }
     }
 }
