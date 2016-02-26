@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/12/2015 08:30:04
+-- Date Created: 02/26/2016 16:32:58
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -56,6 +56,21 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SetupContactBg]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Setup] DROP CONSTRAINT [FK_SetupContactBg];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SetupAboutBg]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Setup] DROP CONSTRAINT [FK_SetupAboutBg];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BlogPostTag_BlogPost]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BlogPostTag] DROP CONSTRAINT [FK_BlogPostTag_BlogPost];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BlogPostTag_Tag]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BlogPostTag] DROP CONSTRAINT [FK_BlogPostTag_Tag];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MediaBlogPost_Media]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[MediaBlogPost] DROP CONSTRAINT [FK_MediaBlogPost_Media];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MediaBlogPost_BlogPost]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[MediaBlogPost] DROP CONSTRAINT [FK_MediaBlogPost_BlogPost];
+GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectTitle_inherits_Translation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectTitle_inherits_Translation];
 GO
@@ -106,6 +121,12 @@ GO
 IF OBJECT_ID(N'[dbo].[ProjectInclude]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ProjectInclude];
 GO
+IF OBJECT_ID(N'[dbo].[BlogPost]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BlogPost];
+GO
+IF OBJECT_ID(N'[dbo].[Tag]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tag];
+GO
 IF OBJECT_ID(N'[dbo].[Translation_ProjectTitle]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Translation_ProjectTitle];
 GO
@@ -132,6 +153,12 @@ IF OBJECT_ID(N'[dbo].[Translation_SetupContactLead]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Translation_SetupAboutLead]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Translation_SetupAboutLead];
+GO
+IF OBJECT_ID(N'[dbo].[BlogPostTag]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BlogPostTag];
+GO
+IF OBJECT_ID(N'[dbo].[MediaBlogPost]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[MediaBlogPost];
 GO
 
 -- --------------------------------------------------
@@ -193,6 +220,24 @@ CREATE TABLE [dbo].[ProjectInclude] (
     [Cover] bit  NOT NULL,
     [Project_Id] int  NOT NULL,
     [Media_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'BlogPost'
+CREATE TABLE [dbo].[BlogPost] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Title] nvarchar(max)  NULL,
+    [Lead] nvarchar(max)  NULL,
+    [Body] nvarchar(max)  NULL,
+    [Modified] datetime  NOT NULL,
+    [Visible] bit  NOT NULL
+);
+GO
+
+-- Creating table 'Tag'
+CREATE TABLE [dbo].[Tag] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(50)  NOT NULL
 );
 GO
 
@@ -259,6 +304,20 @@ CREATE TABLE [dbo].[Translation_SetupAboutLead] (
 );
 GO
 
+-- Creating table 'BlogPostTag'
+CREATE TABLE [dbo].[BlogPostTag] (
+    [BlogPost_Id] int  NOT NULL,
+    [Tag_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'MediaBlogPost'
+CREATE TABLE [dbo].[MediaBlogPost] (
+    [Media_Id] int  NOT NULL,
+    [BlogPost_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -296,6 +355,18 @@ GO
 -- Creating primary key on [Id] in table 'ProjectInclude'
 ALTER TABLE [dbo].[ProjectInclude]
 ADD CONSTRAINT [PK_ProjectInclude]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'BlogPost'
+ALTER TABLE [dbo].[BlogPost]
+ADD CONSTRAINT [PK_BlogPost]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Tag'
+ALTER TABLE [dbo].[Tag]
+ADD CONSTRAINT [PK_Tag]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -351,6 +422,18 @@ GO
 ALTER TABLE [dbo].[Translation_SetupAboutLead]
 ADD CONSTRAINT [PK_Translation_SetupAboutLead]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [BlogPost_Id], [Tag_Id] in table 'BlogPostTag'
+ALTER TABLE [dbo].[BlogPostTag]
+ADD CONSTRAINT [PK_BlogPostTag]
+    PRIMARY KEY CLUSTERED ([BlogPost_Id], [Tag_Id] ASC);
+GO
+
+-- Creating primary key on [Media_Id], [BlogPost_Id] in table 'MediaBlogPost'
+ALTER TABLE [dbo].[MediaBlogPost]
+ADD CONSTRAINT [PK_MediaBlogPost]
+    PRIMARY KEY CLUSTERED ([Media_Id], [BlogPost_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -565,6 +648,54 @@ GO
 CREATE INDEX [IX_FK_SetupAboutBg]
 ON [dbo].[Setup]
     ([AboutBackground_Id]);
+GO
+
+-- Creating foreign key on [BlogPost_Id] in table 'BlogPostTag'
+ALTER TABLE [dbo].[BlogPostTag]
+ADD CONSTRAINT [FK_BlogPostTag_BlogPost]
+    FOREIGN KEY ([BlogPost_Id])
+    REFERENCES [dbo].[BlogPost]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Tag_Id] in table 'BlogPostTag'
+ALTER TABLE [dbo].[BlogPostTag]
+ADD CONSTRAINT [FK_BlogPostTag_Tag]
+    FOREIGN KEY ([Tag_Id])
+    REFERENCES [dbo].[Tag]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_BlogPostTag_Tag'
+CREATE INDEX [IX_FK_BlogPostTag_Tag]
+ON [dbo].[BlogPostTag]
+    ([Tag_Id]);
+GO
+
+-- Creating foreign key on [Media_Id] in table 'MediaBlogPost'
+ALTER TABLE [dbo].[MediaBlogPost]
+ADD CONSTRAINT [FK_MediaBlogPost_Media]
+    FOREIGN KEY ([Media_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [BlogPost_Id] in table 'MediaBlogPost'
+ALTER TABLE [dbo].[MediaBlogPost]
+ADD CONSTRAINT [FK_MediaBlogPost_BlogPost]
+    FOREIGN KEY ([BlogPost_Id])
+    REFERENCES [dbo].[BlogPost]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MediaBlogPost_BlogPost'
+CREATE INDEX [IX_FK_MediaBlogPost_BlogPost]
+ON [dbo].[MediaBlogPost]
+    ([BlogPost_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Translation_ProjectTitle'

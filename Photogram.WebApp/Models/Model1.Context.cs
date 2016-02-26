@@ -31,5 +31,7 @@ namespace Photogram.WebApp.Models
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<Translation> Translation { get; set; }
         public virtual DbSet<ProjectInclude> ProjectInclude { get; set; }
+        public virtual DbSet<BlogPost> BlogPost { get; set; }
+        public virtual DbSet<Tag> Tag { get; set; }
     }
 }

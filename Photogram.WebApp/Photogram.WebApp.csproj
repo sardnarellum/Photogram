@@ -217,6 +217,9 @@
     <Compile Include="Models\AboutContactModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AjaxHelperExtensions.cs" />
+    <Compile Include="Models\BlogPost.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DynamicImageResult.cs" />
     <Compile Include="Models\EntityExtensions.cs" />
     <Compile Include="Models\FileData.cs" />
@@ -298,6 +301,9 @@
     </Compile>
     <Compile Include="Models\SetupViewModel.cs" />
     <Compile Include="Models\MediaViewModel.cs" />
+    <Compile Include="Models\Tag.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThumbnailViewModel.cs" />
     <Compile Include="Models\Translation.cs">
       <DependentUpon>Model1.tt</DependentUpon>

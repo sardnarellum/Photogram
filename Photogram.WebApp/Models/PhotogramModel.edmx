@@ -12,6 +12,8 @@
     <EntitySet Name="Language" EntityType="PhotogramModel.Store.Language" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation" EntityType="PhotogramModel.Store.Translation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProjectInclude" EntityType="PhotogramModel.Store.ProjectInclude" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BlogPost" EntityType="PhotogramModel.Store.BlogPost" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tag" EntityType="PhotogramModel.Store.Tag" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_ProjectTitle" EntityType="PhotogramModel.Store.Translation_ProjectTitle" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_ProjectDescription" EntityType="PhotogramModel.Store.Translation_ProjectDescription" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_MediaTitle" EntityType="PhotogramModel.Store.Translation_MediaTitle" store:Type="Tables" Schema="dbo" />
@@ -21,6 +23,8 @@
     <EntitySet Name="Translation_SetupAboutBody" EntityType="PhotogramModel.Store.Translation_SetupAboutBody" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_SetupContactLead" EntityType="PhotogramModel.Store.Translation_SetupContactLead" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Translation_SetupAboutLead" EntityType="PhotogramModel.Store.Translation_SetupAboutLead" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BlogPostTag" EntityType="PhotogramModel.Store.BlogPostTag" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MediaBlogPost" EntityType="PhotogramModel.Store.MediaBlogPost" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ProjectProjectTitle" Association="PhotogramModel.Store.ProjectProjectTitle">
       <End Role="Project" EntitySet="Project" />
       <End Role="ProjectTitle" EntitySet="Translation_ProjectTitle" />
@@ -76,6 +80,22 @@
     <AssociationSet Name="MediaSetup" Association="PhotogramModel.Store.SetupAboutBg">
       <End Role="Media" EntitySet="Media" />
       <End Role="Setup" EntitySet="Setup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BlogPostTag_BlogPost" Association="PhotogramModel.Store.FK_BlogPostTag_BlogPost">
+      <End Role="BlogPost" EntitySet="BlogPost" />
+      <End Role="BlogPostTag" EntitySet="BlogPostTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BlogPostTag_Tag" Association="PhotogramModel.Store.FK_BlogPostTag_Tag">
+      <End Role="Tag" EntitySet="Tag" />
+      <End Role="BlogPostTag" EntitySet="BlogPostTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MediaBlogPost_Media" Association="PhotogramModel.Store.FK_MediaBlogPost_Media">
+      <End Role="Media" EntitySet="Media" />
+      <End Role="MediaBlogPost" EntitySet="MediaBlogPost" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MediaBlogPost_BlogPost" Association="PhotogramModel.Store.FK_MediaBlogPost_BlogPost">
+      <End Role="BlogPost" EntitySet="BlogPost" />
+      <End Role="MediaBlogPost" EntitySet="MediaBlogPost" />
     </AssociationSet>
     <AssociationSet Name="FK_ProjectTitle_inherits_Translation" Association="PhotogramModel.Store.FK_ProjectTitle_inherits_Translation">
       <End Role="Translation" EntitySet="Translation" />
@@ -172,6 +192,24 @@
     <Property Name="Project_Id" Type="int" Nullable="false" />
     <Property Name="Media_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="BlogPost">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Lead" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Modified" Type="datetime" Nullable="false" />
+    <Property Name="Visible" Type="bit" Nullable="false" DefaultValue="false" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Translation_ProjectTitle">
     <Key>
       <PropertyRef Name="Id" />
@@ -234,6 +272,22 @@
     </Key>
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="Setup_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BlogPostTag">
+    <Key>
+      <PropertyRef Name="BlogPost_Id" />
+      <PropertyRef Name="Tag_Id" />
+    </Key>
+    <Property Name="BlogPost_Id" Type="int" Nullable="false" />
+    <Property Name="Tag_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MediaBlogPost">
+    <Key>
+      <PropertyRef Name="Media_Id" />
+      <PropertyRef Name="BlogPost_Id" />
+    </Key>
+    <Property Name="Media_Id" Type="int" Nullable="false" />
+    <Property Name="BlogPost_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ProjectProjectTitle">
     <End Role="Project" Type="PhotogramModel.Store.Project" Multiplicity="1">
@@ -424,6 +478,54 @@
       </Principal>
       <Dependent Role="Setup">
         <PropertyRef Name="AboutBackground_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BlogPostTag_BlogPost">
+    <End Role="BlogPost" Type="PhotogramModel.Store.BlogPost" Multiplicity="1" />
+    <End Role="BlogPostTag" Type="PhotogramModel.Store.BlogPostTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BlogPost">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BlogPostTag">
+        <PropertyRef Name="BlogPost_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BlogPostTag_Tag">
+    <End Role="BlogPostTag" Type="PhotogramModel.Store.BlogPostTag" Multiplicity="*" />
+    <End Role="Tag" Type="PhotogramModel.Store.Tag" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BlogPostTag">
+        <PropertyRef Name="Tag_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MediaBlogPost_Media">
+    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="1" />
+    <End Role="MediaBlogPost" Type="PhotogramModel.Store.MediaBlogPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MediaBlogPost">
+        <PropertyRef Name="Media_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MediaBlogPost_BlogPost">
+    <End Role="MediaBlogPost" Type="PhotogramModel.Store.MediaBlogPost" Multiplicity="*" />
+    <End Role="BlogPost" Type="PhotogramModel.Store.BlogPost" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="BlogPost">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MediaBlogPost">
+        <PropertyRef Name="BlogPost_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -620,6 +722,16 @@
             <End Role="Media" EntitySet="Media" />
             <End Role="Setup" EntitySet="Setup" />
           </AssociationSet>
+          <EntitySet Name="BlogPost" EntityType="PhotogramModel.BlogPost" />
+          <EntitySet Name="Tag" EntityType="PhotogramModel.Tag" />
+          <AssociationSet Name="BlogPostTag" Association="PhotogramModel.BlogPostTag">
+            <End Role="BlogPost" EntitySet="BlogPost" />
+            <End Role="Tag" EntitySet="Tag" />
+          </AssociationSet>
+          <AssociationSet Name="MediaBlogPost" Association="PhotogramModel.MediaBlogPost">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="BlogPost" EntitySet="BlogPost" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Setup">
           <Key>
@@ -667,6 +779,7 @@
           <NavigationProperty Name="ProjectInclude" Relationship="PhotogramModel.MediaProjectInclude" FromRole="Media" ToRole="ProjectInclude" />
           <NavigationProperty Name="SetupContactBg" Relationship="PhotogramModel.SetupContactBg" FromRole="Media" ToRole="Setup" />
           <NavigationProperty Name="SetupAboutBg" Relationship="PhotogramModel.SetupAboutBg" FromRole="Media" ToRole="Setup" />
+          <NavigationProperty Name="BlogPost" Relationship="PhotogramModel.MediaBlogPost" FromRole="Media" ToRole="BlogPost" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -822,6 +935,35 @@
           <End Type="PhotogramModel.Media" Role="Media" Multiplicity="0..1" />
           <End Type="PhotogramModel.Setup" Role="Setup" Multiplicity="*" />
         </Association>
+        <EntityType Name="BlogPost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="true" />
+          <Property Name="Lead" Type="String" Nullable="true" />
+          <Property Name="Body" Type="String" Nullable="true" Unicode="true" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Tag" Relationship="PhotogramModel.BlogPostTag" FromRole="BlogPost" ToRole="Tag" />
+          <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaBlogPost" FromRole="BlogPost" ToRole="Media" />
+          <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" Unicode="true" MaxLength="50" />
+          <NavigationProperty Name="BlogPost" Relationship="PhotogramModel.BlogPostTag" FromRole="Tag" ToRole="BlogPost" />
+        </EntityType>
+        <Association Name="BlogPostTag">
+          <End Type="PhotogramModel.BlogPost" Role="BlogPost" Multiplicity="*" />
+          <End Type="PhotogramModel.Tag" Role="Tag" Multiplicity="*" />
+        </Association>
+        <Association Name="MediaBlogPost">
+          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="*" />
+          <End Type="PhotogramModel.BlogPost" Role="BlogPost" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -929,6 +1071,26 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Position" ColumnName="Position" />
           <ScalarProperty Name="Cover" ColumnName="Cover" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BlogPost">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.BlogPost)">
+        <MappingFragment StoreEntitySet="BlogPost">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Lead" ColumnName="Lead" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="Visible" ColumnName="Visible" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tag">
+      <EntityTypeMapping TypeName="IsTypeOf(PhotogramModel.Tag)">
+        <MappingFragment StoreEntitySet="Tag">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1045,6 +1207,22 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="AboutBackground_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="BlogPostTag" TypeName="PhotogramModel.BlogPostTag" StoreEntitySet="BlogPostTag">
+      <EndProperty Name="BlogPost">
+        <ScalarProperty Name="Id" ColumnName="BlogPost_Id" />
+      </EndProperty>
+      <EndProperty Name="Tag">
+        <ScalarProperty Name="Id" ColumnName="Tag_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MediaBlogPost" TypeName="PhotogramModel.MediaBlogPost" StoreEntitySet="MediaBlogPost">
+      <EndProperty Name="Media">
+        <ScalarProperty Name="Id" ColumnName="Media_Id" />
+      </EndProperty>
+      <EndProperty Name="BlogPost">
+        <ScalarProperty Name="Id" ColumnName="BlogPost_Id" />
+      </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

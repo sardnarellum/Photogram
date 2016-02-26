@@ -12,26 +12,16 @@ namespace Photogram.WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Media
+    public partial class Tag
     {
-        public Media()
+        public Tag()
         {
-            this.Title = new HashSet<MediaTitle>();
-            this.Description = new HashSet<MediaDescription>();
-            this.SetupContactBg = new HashSet<Setup>();
-            this.SetupAboutBg = new HashSet<Setup>();
             this.BlogPost = new HashSet<BlogPost>();
         }
     
         public int Id { get; set; }
-        public string FileName { get; set; }
-        public MediaType Type { get; set; }
+        public string Name { get; set; }
     
-        public virtual ICollection<MediaTitle> Title { get; set; }
-        public virtual ICollection<MediaDescription> Description { get; set; }
-        public virtual ProjectInclude ProjectInclude { get; set; }
-        public virtual ICollection<Setup> SetupContactBg { get; set; }
-        public virtual ICollection<Setup> SetupAboutBg { get; set; }
         public virtual ICollection<BlogPost> BlogPost { get; set; }
     }
 }
