@@ -5,6 +5,8 @@ namespace Photogram.WebApp.Models
 {
     public class BlogPostInformation
     {
+        public int Id { get; internal set; }
+
         public string Body { get; internal set; }
 
         public string Lead { get; internal set; }

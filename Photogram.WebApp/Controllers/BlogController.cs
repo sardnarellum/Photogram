@@ -81,6 +81,7 @@ namespace Photogram.WebApp.Controllers
 
             var model = new BlogPostInformation
             {
+                Id = post.Id,
                 Modified = post.Modified,
                 Title = post.Title,
                 Lead = post.Lead,
