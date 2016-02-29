@@ -21,6 +21,7 @@ namespace Photogram.WebApp.Models
             this.SetupContactBg = new HashSet<Setup>();
             this.SetupAboutBg = new HashSet<Setup>();
             this.BlogPost = new HashSet<BlogPost>();
+            this.BlogPostCover = new HashSet<BlogPost>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,6 @@ namespace Photogram.WebApp.Models
         public virtual ICollection<Setup> SetupContactBg { get; set; }
         public virtual ICollection<Setup> SetupAboutBg { get; set; }
         public virtual ICollection<BlogPost> BlogPost { get; set; }
+        public virtual ICollection<BlogPost> BlogPostCover { get; set; }
     }
 }

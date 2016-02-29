@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     less: {
       development: {
         files: {
-          "Content/grayscale.css": "Less/grayscale.less" // destination file and source file
+            "Content/grayscale.css": "Less/grayscale.less" // destination file and source file
         }
       },
       production: {

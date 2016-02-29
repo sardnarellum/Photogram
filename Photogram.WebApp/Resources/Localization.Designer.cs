@@ -133,6 +133,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blog.
+        /// </summary>
+        public static string BlogAdminTitle {
+            get {
+                return ResourceManager.GetString("BlogAdminTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string Browse {

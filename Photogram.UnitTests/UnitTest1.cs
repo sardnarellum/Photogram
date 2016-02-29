@@ -1,5 +1,6 @@
 ﻿using System;
 using Photogram.WebApp.Models;
+using Photogram.WebApp.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 
@@ -35,6 +36,21 @@ namespace Photogram.UnitTests
         {
             string str = null;
             CultureManagement.SetCulture(str);
+        }
+    }
+
+    [TestClass]
+    public class BlogTests
+    {
+        [TestMethod]
+        public void EmptyPost()
+        {
+            var ctrl = new BlogAdminController();
+
+            var result = ctrl.Edit(new BlogPostInformation());
+            dynamic dresult = result.Data;
+
+            Assert.AreEqual(true, dresult.Success);
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+    "name": "Photogram.NET",
+    "version": "0.6",
+    "authors": [
+        "András Müller <info@andrasmuller.com>"
+    ],
+    "ignore": [
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "startbootstrap-sb-admin-2": "1.0.8"
+    }
+}

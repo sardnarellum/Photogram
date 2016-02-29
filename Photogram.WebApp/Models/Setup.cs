@@ -17,6 +17,7 @@ namespace Photogram.WebApp.Models
         public Setup()
         {
             this.Published = false;
+            this.BlogVisible = false;
             this.MainTitle = new HashSet<SetupMainTitle>();
             this.Footer = new HashSet<SetupFooter>();
             this.AboutLead = new HashSet<SetupAboutLead>();
@@ -32,6 +33,8 @@ namespace Photogram.WebApp.Models
         public string InstagramURL { get; set; }
         public string GitHubURL { get; set; }
         public string LinkedInURL { get; set; }
+        public string BlogName { get; set; }
+        public bool BlogVisible { get; set; }
     
         public virtual ICollection<SetupMainTitle> MainTitle { get; set; }
         public virtual ICollection<SetupFooter> Footer { get; set; }

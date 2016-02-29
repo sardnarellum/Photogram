@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="00e0d2930ee745efbef8babf24aa94cf" Name="Diagram1" ZoomLevel="81" >
-        <EntityTypeShape EntityType="PhotogramModel.Setup" Width="1.75" PointX="5.75" PointY="1.125" FillColor="255, 255, 128" />
-        <EntityTypeShape EntityType="PhotogramModel.Project" Width="1.5" PointX="1.25" PointY="10.75" FillColor="128, 255, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.Setup" Width="1.75" PointX="5.75" PointY="0.5" FillColor="255, 255, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.Project" Width="1.5" PointX="2" PointY="10.75" FillColor="128, 255, 128" />
         <EntityTypeShape EntityType="PhotogramModel.Media" Width="1.5" PointX="0.75" PointY="4.625" FillColor="255, 128, 128" />
         <EntityTypeShape EntityType="PhotogramModel.Language" Width="1.5" PointX="9.5" PointY="6" FillColor="128, 255, 255" />
         <EntityTypeShape EntityType="PhotogramModel.ProjectTitle" Width="1.5" PointX="7.625" PointY="9.375" FillColor="128, 255, 128" />
@@ -14,7 +14,7 @@
         <EntityTypeShape EntityType="PhotogramModel.ProjectDescription" Width="2" PointX="4.75" PointY="9.375" FillColor="128, 255, 128" />
         <AssociationConnector Association="PhotogramModel.ProjectProjectDescription" />
         <EntityTypeShape EntityType="PhotogramModel.MediaTitle" Width="1.5" PointX="3" PointY="4.625" FillColor="255, 128, 128" />
-        <EntityTypeShape EntityType="PhotogramModel.MediaDescription" Width="1.5" PointX="3" PointY="8.5" FillColor="255, 128, 128" />
+        <EntityTypeShape EntityType="PhotogramModel.MediaDescription" Width="1.5" PointX="3.625" PointY="7.875" FillColor="255, 128, 128" />
         <EntityTypeShape EntityType="PhotogramModel.SetupMainTitle" Width="1.5" PointX="3.25" PointY="2.375" FillColor="255, 255, 128" />
         <EntityTypeShape EntityType="PhotogramModel.SetupFooter" Width="1.5" PointX="8.125" PointY="3.375" FillColor="255, 255, 128" />
         <AssociationConnector Association="PhotogramModel.MediaMediaTitle" />
@@ -29,7 +29,7 @@
         <InheritanceConnector EntityType="PhotogramModel.MediaTitle" />
         <InheritanceConnector EntityType="PhotogramModel.MediaDescription" />
         <AssociationConnector Association="PhotogramModel.LanguageTranslation" />
-        <EntityTypeShape EntityType="PhotogramModel.ProjectInclude" Width="1.5" PointX="1.25" PointY="8" />
+        <EntityTypeShape EntityType="PhotogramModel.ProjectInclude" Width="1.5" PointX="1.875" PointY="8.375" />
         <AssociationConnector Association="PhotogramModel.ProjectIncludeProject" />
         <AssociationConnector Association="PhotogramModel.MediaProjectInclude" />
         <EntityTypeShape EntityType="PhotogramModel.SetupAboutBody" Width="1.5" PointX="9.5" PointY="1.75" FillColor="255, 255, 128" />
@@ -48,10 +48,11 @@
         <EntityTypeShape EntityType="PhotogramModel.Tag" Width="1.5" PointX="7" PointY="12.75" />
         <AssociationConnector Association="PhotogramModel.BlogPostTag" />
         <AssociationConnector Association="PhotogramModel.MediaBlogPost" ManuallyRouted="true" >
-          <ConnectorPoint PointX="0.90296354543813906" PointY="7.3744921875" />
-          <ConnectorPoint PointX="0.90296354543813906" PointY="14.028595377604166" />
-          <ConnectorPoint PointX="3.875" PointY="14.028595377604166" />
+          <ConnectorPoint PointX="1.1381199380408804" PointY="7.5667936197916665" />
+          <ConnectorPoint PointX="1.1381199380408804" PointY="14.561116854406437" />
+          <ConnectorPoint PointX="3.875" PointY="14.561116854406437" />
         </AssociationConnector>
+        <AssociationConnector Association="PhotogramModel.BlogPostCover" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

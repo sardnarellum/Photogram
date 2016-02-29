@@ -14,7 +14,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Photogram.WebApp</RootNamespace>
-    <AssemblyName>Photogram.WebApp</AssemblyName>
+    <AssemblyName>Photogram</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -330,6 +330,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\ajax-loader-big.gif" />
+    <None Include="bower.json" />
     <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -482,6 +483,8 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Scripts\jquery.waitforimages.min.js" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\BlogAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

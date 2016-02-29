@@ -97,6 +97,10 @@
       <End Role="BlogPost" EntitySet="BlogPost" />
       <End Role="MediaBlogPost" EntitySet="MediaBlogPost" />
     </AssociationSet>
+    <AssociationSet Name="MediaBlogPost1" Association="PhotogramModel.Store.BlogPostCover">
+      <End Role="Media" EntitySet="Media" />
+      <End Role="BlogPost" EntitySet="BlogPost" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProjectTitle_inherits_Translation" Association="PhotogramModel.Store.FK_ProjectTitle_inherits_Translation">
       <End Role="Translation" EntitySet="Translation" />
       <End Role="ProjectTitle" EntitySet="Translation_ProjectTitle" />
@@ -146,6 +150,8 @@
     <Property Name="InstagramURL" Type="nvarchar" Nullable="true" MaxLength="500" />
     <Property Name="GitHubURL" Type="nvarchar" Nullable="true" MaxLength="500" />
     <Property Name="LinkedInURL" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="BlogName" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="BlogVisible" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="ContactBackground_Id" Type="int" Nullable="true" />
     <Property Name="AboutBackground_Id" Type="int" Nullable="true" />
   </EntityType>
@@ -202,6 +208,7 @@
     <Property Name="Body" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified" Type="datetime" Nullable="false" />
     <Property Name="Visible" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Cover_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Tag">
     <Key>
@@ -276,10 +283,10 @@
   <EntityType Name="BlogPostTag">
     <Key>
       <PropertyRef Name="BlogPost_Id" />
-      <PropertyRef Name="Tag_Id" />
+      <PropertyRef Name="Tags_Id" />
     </Key>
     <Property Name="BlogPost_Id" Type="int" Nullable="false" />
-    <Property Name="Tag_Id" Type="int" Nullable="false" />
+    <Property Name="Tags_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MediaBlogPost">
     <Key>
@@ -481,6 +488,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="BlogPostCover">
+    <End Role="Media" Type="PhotogramModel.Store.Media" Multiplicity="0..1" />
+    <End Role="BlogPost" Type="PhotogramModel.Store.BlogPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BlogPost">
+        <PropertyRef Name="Cover_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_BlogPostTag_BlogPost">
     <End Role="BlogPost" Type="PhotogramModel.Store.BlogPost" Multiplicity="1" />
     <End Role="BlogPostTag" Type="PhotogramModel.Store.BlogPostTag" Multiplicity="*" />
@@ -501,7 +520,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="BlogPostTag">
-        <PropertyRef Name="Tag_Id" />
+        <PropertyRef Name="Tags_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -732,6 +751,10 @@
             <End Role="Media" EntitySet="Media" />
             <End Role="BlogPost" EntitySet="BlogPost" />
           </AssociationSet>
+          <AssociationSet Name="MediaBlogPost1" Association="PhotogramModel.BlogPostCover">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="BlogPost" EntitySet="BlogPost" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Setup">
           <Key>
@@ -752,6 +775,8 @@
           <Property Name="LinkedInURL" Type="String" Nullable="true" MaxLength="500" />
           <NavigationProperty Name="ContactBackground" Relationship="PhotogramModel.SetupContactBg" FromRole="Setup" ToRole="Media" />
           <NavigationProperty Name="AboutBackground" Relationship="PhotogramModel.SetupAboutBg" FromRole="Setup" ToRole="Media" />
+          <Property Name="BlogName" Type="String" Nullable="true" Unicode="true" MaxLength="100" />
+          <Property Name="BlogVisible" Type="Boolean" Nullable="false" DefaultValue="False" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -780,6 +805,7 @@
           <NavigationProperty Name="SetupContactBg" Relationship="PhotogramModel.SetupContactBg" FromRole="Media" ToRole="Setup" />
           <NavigationProperty Name="SetupAboutBg" Relationship="PhotogramModel.SetupAboutBg" FromRole="Media" ToRole="Setup" />
           <NavigationProperty Name="BlogPost" Relationship="PhotogramModel.MediaBlogPost" FromRole="Media" ToRole="BlogPost" />
+          <NavigationProperty Name="BlogPostCover" Relationship="PhotogramModel.BlogPostCover" FromRole="Media" ToRole="BlogPost" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -947,6 +973,7 @@
           <NavigationProperty Name="Tags" Relationship="PhotogramModel.BlogPostTag" FromRole="BlogPost" ToRole="Tag" />
           <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaBlogPost" FromRole="BlogPost" ToRole="Media" />
           <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <NavigationProperty Name="Cover" Relationship="PhotogramModel.BlogPostCover" FromRole="BlogPost" ToRole="Media" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -962,6 +989,10 @@
         </Association>
         <Association Name="MediaBlogPost">
           <End Type="PhotogramModel.Media" Role="Media" Multiplicity="*" />
+          <End Type="PhotogramModel.BlogPost" Role="BlogPost" Multiplicity="*" />
+        </Association>
+        <Association Name="BlogPostCover">
+          <End Type="PhotogramModel.Media" Role="Media" Multiplicity="0..1" />
           <End Type="PhotogramModel.BlogPost" Role="BlogPost" Multiplicity="*" />
         </Association>
         </Schema>
@@ -981,6 +1012,8 @@
           <ScalarProperty Name="InstagramURL" ColumnName="InstagramURL" />
           <ScalarProperty Name="GitHubURL" ColumnName="GitHubURL" />
           <ScalarProperty Name="LinkedInURL" ColumnName="LinkedInURL" />
+          <ScalarProperty Name="BlogName" ColumnName="BlogName" />
+          <ScalarProperty Name="BlogVisible" ColumnName="BlogVisible" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1213,7 +1246,7 @@
         <ScalarProperty Name="Id" ColumnName="BlogPost_Id" />
       </EndProperty>
       <EndProperty Name="Tag">
-        <ScalarProperty Name="Id" ColumnName="Tag_Id" />
+        <ScalarProperty Name="Id" ColumnName="Tags_Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="MediaBlogPost" TypeName="PhotogramModel.MediaBlogPost" StoreEntitySet="MediaBlogPost">
@@ -1223,6 +1256,15 @@
       <EndProperty Name="BlogPost">
         <ScalarProperty Name="Id" ColumnName="BlogPost_Id" />
       </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MediaBlogPost1" TypeName="PhotogramModel.BlogPostCover" StoreEntitySet="BlogPost">
+      <EndProperty Name="Media">
+        <ScalarProperty Name="Id" ColumnName="Cover_Id" />
+      </EndProperty>
+      <EndProperty Name="BlogPost">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Cover_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

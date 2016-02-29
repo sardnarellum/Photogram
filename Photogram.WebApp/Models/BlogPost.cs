@@ -30,5 +30,6 @@ namespace Photogram.WebApp.Models
     
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Media> Media { get; set; }
+        public virtual Media Cover { get; set; }
     }
 }

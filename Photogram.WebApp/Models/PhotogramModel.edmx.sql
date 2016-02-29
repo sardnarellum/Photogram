@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/26/2016 16:32:58
+-- Date Created: 02/28/2016 15:02:36
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -175,6 +175,8 @@ CREATE TABLE [dbo].[Setup] (
     [InstagramURL] nvarchar(500)  NULL,
     [GitHubURL] nvarchar(500)  NULL,
     [LinkedInURL] nvarchar(500)  NULL,
+    [BlogName] nvarchar(100)  NULL,
+    [BlogVisible] bit  NOT NULL,
     [ContactBackground_Id] int  NULL,
     [AboutBackground_Id] int  NULL
 );
@@ -230,7 +232,8 @@ CREATE TABLE [dbo].[BlogPost] (
     [Lead] nvarchar(max)  NULL,
     [Body] nvarchar(max)  NULL,
     [Modified] datetime  NOT NULL,
-    [Visible] bit  NOT NULL
+    [Visible] bit  NOT NULL,
+    [Cover_Id] int  NULL
 );
 GO
 
@@ -307,7 +310,7 @@ GO
 -- Creating table 'BlogPostTag'
 CREATE TABLE [dbo].[BlogPostTag] (
     [BlogPost_Id] int  NOT NULL,
-    [Tag_Id] int  NOT NULL
+    [Tags_Id] int  NOT NULL
 );
 GO
 
@@ -424,10 +427,10 @@ ADD CONSTRAINT [PK_Translation_SetupAboutLead]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [BlogPost_Id], [Tag_Id] in table 'BlogPostTag'
+-- Creating primary key on [BlogPost_Id], [Tags_Id] in table 'BlogPostTag'
 ALTER TABLE [dbo].[BlogPostTag]
 ADD CONSTRAINT [PK_BlogPostTag]
-    PRIMARY KEY CLUSTERED ([BlogPost_Id], [Tag_Id] ASC);
+    PRIMARY KEY CLUSTERED ([BlogPost_Id], [Tags_Id] ASC);
 GO
 
 -- Creating primary key on [Media_Id], [BlogPost_Id] in table 'MediaBlogPost'
@@ -659,10 +662,10 @@ ADD CONSTRAINT [FK_BlogPostTag_BlogPost]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [Tag_Id] in table 'BlogPostTag'
+-- Creating foreign key on [Tags_Id] in table 'BlogPostTag'
 ALTER TABLE [dbo].[BlogPostTag]
 ADD CONSTRAINT [FK_BlogPostTag_Tag]
-    FOREIGN KEY ([Tag_Id])
+    FOREIGN KEY ([Tags_Id])
     REFERENCES [dbo].[Tag]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -671,7 +674,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_BlogPostTag_Tag'
 CREATE INDEX [IX_FK_BlogPostTag_Tag]
 ON [dbo].[BlogPostTag]
-    ([Tag_Id]);
+    ([Tags_Id]);
 GO
 
 -- Creating foreign key on [Media_Id] in table 'MediaBlogPost'
@@ -696,6 +699,21 @@ GO
 CREATE INDEX [IX_FK_MediaBlogPost_BlogPost]
 ON [dbo].[MediaBlogPost]
     ([BlogPost_Id]);
+GO
+
+-- Creating foreign key on [Cover_Id] in table 'BlogPost'
+ALTER TABLE [dbo].[BlogPost]
+ADD CONSTRAINT [FK_BlogPostCover]
+    FOREIGN KEY ([Cover_Id])
+    REFERENCES [dbo].[Media]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_BlogPostCover'
+CREATE INDEX [IX_FK_BlogPostCover]
+ON [dbo].[BlogPost]
+    ([Cover_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Translation_ProjectTitle'
