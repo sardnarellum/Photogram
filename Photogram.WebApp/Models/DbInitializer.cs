@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Photogram.WebApp.Models;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
 namespace Photogram.WebApp.Models
 {
@@ -21,9 +16,10 @@ namespace Photogram.WebApp.Models
                 LCID = 1033
             };
 
+            //TODO: add setup's init
+
             context.Language.Add(hun);
             context.Language.Add(eng);
-
 
             context.SaveChanges();
         }
