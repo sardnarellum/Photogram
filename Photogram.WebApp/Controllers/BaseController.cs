@@ -24,25 +24,6 @@ namespace Photogram.WebApp.Controllers
         {
             _db = new PhotogramEntities();
 
-            if (_db.Language.Count() == 0)
-            {
-                var hun = new Language
-                {
-                    LCID = 1038
-                };
-
-                var eng = new Language
-                {
-                    LCID = 1033
-                };
-
-                _db.Language.Add(hun);
-                _db.Language.Add(eng);
-
-
-                _db.SaveChanges();
-            }
-
             var setup = _db.Setup.FirstOrDefault();
 
             ViewBag.Years = new SelectList( // Ez mit keres itt?????
