@@ -46,6 +46,14 @@ namespace Photogram.WebApp
                       "~/bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
                       "~/bower_components/font-awesome/css/font-awesome.min.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                      "~/Scripts/angular.js",
+                      "~/Scripts/angular.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/PhotogramAdminApp")
+                   .IncludeDirectory("~/Scripts/Controllers", "*.js")
+                   .Include("~/Scripts/PhotogramAdminApp.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
                       "~/bower_components/jquery/dist/jquery.min.js",
                       "~/bower_components/bootstrap/dist/js/bootstrap.min.js",
@@ -70,6 +78,8 @@ namespace Photogram.WebApp
 
             bundles.Add(new ScriptBundle("~/bundles/packery").Include(
                     "~/Scripts/packery.pkgd.js"));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

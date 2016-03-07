@@ -488,6 +488,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\Controllers\DashboardController.js" />
+    <Content Include="Scripts\PhotogramAdminApp.js" />
     <Content Include="Scripts\grayscale.js" />
     <None Include="Properties\PublishProfiles\azure.pubxml" />
     <Content Include="Scripts\jquery-2.2.1.js" />
@@ -557,10 +559,10 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\BlogAdmin\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Blog\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
