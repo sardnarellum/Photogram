@@ -11,6 +11,11 @@ using System.Globalization;
 
 namespace Photogram.WebApp.Controllers
 {
+    public class BaseAsyncController : AsyncController
+    {
+
+    }
+
     public class BaseController : Controller
     {
         protected PhotogramEntities _db;

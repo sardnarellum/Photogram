@@ -53,7 +53,7 @@ namespace Photogram.WebApp.Controllers
 
             if (null == setup)
             {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.InternalServerError);
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.InternalServerError); //TODO: instead of this use initializer
             }
 
             ViewBag.PageTitle = _db.Setup.FirstOrDefault().BlogName;
