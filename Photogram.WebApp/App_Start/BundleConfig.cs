@@ -48,7 +48,7 @@ namespace Photogram.WebApp
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                       "~/Scripts/angular.js",
-                      "~/Scripts/angular.min.js"));
+                      "~/Scripts/angular-route.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/PhotogramAdminApp")
                    .IncludeDirectory("~/Scripts/Controllers", "*.js")
@@ -79,7 +79,7 @@ namespace Photogram.WebApp
             bundles.Add(new ScriptBundle("~/bundles/packery").Include(
                     "~/Scripts/packery.pkgd.js"));
 
-            BundleTable.EnableOptimizations = true;
+            //BundleTable.EnableOptimizations = true;
         }
     }
 }

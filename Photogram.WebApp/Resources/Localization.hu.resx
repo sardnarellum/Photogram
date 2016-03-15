@@ -405,4 +405,7 @@
   <data name="BackToHome" xml:space="preserve">
     <value>Vissza a főoldalra</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Irányítópult</value>
+  </data>
 </root>

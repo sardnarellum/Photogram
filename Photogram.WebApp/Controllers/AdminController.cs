@@ -13,10 +13,15 @@ namespace Photogram.WebApp.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();//RedirectToAction("Index", "Project"); // Under Dev.
+            return PartialView();
         }
 
-        public async Task<ActionResult> BlogPostListAsync()
+        public ActionResult Blog()
+        {
+            return PartialView();
+        }
+
+        public ActionResult Dashboard()
         {
             return PartialView();
         }
