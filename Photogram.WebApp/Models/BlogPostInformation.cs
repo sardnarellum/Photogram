@@ -1,22 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Photogram.WebApp.Models
 {
     public class BlogPostInformation
     {
-        public int Id { get; internal set; }
+        public int Id { get; set; }
 
-        public string Title { get; internal set; }
+        [Required]
+        [MaxLength(50)]
+        public string Title { get; set; }
 
-        public string Lead { get; internal set; }
+        public string Lead { get; set; }
 
-        public string Body { get; internal set; }
+        public string Body { get; set; }
 
-        public DateTime Modified { get; internal set; }
+        public DateTime Modified { get; set; }
 
-        public ICollection<Tag> Tags { get; internal set; }
+        public ICollection<Tag> Tags { get; set; }
 
-        public bool Visible { get; internal set; }
+        public bool Visible { get; set; }
+    }
+
+    public class NewBlogPost
+    {
+        [Required]
+        [MaxLength(50)]
+        public string Title { get; set; }
     }
 }

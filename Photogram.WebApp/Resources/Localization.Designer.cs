@@ -691,6 +691,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Posts.
+        /// </summary>
+        public static string Posts {
+            get {
+                return ResourceManager.GetString("Posts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project.
         /// </summary>
         public static string Project {

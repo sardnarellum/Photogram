@@ -966,7 +966,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="true" />
+          <Property Name="Title" Type="String" Nullable="true" MaxLength="50" />
           <Property Name="Lead" Type="String" Nullable="true" />
           <Property Name="Body" Type="String" Nullable="true" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Nullable="false" />

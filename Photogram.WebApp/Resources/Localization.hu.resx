@@ -408,4 +408,7 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Irányítópult</value>
   </data>
+  <data name="Posts" xml:space="preserve">
+    <value>Bejegyzések</value>
+  </data>
 </root>
