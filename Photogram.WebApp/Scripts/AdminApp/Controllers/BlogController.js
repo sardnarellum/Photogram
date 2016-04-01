@@ -55,8 +55,53 @@
     }
 
     self.deletePost = function () {
+        var deletables = [];
 
-    };
+        angular.forEach(self.posts, function (value, key) {
+            if (value.checked) {
+                this.push({ id: value.id });
+            };
+        }, deletables);
+
+        angular.forEach(deletables, function (value, key) {
+            BlogPost.delete({ "id": value.id }, function () {
+                for (var i = 0; i < self.posts.length; ++i) {
+                    if (self.posts[i].id == value.id) {
+                        self.posts.splice(i, 1);
+                        return;
+                    }
+                }
+            });
+        });
+    }
+
+    self.setVisibility = function (visible) {
+        var targets = [];
+
+        angular.forEach(self.posts, function (value, key) {
+            if (value.checked) {
+                this.push({
+                    id: value.id,
+                    visibility: visible,
+                    title: value.title
+                });
+            }
+        }, targets);
+
+        angular.forEach(targets, function (value, key) {
+            var post = BlogPost.get({ "id": value.id });
+            post.title = value.title
+            post.visible = value.visibility;
+            post.$update({ "id": value.id }, function (res) {
+                for (var i = 0; i < self.posts.length; ++i) {
+                    if (self.posts[i].id == value.id) {
+                        self.posts[i].visible = res.visible;
+                        return;
+                    }
+                }
+            });
+        });
+    }
   }];
 
 var BlogFilter = function () {
@@ -80,7 +125,7 @@ var BlogFilter = function () {
         //else {
         //    var str = "filtered titles:"
         //    for (var i = 0; i < filtered.length; ++i) {
-        //        str += " " + (i + 1) + ":\"" + filtered[i].title + "\"";
+        //        str += " " + (i + 1) + ":\"" + filtered[i].title + "\" [" + filtered[i].checked + "]";
         //    }
         //    console.log(str);
         //}

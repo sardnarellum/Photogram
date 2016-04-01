@@ -48,9 +48,9 @@
         <EntityTypeShape EntityType="PhotogramModel.Tag" Width="1.5" PointX="7" PointY="12.75" />
         <AssociationConnector Association="PhotogramModel.BlogPostTag" />
         <AssociationConnector Association="PhotogramModel.MediaBlogPost" ManuallyRouted="true" >
-          <ConnectorPoint PointX="1.1381199380408804" PointY="7.5667936197916665" />
-          <ConnectorPoint PointX="1.1381199380408804" PointY="14.561116854406437" />
-          <ConnectorPoint PointX="3.875" PointY="14.561116854406437" />
+          <ConnectorPoint PointX="1.0841047851562502" PointY="7.5667936197916665" />
+          <ConnectorPoint PointX="1.0841047851562502" PointY="14.970021967036089" />
+          <ConnectorPoint PointX="3.875" PointY="14.970021967036089" />
         </AssociationConnector>
         <AssociationConnector Association="PhotogramModel.BlogPostCover" />
         </Diagram>

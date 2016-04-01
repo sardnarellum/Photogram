@@ -47,7 +47,7 @@ namespace Photogram.UnitTests
         {
             var ctrl = new BlogAdminController();
 
-            var result = ctrl.Edit(new BlogPostInformation());
+            var result = ctrl.Edit(new BlogPostDTO());
             dynamic dresult = result.Data;
 
             Assert.AreEqual(true, dresult.Success);

@@ -28,7 +28,7 @@ namespace Photogram.WebApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            var model = new BlogPostInformation
+            var model = new BlogPostDTO
             {
                 Id = post.Id,
                 Modified = post.Modified,
@@ -65,7 +65,7 @@ namespace Photogram.WebApp.Controllers
         [HttpGet]
         public ActionResult Edit()
         {
-            var model = new BlogPostInformation();
+            var model = new BlogPostDTO();
             return View(model);
         }
 
@@ -77,7 +77,7 @@ namespace Photogram.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Edit(BlogPostInformation info)
+        public JsonResult Edit(BlogPostDTO info)
         {
             var modPost = new BlogPost
             {

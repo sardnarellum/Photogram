@@ -203,11 +203,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Title" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Title" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="Lead" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Body" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Modified" Type="datetime" Nullable="false" />
     <Property Name="Visible" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Published" Type="datetime" Nullable="true" />
     <Property Name="Cover_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Tag">
@@ -974,6 +975,7 @@
           <NavigationProperty Name="Media" Relationship="PhotogramModel.MediaBlogPost" FromRole="BlogPost" ToRole="Media" />
           <Property Name="Visible" Type="Boolean" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="Cover" Relationship="PhotogramModel.BlogPostCover" FromRole="BlogPost" ToRole="Media" />
+          <Property Name="Published" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -1116,6 +1118,7 @@
           <ScalarProperty Name="Body" ColumnName="Body" />
           <ScalarProperty Name="Modified" ColumnName="Modified" />
           <ScalarProperty Name="Visible" ColumnName="Visible" />
+          <ScalarProperty Name="Published" ColumnName="Published" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

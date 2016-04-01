@@ -40,9 +40,9 @@
                     <div class="btn-group btn-group-sm navbar-btn" role="group">
                         <button id="btnDelete"
                                 type="button"
-                                class="btn btn-danger"
+                                class="btn btn-default"
                                 role="button"
-                                ng-click="ctrl.delete()"
+                                ng-click="ctrl.deletePost()"
                                 title="Delete">
                             <i class="fa fa-trash-o"></i>
                         </button>
@@ -52,6 +52,7 @@
                                 type="button"
                                 class="btn btn-default"
                                 role="button"
+                                ng-click="ctrl.setVisibility(true)"
                                 title="Set Visible">
                             <i class="fa fa-eye"></i>
                         </button>
@@ -59,6 +60,7 @@
                                 type="button"
                                 class="btn btn-default"
                                 role="button"
+                                ng-click="ctrl.setVisibility(false)"
                                 title="Set Invisible">
                             <i class="fa fa-eye-slash"></i>
                         </button>

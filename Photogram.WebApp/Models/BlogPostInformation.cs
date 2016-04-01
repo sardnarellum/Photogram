@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Photogram.WebApp.Models
 {
-    public class BlogPostInformation
+    public class BlogPostDTO
     {
         public int Id { get; set; }
 

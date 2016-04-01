@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/28/2016 15:02:36
+-- Date Created: 04/01/2016 12:59:51
 -- Generated from EDMX file: C:\Programming\Websites\aspHOSTpage\sardnarellum\Photogram\Photogram.WebApp\Models\PhotogramModel.edmx
 -- --------------------------------------------------
 
@@ -70,6 +70,9 @@ IF OBJECT_ID(N'[dbo].[FK_MediaBlogPost_Media]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_MediaBlogPost_BlogPost]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MediaBlogPost] DROP CONSTRAINT [FK_MediaBlogPost_BlogPost];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BlogPostCover]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BlogPost] DROP CONSTRAINT [FK_BlogPostCover];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProjectTitle_inherits_Translation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Translation_ProjectTitle] DROP CONSTRAINT [FK_ProjectTitle_inherits_Translation];
@@ -228,11 +231,12 @@ GO
 -- Creating table 'BlogPost'
 CREATE TABLE [dbo].[BlogPost] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Title] nvarchar(max)  NULL,
+    [Title] nvarchar(50)  NULL,
     [Lead] nvarchar(max)  NULL,
     [Body] nvarchar(max)  NULL,
     [Modified] datetime  NOT NULL,
     [Visible] bit  NOT NULL,
+    [Published] datetime  NULL,
     [Cover_Id] int  NULL
 );
 GO

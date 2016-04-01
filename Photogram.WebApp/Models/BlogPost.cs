@@ -27,6 +27,7 @@ namespace Photogram.WebApp.Models
         public string Body { get; set; }
         public System.DateTime Modified { get; set; }
         public bool Visible { get; set; }
+        public Nullable<System.DateTime> Published { get; set; }
     
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Media> Media { get; set; }
