@@ -31,7 +31,7 @@ namespace Photogram.WebApp.Controllers
             var model = new BlogPostDTO
             {
                 Id = post.Id,
-                Modified = post.Modified,
+                Modified = post.Modified.ToJavascriptTimestamp(),
                 Title = post.Title,
                 Lead = post.Lead,
                 Body = post.Body,

@@ -16,7 +16,7 @@ namespace Photogram.WebApp.Models
 
         public string Body { get; set; }
 
-        public DateTime Modified { get; set; }
+        public long Modified { get; set; }
 
         public ICollection<Tag> Tags { get; set; }
 

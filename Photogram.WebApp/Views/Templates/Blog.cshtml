@@ -28,15 +28,7 @@
 
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                            <input class="form-control" ng-model="ctrl.searchTerm" placeholder="Search a post..." maxlength="50" />
-                        </div>
-                    </div>
-                </form>
-                <div id="operations" ng-if="ctrl.checkedCount() > 0">
+                <div id="operations" class="navbar-left" ng-if="ctrl.checkedCount() > 0">
                     <div class="btn-group btn-group-sm navbar-btn" role="group">
                         <button id="btnDelete"
                                 type="button"
@@ -66,12 +58,21 @@
                         </button>
                     </div>
                 </div>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input class="form-control" ng-model="ctrl.searchTerm" placeholder="Search a post..." maxlength="50" />
+                        </div>
+                    </div>
+                </form>
             </div>
         </nav>
         <table class="table table-hover table-condensed" data-toggle="table" ng-if="ctrl.posts.length > 0">
-            <caption><i class="fa fa-list"></i> @Localization.Posts <span class="badge" ng-bind="filteredPosts.length + ' / ' + ctrl.posts.length"></span></caption>
+            <caption><i class="fa fa-list"></i> @Localization.Posts <span class="badge" ng-bind="filteredPosts.length + ' / ' + ctrl.posts.length"></span> <span ng-bind="ctrl.checkedCount() + ' items selected'" ng-if="ctrl.checkedCount() > 0"></span></caption>
             <thead>
                 <tr>
+                    <th><input type="checkbox" ng-model="ctrl.model.allChecked" ng-change="ctrl.selectAll()" /></th>
                     <th>
                         <a href="#" ng-click="ctrl.sortType = 'title'; ctrl.sortReverse = !ctrl.sortReverse">
                             Title
@@ -91,15 +92,14 @@
                                   class="fa fa-caret-up"></span>
                         </a>
                     </th>
-                    <th><input type="checkbox" ng-model="ctrl.model.allChecked" ng-change="ctrl.selectAll()" /> <span class="badge" ng-bind="ctrl.checkedCount()"></span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="post in ctrl.posts|search:ctrl.searchTerm | orderBy:ctrl.sortType:ctrl.sortReverse as filteredPosts" ng-class="{ 'info':post.visible, 'active':post.checked }">
+                    <td><input type="checkbox" ng-model="post.checked" ng-change="ctrl.selectPost()" /></td>
                     <td><strong><a ng-href="blog/{{post.id}}" ng-bind="post.title"></a></strong></td>
                     <td class="visible-md visible-lg" ng-bind="post.lead"></td>
                     <td ng-bind="post.modified | date:'short'"></td>
-                    <td><input type="checkbox" ng-model="post.checked" ng-change="ctrl.selectPost()" /></td>
                 </tr>
             </tbody>
         </table>
