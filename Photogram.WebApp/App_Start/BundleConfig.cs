@@ -49,7 +49,8 @@ namespace Photogram.WebApp
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                       "~/Scripts/angular.js",
                       "~/Scripts/angular-route.js",
-                      "~/Scripts/angular-resource.js"));
+                      "~/Scripts/angular-resource.js",
+                      "~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/PhotogramAdminApp")
                    .IncludeDirectory("~/Scripts/AdminApp/Controllers", "*.js")

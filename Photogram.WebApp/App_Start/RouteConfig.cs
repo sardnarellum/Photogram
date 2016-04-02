@@ -9,11 +9,11 @@ namespace Photogram.WebApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //routes.MapRoute(
-            //    name: "AdminOverride",
-            //    url: "Admin/{*.}",
-            //    defaults: new { controller = "Dashboard", action = "Index"}
-            //);
+            routes.MapRoute(
+                name: "AdminOverride",
+                url: "Admin/{*.}",
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "RenderImage",

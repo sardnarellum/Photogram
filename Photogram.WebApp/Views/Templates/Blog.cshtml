@@ -96,7 +96,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="post in ctrl.posts|search:ctrl.searchTerm | orderBy:ctrl.sortType:ctrl.sortReverse as filteredPosts" ng-class="{ 'info':post.visible, 'active':post.checked }">
-                    <td><strong><a href="#" ng-bind="post.title"></a></strong></td>
+                    <td><strong><a ng-href="blog/{{post.id}}" ng-bind="post.title"></a></strong></td>
                     <td class="visible-md visible-lg" ng-bind="post.lead"></td>
                     <td ng-bind="post.modified | date:'short'"></td>
                     <td><input type="checkbox" ng-model="post.checked" ng-change="ctrl.selectPost()" /></td>

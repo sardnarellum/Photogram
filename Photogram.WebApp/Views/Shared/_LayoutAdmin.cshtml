@@ -8,6 +8,7 @@
     <base href="~/Admin/" />
     <title ng-bind="viewTitle"></title>
     @Styles.Render("~/Content/admin")
+    @Scripts.Render("~/bundles/angular")
 </head>
 <body>
     <div id="wrapper">
@@ -20,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("Index", "Admin")">@typeof(MvcApplication).Assembly.GetName().Name @typeof(MvcApplication).Assembly.GetName().Version @Localization.Administration</a>
+                <a class="navbar-brand" href="dashboard">@typeof(MvcApplication).Assembly.GetName().Name @typeof(MvcApplication).Assembly.GetName().Version @Localization.Administration</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -95,7 +96,7 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="">
-                            <a href="@Url.Action("Index", "Admin")"><i class="fa fa-dashboard fa-fw"></i> @Localization.Dashboard</a>
+                            <a href="dashboard"><i class="fa fa-dashboard fa-fw"></i> @Localization.Dashboard</a>
                         </li>
                         <li class="active">
                             <a href="blog"><i class="fa fa-book fa-fw"></i> @Localization.BlogAdminTitle</a>
@@ -123,7 +124,6 @@
     </div>
     <!-- /#wrapper -->
 
-    @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/PhotogramAdminApp")
 
     @RenderSection("scripts", required: false)

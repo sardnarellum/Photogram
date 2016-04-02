@@ -13,10 +13,19 @@ namespace Photogram.WebApp.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            return View();
+        }
+    }
+
+    [Authorize]
+    public class TemplatesController : BaseController
+    {
+        public ActionResult Blog()
+        {
             return PartialView();
         }
 
-        public ActionResult Blog()
+        public ActionResult BlogPost()
         {
             return PartialView();
         }
@@ -25,5 +34,6 @@ namespace Photogram.WebApp.Controllers
         {
             return PartialView();
         }
+
     }
 }
