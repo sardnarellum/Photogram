@@ -8,3 +8,14 @@ blogServices.factory('BlogPost', ['$resource',
         });
     }
 ]);
+
+var tagServices = angular.module('tagServices', ['ngResource']);
+
+blogServices.factory('Tag', ['$resource',
+    function ($resource) {
+        return $resource('../api/tag/', {}, {
+            query: { method: 'GET', params: { searchTerm:'' }, isArray: true },
+            update: { method: 'PUT' }
+        });
+    }
+]);

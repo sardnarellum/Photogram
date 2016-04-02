@@ -1,4 +1,4 @@
-﻿angular.module("PhotogramAdminApp", ["ngRoute", "blogServices"])
+﻿angular.module("PhotogramAdminApp", ["ngRoute", "blogServices", "tagServices", "ngTagsInput"])
 
 .filter('search', BlogFilter) // src: BlogController.js
 
