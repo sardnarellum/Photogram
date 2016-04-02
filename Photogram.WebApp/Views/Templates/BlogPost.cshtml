@@ -41,7 +41,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">Tags</div>
             <div class="panel-body">
-                <tags-input ng-model="ctrl.post.tags" placeholder="Add a tag...">
+                <tags-input ng-model="ctrl.post.tags"
+                            replace-spaces-with-dashes="false"
+                            placeholder="Add a tag...">
                     <auto-complete source="ctrl.loadTags($query)"></auto-complete>
                 </tags-input>
             </div>
