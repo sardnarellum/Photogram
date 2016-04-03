@@ -23,7 +23,7 @@ namespace Photogram.WebApp.Controllers.API
                     Title = x.Title,
                     Lead = x.Lead,
                     Visible = x.Visible,
-                    Published = x.Published
+                    Published = x.Published?.ToJavascriptTimestamp()
                 });
 
             return Ok(posts);
@@ -126,7 +126,10 @@ namespace Photogram.WebApp.Controllers.API
 
             if (updatable.Visible = dto.Visible)
             {
-                updatable.Published = DateTime.UtcNow;
+                if (null == updatable.Published)
+                {
+                    updatable.Published = DateTime.UtcNow;
+                }
             }
             else
             {
