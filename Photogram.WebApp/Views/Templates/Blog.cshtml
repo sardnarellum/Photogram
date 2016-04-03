@@ -83,12 +83,21 @@
                         </a>
                     </th>
                     <th class="visible-md visible-lg">Lead</th>
-                    <th>
+                    <th class="visible-md visible-lg">
                         <a href="#" ng-click="ctrl.sortType = 'modified'; ctrl.sortReverse = !ctrl.sortReverse">
                             Modified
                             <span ng-show="ctrl.sortType == 'modified' && !ctrl.sortReverse"
                                   class="fa fa-caret-down"></span>
                             <span ng-show="ctrl.sortType == 'modified' && ctrl.sortReverse"
+                                  class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#" ng-click="ctrl.sortType = 'published'; ctrl.sortReverse = !ctrl.sortReverse">
+                            Published
+                            <span ng-show="ctrl.sortType == 'published' && !ctrl.sortReverse"
+                                  class="fa fa-caret-down"></span>
+                            <span ng-show="ctrl.sortType == 'published' && ctrl.sortReverse"
                                   class="fa fa-caret-up"></span>
                         </a>
                     </th>
@@ -99,7 +108,8 @@
                     <td><input type="checkbox" ng-model="post.checked" ng-change="ctrl.selectPost()" /></td>
                     <td><strong><a ng-href="blog/{{post.id}}" ng-bind="post.title"></a></strong></td>
                     <td class="visible-md visible-lg" ng-bind="post.lead"></td>
-                    <td ng-bind="post.modified | date:'short'"></td>
+                    <td class="visible-md visible-lg" ng-bind="post.modified | date:'dd/MM/yyyy H:mm'"></td>
+                    <td ng-bind="post.published | date:'dd/MM/yyyy H:mm'"></td>
                 </tr>
             </tbody>
         </table>

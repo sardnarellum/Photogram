@@ -5,7 +5,7 @@
     var self = this;
     self.posts = BlogPost.query();
     self.errorMsg = '';
-    self.sortType = "modified";
+    self.sortType = "published";
     self.sortReverse = true;
     self.searchTerm = "";
 
@@ -96,6 +96,7 @@
                 for (var i = 0; i < self.posts.length; ++i) {
                     if (self.posts[i].id == value.id) {
                         self.posts[i].visible = res.visible;
+                        self.posts[i].published = res.published;
                         return;
                     }
                 }
