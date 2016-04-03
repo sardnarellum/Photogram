@@ -22,14 +22,19 @@
                         <label>Body</label>
                         <textarea class="form-control" ng-model="ctrl.post.body" placeholder="Enter post body..." rows="20"></textarea>
                     </div>
+                    <uib-alert ng-repeat="msg in ctrl.messages"
+                               type="{{msg.type}}"
+                               close="ctrl.closeAlert($index)"
+                               role="{{msg.type}}">{{msg.text}}</uib-alert>
                 </div>
                 <div class="panel-footer">
                     <div class="pull-right">
                         <a href="blog" class="btn btn-default">Close</a>
                         <button type="submit"
-                                ng-disabled="editPostForm.$invalid || editPostForm.$pristine"
+                                ng-disabled="editPostForm.$invalid || editPostForm.$pristine || !ctrl.submitable"
                                 class="btn btn-primary">
-                            Save changes
+                            <span ng-show="ctrl.submitable">Save</span>
+                            <i class="fa fa-circle-o-notch fa-spin" ng-hide="ctrl.submitable"></i>
                         </button>
                     </div>
                     <div class="clearfix"></div>
