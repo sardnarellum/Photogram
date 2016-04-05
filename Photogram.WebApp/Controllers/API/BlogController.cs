@@ -12,7 +12,7 @@ namespace Photogram.WebApp.Controllers.API
     [Authorize]
     public class BlogController : BaseApiController
     {
-        [ResponseType(typeof(List<BlogPostDTO>))]
+        [AllowAnonymous]
         public IHttpActionResult Get()
         {
             var posts = _db.BlogPost.AsEnumerable().Select(
@@ -26,17 +26,57 @@ namespace Photogram.WebApp.Controllers.API
                     Published = x.Published?.ToJavascriptTimestamp()
                 });
 
+            if (!User.Identity.IsAuthenticated)
+            {
+                var visiblePosts = posts.Where(x => x.Visible).Select(
+                    x => new
+                    {
+                        Id = x.Id,
+                        Modified = x.Modified,
+                        Title = x.Title,
+                        Lead = x.Lead,
+                        Published = x.Published
+                    });
+
+                return Ok(visiblePosts);
+            }
+
             return Ok(posts);
         }   
         
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetAsync(int id)
         {
-            var post = await _db.BlogPost.Include("Tags").Where(x => x.Id == id)
+            var post = await _db.BlogPost.Include("Tags")
+                .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
-            if (null == post)
+            var isAuthed = User.Identity.IsAuthenticated;
+
+            if (null == post
+                || (!post.Visible && !isAuthed))
             {
                 return NotFound();
+            }
+
+            if (!isAuthed)
+            {
+                var dto = new
+                {
+                    Id = post.Id,
+                    Modified = post.Modified.ToJavascriptTimestamp(),
+                    Title = post.Title,
+                    Lead = post.Lead,
+                    Body = post.Body,
+                    Published = post.Published,
+                    Tags = post.Tags.Select(x => new
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    })
+                };
+
+                return Ok(dto);
             }
 
             var data = new

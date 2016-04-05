@@ -20,7 +20,8 @@
                     </div>
                     <div class="form-group">
                         <label>Body</label>
-                        <textarea class="form-control" ng-model="ctrl.post.body" placeholder="Enter post body..." rows="20"></textarea>
+                        <text-angular ng-model="ctrl.post.body"></text-angular>
+                        @*<textarea class="form-control" ng-model="ctrl.post.body" placeholder="Enter post body..." rows="20"></textarea>*@
                     </div>
                     <uib-alert ng-repeat="msg in ctrl.messages"
                                type="{{msg.type}}"

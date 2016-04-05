@@ -262,6 +262,7 @@
     <Compile Include="Controllers\API\BlogController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\API\BaseApiController.cs" />
+    <Compile Include="Controllers\API\LocalizationController.cs" />
     <Compile Include="Controllers\API\TagController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
@@ -409,6 +410,7 @@
     <Content Include="Content\icon.png" />
     <Content Include="Content\misc.css" />
     <Content Include="Content\miscOld.css" />
+    <Content Include="Content\textEditorMisc.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />

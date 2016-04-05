@@ -46,14 +46,20 @@ namespace Photogram.WebApp
                       "~/bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css",
                       "~/bower_components/font-awesome/css/font-awesome.min.css",
                       "~/bower_components/ng-tags-input/ng-tags-input.css",
-                      "~/bower_components/ng-tags-input/ng-tags-input.bootstrap.css"));
+                      "~/bower_components/ng-tags-input/ng-tags-input.bootstrap.css",
+                      "~/bower_components/textAngular/dist/textAngular.css",
+                      "~/Content/textEditorMisc.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                       "~/Scripts/angular.js",
                       "~/Scripts/angular-route.js",
                       "~/Scripts/angular-resource.js",
                       "~/Scripts/angular-ui/ui-bootstrap-tpls.min.js",
-                      "~/bower_components/ng-tags-input/ng-tags-input.js"));
+                      "~/bower_components/ng-tags-input/ng-tags-input.js",
+                      "~/bower_components/textAngular/dist/textAngular-rangy.min.js",
+                      "~/bower_components/textAngular/dist/textAngular-sanitize.min.js",
+                      "~/bower_components/textAngular/dist/textAngular.min.js"
+                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/PhotogramAdminApp")
                    .IncludeDirectory("~/Scripts/AdminApp/Controllers", "*.js")
