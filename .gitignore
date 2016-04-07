@@ -172,3 +172,4 @@ Photogram.WebApp/Web.config
 Photogram.WebApp/Web.Debug.config
 Photogram.WebApp/Web.Release.config
 
+/Photogram.WebApp/Upload/Image
